@@ -1,0 +1,19 @@
+<nav class="desktop-navigation">
+  <ul class="desktop-navigation__links">
+    <li class="desktop-navigation__link-element desktop-navigation__link-element--major">
+      <%= link_to(t(".links.my_photos"), photos_path) %>
+    </li>
+
+    <li class="desktop-navigation__link-element desktop-navigation__link-element--major">
+      <%= link_to(t(".links.settings"), settings_path) %>
+    </li>
+
+    <li class="desktop-navigation__link-element desktop-navigation__link-element--major">
+      <%= link_to(t(".links.log_out"), log_out_path) %>
+    </li>
+  </ul>
+
+  <div class="desktop-navigation__toggle">
+    <%= inline_svg("icons/double-chevron-left.svg", height: "32px", width: "32px") %>
+  </div>
+</nav>

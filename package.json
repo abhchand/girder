@@ -1,0 +1,47 @@
+{
+  "name": "girder",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node_modules/.bin/jest --no-cache --config spec/javascript/jest.config.js",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --no-cache --config spec/javascript/jest.config.js --colors --verbose"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "eslint": "^4.6.1",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "i18n-js": "^3.2.2",
+    "jest": "^24.8.0",
+    "jest-dom": "^3.4.0",
+    "js-yaml": "^3.13.1",
+    "react-testing-library": "^7.0.1",
+    "stylelint": "^9.3.0",
+    "stylelint-config-rational-order": "^0.0.2",
+    "webpack-dev-server": "2.11.2"
+  },
+  "dependencies": {
+    "@rails/webpacker": "^3.5.5",
+    "core-js": "3",
+    "html-react-parser": "^0.4.6",
+    "jquery": "^3.3.1",
+    "jquery-ujs": "^1.2.2",
+    "prop-types": "^15.6.1",
+    "rails-erb-loader": "^5.4.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-transition-group": "1.x",
+    "react_ujs": "^2.4.4"
+  }
+}

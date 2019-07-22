@@ -1,0 +1,20 @@
+<% if @photo_count.zero? %>
+<div class="photos-index__emtpy-state">
+  <%= t(".empty") %>
+</div>
+<% else %>
+<h1 class="page-heading">
+  <%= t(".heading").downcase %>
+</h1>
+<%= render "shared/photo_count", photo_count: @photo_count %>
+
+<%=
+    react_component(
+      "example",
+      {
+        photos: PhotoPresenter.wrap(@photos, view: view_context).map(&:photo_grid_props)
+      },
+      { prerender: Rails.env.test? }
+    )
+  %>
+<% end %>

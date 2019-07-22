@@ -1,0 +1,65 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-family: $heading-font;
+  text-align: center;
+  background-color: $white;
+}
+
+nav, section {
+  display: block;
+}
+
+ul, li {
+  margin: 0;
+  list-style-type: none;
+  // Override user stylesheet on several browsers
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 0;
+  -moz-margin-before: 0;
+  -moz-margin-after: 0;
+  -moz-margin-start: 0;
+  -moz-margin-end: 0;
+  -moz-padding-start: 0;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-family: $heading-font;
+}
+
+h1 {
+  color: $white;
+  font-weight: 300;
+  font-size: 5rem;
+  line-height: 50px;
+}
+
+h2 {
+  color: $white;
+  font-size: 2.25rem;
+  line-height: 30px;
+}
+
+h3 {
+  color: $white;
+  font-size: 1.25rem;
+  line-height: 26px;
+}
+
+a, a:hover, a:focus {
+  text-decoration: none;
+}
+
+@media (min-width: $screen-sm) {
+  h1 { font-size: 0.8 * 5rem; }
+  h2 { font-size: 0.8 * 2.25rem; }
+  h3 { font-size: 0.8 * 1.25rem; }
+}

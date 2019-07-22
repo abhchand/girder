@@ -1,0 +1,26 @@
+.responsive-navigation-view-container {
+  &.responsive-navigation-view-container--mobile {
+  }
+
+  &.responsive-navigation-view-container--desktop {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+}
+.responsive-navigation-content-container {
+  &.responsive-navigation-content-container--desktop {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    min-height: 100%;
+  }
+}
+.responsive-navigation-content {
+  &.responsive-navigation-content--desktop {
+    width: 100%;
+  }
+}

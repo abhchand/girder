@@ -1,0 +1,114 @@
+.desktop-navigation {
+  display: none;
+
+  @include breakpoint($screen-xs) {
+    top: 0;
+    display: initial;
+    width: 160px;
+
+    // Default (expanded state) should clip overflowed content to make for
+    // a smoother transition
+    overflow: hidden;
+    color: $black;
+    transition: width 0.4s ease;
+  }
+}
+
+.desktop-navigation__links {
+  @include breakpoint($screen-xs) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin-top: 15px;
+  }
+}
+
+.desktop-navigation__link-element {
+  @include breakpoint($screen-xs) {
+
+    // Default (expanded state) should clip overflowed content to make for
+    // a smoother transition
+    overflow: hidden;
+    text-align: left;
+
+    a {
+      // Display as block and set height so anchor fills up the whole
+      // parent <li>
+      display: block;
+
+      // Boostrap tries to set the anchor color, override it
+      color: $black;
+    }
+
+    &:hover {
+      background-color: $dark-purple;
+
+      a {
+        color: $light-gray;
+      }
+    }
+  }
+}
+
+.desktop-navigation__link-element--major {
+  @include breakpoint($screen-xs) {
+    height: 40px;
+    padding-left: 20px;
+    font-size: 18px;
+    // Vertically center the text
+    line-height: 40px;
+
+    a {
+      line-height: 40px;
+    }
+  }
+}
+
+.desktop-navigation__link-element--minor {
+  @include breakpoint($screen-xs) {
+    height: 28px;
+    padding-left: 40px;
+    font-size: 14px;
+    // Vertically center the text
+    line-height: 28px;
+
+    a {
+      line-height: 28px;
+    }
+  }
+}
+
+.desktop-navigation__toggle {
+  height: 32px;
+  margin-top: 10px;
+  padding-left: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+// Collapsed State
+
+.desktop-navigation--collapsed {
+  width: 48px;
+
+  .desktop-navigation__logo,
+  .desktop-navigation__links {
+    visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: visibility 0.1s ease-out, opacity 0.1s ease-out;
+    -moz-transition: visibility 0.1s ease-out, opacity 0.1s ease-out;
+    -o-transition: visibility 0.1s ease-out, opacity 0.1s ease-out;
+    transition: visibility 0.1s ease-out, opacity 0.1s ease-out;
+  }
+
+  .desktop-navigation__toggle {
+    display: block;
+    height: 32px;
+
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}

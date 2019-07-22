@@ -1,0 +1,68 @@
+//
+// Positioning
+//
+
+.vertical-align {
+  // Reminder: Requires parent to be positioned
+  position:absolute;
+  top:50%;
+  bottom:50%;
+  transform:translate(-50%, -50%);
+}
+
+//
+// Containers
+//
+
+.page-content {
+  padding: 0 20px;
+
+  @include breakpoint($screen-xs) {
+    width: 100%;
+    padding: 0 40px;
+  }
+}
+.page-heading {
+  width: 100%;
+  margin: 20px 0;
+  padding-left: 20px;
+  color: $dark-gray;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 48px;
+  text-align: left;
+
+  @include breakpoint($screen-xs) {
+    padding-left: 40px;
+    font-size: 48px;
+  }
+}
+.page-subheading {
+  width: 100%;
+  margin: 20px 0;
+  padding-left: 20px;
+  color: $black;
+  font-weight: 500;
+  font-size: 22px;
+  text-align: left;
+
+  @include breakpoint($screen-xs) {
+    padding-left: 40px;
+  }
+}
+
+//
+// Design Elements
+//
+
+.soft-shadow {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+}
+.hard-shadow {
+  box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+}
+.empty-state {
+  color: $dark-gray;
+  font-size: 18px;
+  font-style: italic;
+}
