@@ -24,8 +24,8 @@ $(document).ready(function() {
   });
 
   function toggleMobileDropdown() {
-    var mobileDropdownEl = $(".mobile-navigation__links-container");
-    var overlayEl = $(".mobile-navigation__overlay");
+    const mobileDropdownEl = $(".mobile-navigation__links-container");
+    const overlayEl = $(".mobile-navigation__overlay");
 
     if ($(mobileDropdownEl).hasClass("active")) {
       // Disable menu

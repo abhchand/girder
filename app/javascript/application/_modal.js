@@ -1,9 +1,9 @@
 $(document).ready(function() {
-  $(".modal-content__button--cancel").click(function(e) {
+  $(".modal-content__button--cancel").click(function() {
     closeModal();
   });
 
-  $(".modal-content__button--close").click(function(e) {
+  $(".modal-content__button--close").click(function() {
     closeModal();
   });
 

@@ -5,7 +5,7 @@ $(document).ready(function() {
   $("body").on("click", ".flash", function(e) {
     e.preventDefault();
 
-    var flash = $(".flash");
+    const flash = $(".flash");
     $(flash).removeClass("active");
     $(flash).addClass("inactive");
   });
