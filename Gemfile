@@ -47,6 +47,7 @@ end
 group :development do
   gem "better_errors"
   gem "highline", "~> 2.0"
+  gem "letter_opener", "~> 1.7"
   gem "rubocop-git", "~> 0.1.3"
   gem "spring"
   gem "web-console", "~> 2.0"
