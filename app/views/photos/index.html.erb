@@ -1,3 +1,5 @@
+<%= render "layouts/flash", flash: flash %>
+
 <% if @photo_count.zero? %>
 <div class="photos-index__emtpy-state">
   <%= t(".empty") %>

@@ -6,12 +6,18 @@ RSpec.describe "photos/index.html.erb", type: :view do
 
   before do
     stub_view_context
+    stub_template "layouts/_flash.html.erb" => "_stubbed_flash"
     stub_template "shared/_photo_count.html.erb" => "_stubbed_photo_count"
 
     assign(:photos, photos)
     assign(:photo_count, photos.count)
 
     @t_prefix = "photos.index"
+  end
+
+  it "renders the flash" do
+    render
+    expect(rendered).to have_content("_stubbed_flash")
   end
 
   it "renders the photo count" do
