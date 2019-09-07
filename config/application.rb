@@ -49,5 +49,24 @@ module Girder
 
     # Custom Configs
     config.x.email_format = /\A.*@.+\..+\z/
+    config.x.default_url_options =
+      case
+      when Rails.env.test?
+        { host: "localhost", port: "3000" }
+      when Rails.env.development?
+        {
+          host: ENV.fetch("APP_HOST", "localhost"),
+          port: ENV.fetch("APP_PORT", "3000")
+        }
+      when Rails.env.production?
+        {
+          host: ENV.fetch("APP_HOST"),
+          port: ENV.fetch("APP_PORT")
+        }
+      end
+
+    Rails.application.routes.default_url_options.merge!(
+      config.x.default_url_options
+    )
   end
 end
