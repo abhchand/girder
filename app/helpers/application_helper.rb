@@ -35,4 +35,8 @@ module ApplicationHelper
     content_for(:nested_layout_content, capture(&block))
     render template: layout
   end
+
+  def to_bool(value)
+    ActiveRecord::Type::Boolean.new.deserialize(value)
+  end
 end
