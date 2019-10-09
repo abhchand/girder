@@ -5,7 +5,7 @@ services:
   db:
     image: postgres:11.5-alpine
     volumes:
-      - /var/www/girder/docker_volumes/db/data:/var/lib/postgresql/data
+      - /var/www/girder.xyz/docker_volumes/db/data:/var/lib/postgresql/data
     env_file:
       - .env.dockercompose
   web:
@@ -14,9 +14,9 @@ services:
      args:
        RAILS_ENV: production
     volumes:
-      - /var/www/girder/docker_volumes/web/log:/app/log
-      - /var/www/girder/docker_volumes/web/tmp:/app/tmp
-      - /var/www/girder/docker_volumes/web/public:/app/public
+      - /var/www/girder.xyz/docker_volumes/web/log:/app/log
+      - /var/www/girder.xyz/docker_volumes/web/tmp:/app/tmp
+      - /var/www/girder.xyz/docker_volumes/web/public:/app/public
     depends_on:
       - db
       - redis
