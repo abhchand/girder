@@ -64,49 +64,60 @@ Start the app:
 bin/foreman start -f Procfile.dev
 ```
 
-# Production Deploy
+# Production (Docker)
 
-Create an environment file using the provided template. Follow the instructions inside that file to set the environment.
+Create and fill out env files
 
 ```
 cp .env.production.sample .env.production
+cp .env.dockercompose.sample .env.dockercompose
 ```
 
-Install dependencies:
+Build
 
 ```
-bundle install
-yarn install
+docker-compose up --build --no-start
+
+# Only required on first build
+docker-compose run --rm web bundle exec rake db:create
+
+docker-compose run --rm web bundle exec rake db:migrate
+docker-compose run --rm web bundle exec rake assets:precompile
 ```
 
-Install [Redis](https://redis.io), used for job queueing and caching
+Start app
 
 ```
-brew install redis                  # OSX
-sudo apt install redis-server       # Debian / Ubuntu
+docker-compose start
 ```
 
-Build the schema:
+The app listens for incoming HTTP requests on a unix socket. This can be setup via Nginx or similar reverse proxies.
+
+To test it's working, enter the running container and make a test HTTP request:
 
 ```
-RAILS_ENV=production bundle exec rake db:create
-RAILS_ENV=production bundle exec rake db:migrate
+docker exec -i -t girder_web_1 /bin/bash
+> curl --unix-socket /app/tmp/sockets/puma.sock http://localhost/
 ```
 
-Build the assets:
+Stop app
 
 ```
-RAILS_ENV=production bundle exec rake assets:precompile
+docker-compose stop
 ```
 
-Create an admin account:
+# Production (Automated)
+
+The above production build and deploy can be automated with the [girder-ansible](https://gitlab.com/girder/girder-ansible) repo.
+
+Follow the instructions in there to provision the server.
+
+Then add a new git remote and push changes to create a new build
 
 ```
-bundle exec rake girder:admin:create['FirstName','LastName','email@example.com','password']
-```
+git remote add production ssh://git@XXXXX:/opt/git/girder.git
 
-Start the app:
+# Commit new changes
 
-```
-RAILS_ENV=production bin/foreman start
+git push production master
 ```

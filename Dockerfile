@@ -1,5 +1,3 @@
-# Adapted from https://rubyinrails.com/2019/03/29/dockerify-rails-6-application-setup
-
 FROM ruby:2.5.1
 
 # Replace shell with bash so we can source files
@@ -29,9 +27,9 @@ RUN npm install -g yarn
 RUN yarn install --check-files --pure-lockfile
 
 # Bundler
-COPY Gemfile Gemfile.lock ./
 RUN gem install bundler -v 1.17.2
 RUN gem install nokogiri -v 1.10.1 -- --use-system-libraries
+COPY Gemfile Gemfile.lock ./
 RUN bundle install --verbose --jobs 20 --retry 5 --deployment
 
 # Setup
