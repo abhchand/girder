@@ -19,7 +19,9 @@
 .ruby-gemset
 
 # Dotenv files
-.env*
+.env.development
+.env.production
+.env.dockercompose
 
 # RSpec
 spec/examples.txt
