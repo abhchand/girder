@@ -83,6 +83,9 @@ docker-compose run --rm web bundle exec rake db:create
 
 docker-compose run --rm web bundle exec rake db:migrate
 docker-compose run --rm web bundle exec rake assets:precompile
+
+# Optional (one-time)
+docker-compose run --rm web bundle exec rake girder:admin:create['FirstName','LastName','email@example.com','password']
 ```
 
 Start app
