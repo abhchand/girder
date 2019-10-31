@@ -36,6 +36,13 @@ module ApplicationHelper
     render template: layout
   end
 
+  def react_component(mount_id, props)
+    id = "react-mount-#{mount_id}"
+
+    content_tag(:div, id: id, data: { react_props: props }) do
+    end
+  end
+
   def to_bool(value)
     ActiveRecord::Type::Boolean.new.deserialize(value)
   end

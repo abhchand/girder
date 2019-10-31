@@ -1,6 +1,7 @@
 import {IconCheckMark} from "components/icons";
 import PropTypes from "prop-types";
 import React from "react";
+import mountReactComponent from "mount-react-component.jsx";
 
 class Example extends React.Component {
   static propTypes = {
@@ -42,3 +43,5 @@ class Example extends React.Component {
 }
 
 export default Example;
+
+mountReactComponent(Example, 'example');

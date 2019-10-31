@@ -13,10 +13,7 @@
 <%=
     react_component(
       "example",
-      {
-        photos: PhotoPresenter.wrap(@photos, view: view_context).map(&:photo_grid_props)
-      },
-      { prerender: Rails.env.test? }
+      { photos: PhotoPresenter.wrap(@photos, view: view_context).map(&:photo_grid_props) }
     )
   %>
 <% end %>
