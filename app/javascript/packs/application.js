@@ -15,3 +15,5 @@ import "mount-react-component";
 import "application/_mobile_navigation.js";
 import "application/_modal.js";
 import "application/flash.js";
+
+import "components/example";

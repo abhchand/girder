@@ -25,12 +25,14 @@ RSpec.describe "photos/index.html.erb", type: :view do
     expect(rendered).to have_content("_stubbed_photo_count")
   end
 
-  it "renders each photo" do
+  it "renders the example component" do
     render
 
-    photos.each do |photo|
-      expect(page).to have_selector("li[data-id='#{photo.synthetic_id}']")
-    end
+    photo_props =
+      PhotoPresenter.wrap(photos, view: view_context).map(&:photo_grid_props)
+
+    expect(page).to have_react_component("example").
+      including_props(photos: photo_props)
   end
 
   context "no photos exist" do
