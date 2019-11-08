@@ -7,6 +7,7 @@ function mountReactComponent(Component, mountNodeId) {
     const propsJSON = mountNode.getAttribute('data-react-props');
     const props = JSON.parse(propsJSON);
 
+    // eslint-disable-next-line react/jsx-props-no-spreading
     ReactDOM.render(<Component {...props} />, mountNode);
   });
 }

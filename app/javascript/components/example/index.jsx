@@ -1,9 +1,10 @@
-import {IconCheckMark} from "components/icons";
-import PropTypes from "prop-types";
-import React from "react";
-import mountReactComponent from "mount-react-component.jsx";
+import { IconCheckMark } from 'components/icons';
+import mountReactComponent from 'mount-react-component.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 class Example extends React.Component {
+
   static propTypes = {
     photos: PropTypes.array.isRequired
   }
@@ -22,24 +23,25 @@ class Example extends React.Component {
   renderPhotoElement(photo) {
     return (
       <li key={photo.id} data-id={photo.id}>
-        {photo.id + ": " + photo.takenAt}
+        {`${photo.id}: ${photo.takenAt}`}
       </li>
     );
   }
 
   render() {
-    let self = this;
+    const self = this;
 
     return (
       <ul className="page-content">
         {
-          this.props.photos.map(function(photo, _photoIndex){
+          this.props.photos.map((photo, _photoIndex) => {
             return self.renderPhotoElement(photo);
           })
         }
       </ul>
     );
   }
+
 }
 
 export default Example;

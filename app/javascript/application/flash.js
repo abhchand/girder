@@ -1,12 +1,17 @@
-$(document).ready(function() {
-  //
-  // Close flash message
-  //
-  $("body").on("click", ".flash", function(e) {
+// eslint-disable-next-line padded-blocks
+$(document).ready(() => {
+
+  /*
+   *
+   * Close flash message
+   *
+   */
+
+  $('body').on('click', '.flash', (e) => {
     e.preventDefault();
 
-    const flash = $(".flash");
-    $(flash).removeClass("active");
-    $(flash).addClass("inactive");
+    const flash = $('.flash');
+    $(flash).removeClass('active');
+    $(flash).addClass('inactive');
   });
 });
