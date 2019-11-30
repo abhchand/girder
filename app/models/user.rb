@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   include HasSyntheticId
 
-  # rubocop:disable LineLength
+  # rubocop:disable Metrics/LineLength
   has_many :photos, foreign_key: :owner_id, dependent: :destroy, inverse_of: :owner
 
   has_one_attached :avatar
@@ -51,7 +51,7 @@ class User < ApplicationRecord
   # verified this.
   after_create :skip_confirmation_notification!, if: :omniauth?
 
-  # rubocop:enable LineLength
+  # rubocop:enable Metrics/LineLength
 
   # Override Devise's implementation of this method which relies on
   # enqueuing mailers through ActiveJob. Below uses Sidekiq's ActionMailer
