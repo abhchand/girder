@@ -13,7 +13,6 @@
 @import 'stylesheets/application/_desktop_navigation';
 @import 'stylesheets/application/_mobile_header';
 @import 'stylesheets/application/_mobile_navigation';
-@import 'stylesheets/application/_modal';
 
 @import 'stylesheets/layouts/_application';
 @import 'stylesheets/layouts/_flash';
@@ -28,12 +27,15 @@
 @import 'stylesheets/users/shared/_native_links';
 @import 'stylesheets/users/shared/_omniauth_links';
 
-// Javascript
+// Components
 @import 'stylesheets/components/example';
 
-@import 'stylesheets/components/shared/icons/loading_icon_ellipsis';
+@import 'stylesheets/components/modal/index';
+@import 'stylesheets/components/modal/error';
 
 @import 'stylesheets/components/product_feedback_form/index';
+
+@import 'stylesheets/components/shared/icons/loading_icon_ellipsis';
 
 // * { background-color: rgba(255,0,0,.2); }
 // * * { background-color: rgba(0,255,0,.2); }

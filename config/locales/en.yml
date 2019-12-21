@@ -131,6 +131,10 @@ en:
       <<: *shared_navigation
 
   components:
+    modal:
+      buttons:
+        submit: Submit
+        close: Close
     product_feedback_form:
       heading: Tell us what you think
       subheading: "Please use this to suggest any improvements or features you may find useful (max: %{maxlength} characters)"
@@ -146,10 +150,6 @@ en:
     index:
       heading: My Photos
       empty: You have no photos
-
-  product_feedbacks:
-    create_modal:
-      close: Close
 
   shared:
     photo_count:
