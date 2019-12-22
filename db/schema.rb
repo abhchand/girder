@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_19_034707) do
+ActiveRecord::Schema.define(version: 2019_12_21_211551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,15 @@ ActiveRecord::Schema.define(version: 2019_12_19_034707) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
+  create_table "user_invitations", force: :cascade do |t|
+    t.string "email", null: false
+    t.bigint "inviter_id", null: false
+    t.bigint "invitee_id"
+    t.index ["email"], name: "index_user_invitations_on_email", unique: true
+    t.index ["invitee_id"], name: "index_user_invitations_on_invitee_id", unique: true
+    t.index ["inviter_id"], name: "index_user_invitations_on_inviter_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -103,4 +112,6 @@ ActiveRecord::Schema.define(version: 2019_12_19_034707) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "photos", "users", column: "owner_id"
   add_foreign_key "product_feedbacks", "users"
+  add_foreign_key "user_invitations", "users", column: "invitee_id"
+  add_foreign_key "user_invitations", "users", column: "inviter_id"
 end
