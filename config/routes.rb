@@ -48,6 +48,12 @@ Rails.application.routes.draw do
   #  )
   get "/users/registrations/edit", to: redirect("/account/profile")
 
+  namespace :account do
+    resources :profile, only: :index
+  end
+
+  resources :admin, only: [:index]
+
   resources :photos, only: :index
   resources :product_feedbacks, only: :create
 
