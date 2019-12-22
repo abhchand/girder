@@ -57,6 +57,8 @@ class User < ApplicationRecord
 
   after_commit :complete_user_invitation
 
+  scope :deactivated, -> { where.not(deactivated_at: nil) }
+
   # rubocop:enable Metrics/LineLength
 
   # Override Devise's implementation of this method which relies on
@@ -93,6 +95,10 @@ class User < ApplicationRecord
   # party service.
   def confirmed?
     omniauth? || super
+  end
+
+  def deactivated?
+    self[:deactivated].present?
   end
 
   def name
