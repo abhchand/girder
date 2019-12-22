@@ -11,6 +11,7 @@ RSpec.describe User do
 
   describe "Associations" do
     it { should have_many(:photos) }
+    it { should have_one(:invitation) }
   end
 
   describe "validations" do
