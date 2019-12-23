@@ -123,6 +123,9 @@ en:
       heading: Admin
       pages:
         users: Users
+    users:
+      index:
+        heading: Users
 
   application:
     navigation:

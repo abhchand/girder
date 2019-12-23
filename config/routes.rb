@@ -54,6 +54,10 @@ Rails.application.routes.draw do
 
   resources :admin, only: [:index]
 
+  namespace :admin do
+    resources :users, only: [:index]
+  end
+
   resources :photos, only: :index
   resources :product_feedbacks, only: :create
 
