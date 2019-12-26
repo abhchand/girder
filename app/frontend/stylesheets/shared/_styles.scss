@@ -133,3 +133,20 @@
 
 .auth__links {
 }
+
+//
+// Other
+//
+
+.profile-pic {
+  width: 42px;
+  height: 42px;
+  margin-right: 25px;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    border-radius: 50%;
+  }
+}

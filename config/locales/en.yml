@@ -141,10 +141,23 @@ en:
       <<: *shared_navigation
 
   components:
+    admin_user_list:
+      header:
+        name: Name
+        email: Email
+        role: Role
+        last_signed_in: Last Active
     modal:
       buttons:
         submit: Submit
         close: Close
+    filter_table:
+      search_input:
+        placeholder: Search...
+      total_count:
+        heading: "%{total} users"
+      table:
+        empty_state: No users found
     product_feedback_form:
       heading: Tell us what you think
       subheading: "Please use this to suggest any improvements or features you may find useful (max: %{maxlength} characters)"
