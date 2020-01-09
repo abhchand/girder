@@ -4,6 +4,52 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+class IconArrowThickLeft extends React.Component {
+
+  static propTypes = {
+    size: PropTypes.string,
+    fillColor: PropTypes.string
+  };
+
+  static defaultProps = {
+    fillColor: '#EEEEEE',
+    size: '32'
+  }
+
+  render() {
+    return (
+      // Icons/arrow-thick-left.svg
+      <svg width={this.props.size} height={this.props.size} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8">
+        <path d="M3 0l-3 3.03 3 2.97v-2h5v-2h-5v-2z" transform="translate(0 1)" fill={this.props.fillColor} />
+      </svg>
+    );
+  }
+
+}
+
+class IconArrowThickRight extends React.Component {
+
+  static propTypes = {
+    size: PropTypes.string,
+    fillColor: PropTypes.string
+  };
+
+  static defaultProps = {
+    fillColor: '#EEEEEE',
+    size: '32'
+  }
+
+  render() {
+    return (
+      // Icons/arrow-thick-right.svg
+      <svg width={this.props.size} height={this.props.size} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8">
+        <path d="M5 0v2h-5v2h5v2l3-3.03-3-2.97z" transform="translate(0 1)" fill={this.props.fillColor} />
+      </svg>
+    );
+  }
+
+}
+
 class IconCheckMark extends React.Component {
 
   static propTypes = {
@@ -30,5 +76,7 @@ class IconCheckMark extends React.Component {
 }
 
 export {
+  IconArrowThickLeft,
+  IconArrowThickRight,
   IconCheckMark
 };
