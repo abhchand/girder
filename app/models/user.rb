@@ -99,7 +99,7 @@ class User < ApplicationRecord
   end
 
   def deactivated?
-    self[:deactivated].present?
+    self[:deactivated_at].present?
   end
 
   def name

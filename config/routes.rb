@@ -59,6 +59,8 @@ Rails.application.routes.draw do
     resources :users, only: [:index]
   end
 
+  resources :deactivated_user, only: :index
+
   resources :photos, only: :index
   resources :product_feedbacks, only: :create
 
