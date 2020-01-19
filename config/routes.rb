@@ -62,9 +62,14 @@ Rails.application.routes.draw do
   resources :deactivated_user, only: :index
 
   resources :photos, only: :index
+
   resources :product_feedbacks, only: :create
 
   namespace :account do
     resources :profile, only: :index
   end
+
+  resources :users, only: [:destroy]
+
+  resources :user_invitations, only: [:destroy]
 end
