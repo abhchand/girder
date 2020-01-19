@@ -48,6 +48,7 @@ end
 
 group :development do
   gem "better_errors"
+  gem "binding_of_caller", "~> 0.8.0"
   gem "highline", "~> 2.0"
   gem "letter_opener", "~> 1.7"
   gem "rubocop-git", "~> 0.1.3"
