@@ -55,8 +55,9 @@ Rails.application.routes.draw do
   resources :admin, only: [:index]
 
   namespace :admin do
-    resources :user_invitations, only: [:index]
     resources :users, only: [:index]
+    resources :user_invitations, only: [:index]
+    resources :user_roles, only: [:update]
   end
 
   resources :deactivated_user, only: :index
