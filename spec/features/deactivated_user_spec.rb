@@ -11,7 +11,7 @@ RSpec.feature "Deactivated User", type: :feature do
 
       expect(page).to have_current_path(deactivated_user_index_path)
 
-      visit collections_path
+      visit account_profile_index_path
       expect(page).to have_current_path(deactivated_user_index_path)
     end
 
@@ -31,7 +31,7 @@ RSpec.feature "Deactivated User", type: :feature do
 
       # First visit another random path so we can confirm that the path
       # changes TO photos_path (target of root_path redirect)
-      visit collections_path
+      visit account_profile_index_path
 
       visit deactivated_user_index_path
       expect(page).to have_current_path(photos_path)
