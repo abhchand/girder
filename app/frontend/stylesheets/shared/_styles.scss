@@ -15,16 +15,14 @@
 //
 
 .page-content {
-  padding: 0 20px;
+  padding: 20px;
 
   @include breakpoint($screen-xs) {
-    padding: 0 30px;
+    padding: 30px;
   }
 }
 .page-heading {
-  width: 100%;
   margin: 20px 0;
-  padding-left: 20px;
   color: $dark-gray;
   font-weight: 500;
   font-size: 36px;
@@ -32,22 +30,15 @@
   text-align: left;
 
   @include breakpoint($screen-xs) {
-    padding-left: 40px;
     font-size: 48px;
   }
 }
 .page-subheading {
-  width: 100%;
   margin: 20px 0;
-  padding-left: 20px;
   color: $black;
   font-weight: 500;
   font-size: 22px;
   text-align: left;
-
-  @include breakpoint($screen-xs) {
-    padding-left: 40px;
-  }
 }
 
 //
@@ -131,6 +122,53 @@
 }
 
 .auth__links {
+  margin: 50px 0;
+}
+
+
+//
+// Icon Trays
+//
+
+.icon-tray {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: 40px;
+  margin-right: auto;
+}
+
+.icon-tray__item {
+  position: relative;
+  width: 40px;
+  height: 100%;
+  background-color: $white;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in;
+
+  // Below are defaults for all SVG icons in the icon tray
+  // Each individual icon can be overridden based on its CSS id
+
+  svg {
+
+    // Vertically centering 24px SVG inside 40px div
+    margin-top: 8px;
+
+    g, path, ellipse, rect {
+      fill: $dark-gray;
+      stroke: $dark-gray;
+    }
+  }
+
+  &:hover {
+    svg {
+      g, path, ellipse, rect {
+        fill: $dark-purple;
+        stroke: $dark-purple;
+      }
+    }
+  }
 }
 
 //
