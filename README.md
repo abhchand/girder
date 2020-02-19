@@ -1,6 +1,6 @@
 # girder
 
-[![Build Status](https://gitlab.com/abhchand/girder/badges/master/build.svg)](https://gitlab.com/abhchand/girder/pipelines)
+[![Build Status](https://github.com/abhchand/girder/badges/master/build.svg)](https://github.com/abhchand/girder/pipelines)
 
 
 # Development / Test Setup
