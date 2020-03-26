@@ -153,9 +153,6 @@ en:
           modifier: Modifier
           description: Action
           created_at: Modified At
-        filter_enabled:
-          warning: You are viewing audits for %{name}.
-          clear: View all
     audit:
       shared:
         unknown: Unknown action
@@ -168,6 +165,9 @@ en:
       user_invitation_description:
         created: Invited %{email}
         destroyed: Uninvited %{email}
+    filter_warning:
+      warning: You are viewing records for '%{name}'.
+      clear: View all
     index:
       heading: Admin
       pages:
