@@ -287,6 +287,11 @@ en:
       body: This account has been deactivated.
       log_out: Sign in with a different account
 
+  helpers:
+    devise:
+      auth_helper:
+        error: Email login is disabled - please login via Google
+
   layouts:
     action_notifications:
       close: Dismiss
