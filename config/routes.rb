@@ -68,7 +68,7 @@ Rails.application.routes.draw do
     resources :profile, only: :index
   end
 
-  resources :users, only: [:destroy]
+  resources :users, only: [:index, :destroy]
 
   resources :user_invitations, only: [:create, :destroy]
 end
