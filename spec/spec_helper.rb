@@ -10,7 +10,7 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
   config.disable_monkey_patching!
-  config.default_formatter = "doc" if config.files_to_run.one?
+  config.default_formatter = 'doc' if config.files_to_run.one?
   config.profile_examples = 10
   config.order = :random
 
@@ -25,7 +25,8 @@ RSpec.configure do |config|
   config.around(:each, :mobile, type: :feature) do |example|
     # rack-test has no concept of a window so need to use
     # :headless_chrome for mobile responsive tests
-    Capybara.current_driver = :headless_chrome
+    Capybara.current_driver =
+      :headless_chrome
 
     resize_window_to_mobile
 
@@ -47,6 +48,6 @@ RSpec.configure do |config|
     # Set RSpec controller host to match the application's URL host
     # See: https://stackoverflow.com/a/49788110/2490003
     opts = Rails.application.routes.default_url_options
-    @request.host = [opts[:host], opts[:port]].join(":")
+    @request.host = [opts[:host], opts[:port]].join(':')
   end
 end

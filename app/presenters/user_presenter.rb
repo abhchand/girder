@@ -15,8 +15,7 @@ class UserPresenter < ApplicationPresenter
 
     rails_representation_url(
       variant,
-      disposition: "attachment",
-      only_path: true
+      disposition: 'attachment', only_path: true
     )
   end
 

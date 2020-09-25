@@ -1,1 +1,1 @@
-Rails.application.config.session_store :cookie_store, key: "_girder_session"
+Rails.application.config.session_store :cookie_store, key: '_girder_session'

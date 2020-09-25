@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 class Example extends React.Component {
-
   static propTypes = {
     photos: PropTypes.array.isRequired
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -17,7 +16,7 @@ class Example extends React.Component {
   }
 
   renderCheckMark() {
-    return <IconCheckMark fillColor="#FFFFFF" />;
+    return <IconCheckMark fillColor='#FFFFFF' />;
   }
 
   renderPhotoElement(photo) {
@@ -32,16 +31,13 @@ class Example extends React.Component {
     const self = this;
 
     return (
-      <ul className="page-content">
-        {
-          this.props.photos.map((photo, _photoIndex) => {
-            return self.renderPhotoElement(photo);
-          })
-        }
+      <ul className='page-content'>
+        {this.props.photos.map((photo, _photoIndex) => {
+          return self.renderPhotoElement(photo);
+        })}
       </ul>
     );
   }
-
 }
 
 export default Example;

@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   AVATAR_SIZES = {
-    thumb: { resize: "75x75" },
-    medium: { resize: "200x200" }
+    thumb: { resize: '75x75' }, medium: { resize: '200x200' }
   }.freeze
 
   OMNIAUTH_PROVIDERS = %w[google_oauth2].freeze
@@ -13,9 +12,15 @@ class User < ApplicationRecord
     current_sign_in_ip
   ].freeze
 
-  devise :database_authenticatable, :confirmable,
-         :recoverable, :registerable, :timeoutable, :trackable,
-         :validatable, :omniauthable, omniauth_providers: OMNIAUTH_PROVIDERS
+  devise :database_authenticatable,
+         :confirmable,
+         :recoverable,
+         :registerable,
+         :timeoutable,
+         :trackable,
+         :validatable,
+         :omniauthable,
+         omniauth_providers: OMNIAUTH_PROVIDERS
 
   audited except: DO_NOT_AUDIT
   rolify
@@ -24,9 +29,14 @@ class User < ApplicationRecord
   include HasAuditableRoles
 
   # rubocop:disable Metrics/LineLength
-  has_many :photos, foreign_key: :owner_id, dependent: :destroy, inverse_of: :owner
+  has_many :photos,
+           foreign_key: :owner_id, dependent: :destroy, inverse_of: :owner
 
-  has_one :invitation, class_name: "UserInvitation", foreign_key: :invitee_id, dependent: :destroy, inverse_of: :invitee
+  has_one :invitation,
+          class_name: 'UserInvitation',
+          foreign_key: :invitee_id,
+          dependent: :destroy,
+          inverse_of: :invitee
 
   has_one_attached :avatar
 
@@ -56,7 +66,8 @@ class User < ApplicationRecord
     omniauth.validates :confirmation_token, absence: true
     omniauth.validates :confirmed_at, absence: true
     omniauth.validates :confirmation_sent_at, absence: true
-    omniauth.validates :uid, presence: true, uniqueness: { case_sensitive: false }
+    omniauth.validates :uid,
+                       presence: true, uniqueness: { case_sensitive: false }
   end
 
   # Override default Devise behavior. We want to skip sending confirmation for
@@ -110,11 +121,11 @@ class User < ApplicationRecord
   end
 
   def name
-    [first_name, last_name].join(" ")
+    [first_name, last_name].join(' ')
   end
 
   def name=(full_name)
-    self[:first_name], self[:last_name] = full_name.split(" ", 2)
+    self[:first_name], self[:last_name] = full_name.split(' ', 2)
   end
 
   private
@@ -128,11 +139,13 @@ class User < ApplicationRecord
   def email_domain
     return unless registration_email_domain_whitelist_enabled?
 
-    domain = (email || "").split("@").last
+    domain = (email || '').split('@').last
 
     return if domain.blank?
     # rubocop:disable Metrics/LineLength
-    return if registration_email_whitelisted_domains.any? { |d| domain =~ /#{d}/i }
+    if registration_email_whitelisted_domains.any? { |d| domain =~ /#{d}/i }
+      return
+    end
     # rubocop:enable Metrics/LineLength
 
     errors.add(:email, :invalid_domain, domain: domain)
