@@ -75,5 +75,5 @@ end
 # Photos
 (1..10).each do |i|
   puts "Creating photo ##{i + 1}"
-  FactoryBot.create(:photo, owner: user, taken_at: (10 * i).days.from_now)
+  FactoryBot.create(:photo, owner: User.first, taken_at: (10 * i).days.from_now)
 end
