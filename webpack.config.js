@@ -3,6 +3,7 @@
 
 const devMode = process.env.NODE_ENV === 'development';
 const testMode = process.env.NODE_ENV === 'test';
+// eslint-disable-next-line
 const prodMode = process.env.NODE_ENV === 'production';
 
 const path = require('path');
@@ -30,7 +31,7 @@ const webpack = require('webpack');
 const config = {
   mode: testMode ? 'none' : process.env.NODE_ENV,
   output: {
-    filename: '[name]-[hash].js',
+    filename: '[name]-[fullhash].js',
     chunkFilename: '[name]-[chunkhash].chunk.js',
     path: PACKS_DIR,
     publicPath: PUBLIC_PATH,
@@ -142,9 +143,7 @@ const config = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === 'development'
-            }
+            options: {}
           },
           {
             loader: 'css-loader',
@@ -161,9 +160,7 @@ const config = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === 'development'
-            }
+            options: {}
           },
           {
             loader: 'css-loader',
@@ -187,7 +184,7 @@ const config = {
           {
             loader: 'file-loader',
             options: {
-              name: '[path][name]-[hash].[ext]'
+              name: '[path][name]-[fullhash].[ext]'
             }
           }
         ]
@@ -229,8 +226,9 @@ const config = {
     new webpack.EnvironmentPlugin(['NODE_ENV']),
     new CaseSensitivePathsPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name]-[contenthash].css',
-      chunkFilename: '[name]-[contenthash].chunk.css'
+      filename: testMode || devMode ? '[name].css' : '[name]-[contenthash].css',
+      chunkFilename:
+        testMode || devMode ? '[id].chunk.css' : '[id]-[contenthash].chunk.css'
     }),
     new CopyPlugin({
       patterns: [
@@ -246,10 +244,6 @@ const config = {
       entrypoints: false,
       writeToDisk: true,
       publicPath: PUBLIC_PATH
-    }),
-    new webpack.HotModuleReplacementPlugin({
-      fullBuildTimeout: 200,
-      requestTimeout: 10000
     })
   ]
 };
