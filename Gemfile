@@ -26,7 +26,7 @@ gem "pg", "~> 0.18.4"
 gem "puma", "~> 3.4"
 gem "recipient_interceptor", "~> 0.2.0"
 gem "rolify", "~> 5.2"
-gem "sidekiq", "~> 5.2", ">= 5.2.5"
+gem "sidekiq", "~> 6.4"
 gem "smtpapi", "~> 0.1.0"
 gem "will_paginate", "~> 3.2", ">= 3.2.1"
 
