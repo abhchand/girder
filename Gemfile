@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-gem "rails", "6.0.3.6"
-ruby "2.5.5"
+gem 'rails', '6.0.3.6'
+ruby '3.0.0'
 
 #
 # Front End
