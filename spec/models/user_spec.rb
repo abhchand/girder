@@ -137,8 +137,7 @@ RSpec.describe User do
               user.valid?
 
               error = validation_error_for(:password, :invalid)
-              # Ensure this error is listed first, superceding other errors
-              expect(user.errors.messages[:password].first).to eq(error)
+              expect(user.errors.messages[:password]).to include(error)
             end
           end
         end

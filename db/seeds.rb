@@ -55,7 +55,7 @@ end
 
     puts "#{log_tag} Downloading avatar #{url} -> #{local_filename}"
     # rubocop:disable Security/Open
-    open(url) do |image|
+    URI.open(url) do |image|
       File.open(local_filename, 'wb') { |file| file.write(image.read) }
     end
     # rubocop:enable Security/Open

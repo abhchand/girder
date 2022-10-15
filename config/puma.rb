@@ -53,7 +53,7 @@ on_worker_boot do
   end
   # rubocop:enable Metrics/LineLength, Style/RescueModifier
 
-  configs = ActiveRecord::Base.configurations[rails_env]
+  configs = ActiveRecord::Base.configurations.configs_for(env_name: rails_env)[0].configuration_hash
   ActiveRecord::Base.establish_connection(configs)
 end
 

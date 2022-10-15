@@ -1,33 +1,31 @@
 Capybara.register_driver :headless_chrome do |app|
-  caps =
+  capabilities =
     Selenium::WebDriver::Remote::Capabilities.chrome(
       'goog:loggingPrefs' => {
-        browser: 'ALL', client: 'ALL', driver: 'ALL', server: 'ALL'
+        browser: 'ALL',
+        client: 'ALL',
+        driver: 'ALL',
+        server: 'ALL'
       }
     )
 
   opts = Selenium::WebDriver::Chrome::Options.new
-  chrome_args = %w[
-    --headless
-    --window-size=1440,800
-    --no-sandbox
-    --disable-dev-shm-usage
-    --enable-logging
-  ]
-  chrome_args.each { |arg| opts.add_argument(arg) }
 
-  profile = Selenium::WebDriver::Chrome::Profile.new
-  profile['default_content_settings.popups'] = 0
-  profile['download.default_directory'] =
-    FeatureHelpers::BROWSER_DOWNLOAD_PATH.to_s
-  profile['download.directory_upgrade'] = true
-  profile['download.prompt_for_download'] = true
+  opts.add_argument('--headless')
+  opts.add_argument('--window-size=1440,800')
+  opts.add_argument('--no-sandbox')
+  opts.add_argument('--disable-dev-shm-usage')
+  opts.add_argument('--enable-logging')
+
+  opts.add_preference(:download, prompt_for_download: true)
+  opts.add_preference(:download, default_directory: FeatureHelpers::BROWSER_DOWNLOAD_PATH.to_s)
+  opts.add_preference(:download, directory_upgrade: true)
+  opts.add_preference(:default_content_settings, popups: 0)
 
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    profile: profile,
+    capabilities: capabilities,
     options: opts,
-    desired_capabilities: caps
   )
 end

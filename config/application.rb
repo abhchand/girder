@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Girder
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
 
     # Settings in config/environments/* take precedence over those specified
     # here. Application configuration should go into files in
@@ -27,6 +27,9 @@ module Girder
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     # rubocop:enable Metrics/LineLength
+
+    # Don't force requests from old versions of IE to be UTF-8 encoded.
+    config.action_view.default_enforce_utf8 = false
 
     # Disable the built-in asset pipeline
     config.assets.enabled = false

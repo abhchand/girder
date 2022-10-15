@@ -12,6 +12,6 @@ module GeneralHelpers
         key
       ].join('.')
 
-    I18n.t(path, opts)
+    I18n.t(path, **opts)
   end
 end

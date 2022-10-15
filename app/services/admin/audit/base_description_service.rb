@@ -39,7 +39,7 @@ module Admin
 
       def t(path, opts = {})
         path = ".#{path}" unless path.start_with?('.')
-        I18n.t([i18n_key, path].join, opts)
+        I18n.t([i18n_key, path].join, **opts)
       end
 
       def create_action?

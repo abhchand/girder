@@ -160,13 +160,12 @@ class User < ApplicationRecord
     valid = [/.{6,}/, /[0-9]/, /[a-zA-Z]/, /[!#$%&]/].all? { |p| password =~ p }
     return if valid
 
-    errors.add(:password, :invalid).tap do
-      # Devise already implements other `:password` validations and we want
-      # this to supercede those, especially the length validation since we
-      # check that here ourselves. Ensure our message is added first
-      errors.details[:password].reverse!
-      errors.messages[:password].reverse!
-    end
+    # Devise adds its own password validation errors that run before this.
+    # There's no easy way of pre-pending our new message to be the "first"
+    # error, which is ultimately shown to the User as a flash message. Instead,
+    # just wipe all password errors and then add ours.
+    errors.delete(:password)
+    errors.add(:password, :invalid)
   end
 
   def encrypted_password_is_valid_bcrypt_hash

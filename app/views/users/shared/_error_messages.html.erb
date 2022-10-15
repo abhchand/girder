@@ -1,7 +1,7 @@
 <% if user.errors.any? %>
   <div class="auth__form-errors">
     <ul>
-      <% user.errors.keys.each do |key| %>
+      <% user.errors.attribute_names.each do |key| %>
         <li><%= user.errors[key].first %></li>
       <% end %>
     </ul>
