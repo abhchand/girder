@@ -16,20 +16,29 @@
 
 default: &default
   adapter: postgresql
-  encoding: utf8
-  host: localhost
-  min_messages: warning
-  pool: 5
-  timeout: 5000
+  encoding: unicode
+  host: <%= ENV.fetch('POSTGRES_HOST', 'localhost') %>
+  port: <%= ENV.fetch('POSTGRES_PORT', 5432) %>
+  username: <%= ENV.fetch('POSTGRES_USER', 'postgres') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', '') %>
+  pool: <%= ENV.fetch('POSTGRES_CONNECTION_POOL', 5) %>
+  timeout: <%= ENV.fetch('POSTGRES_TIMEOUT', 5000) %>
 
 test:
   <<: *default
+  # On test we specify a single `DATABASE_URL` to avoid having to specify
+  # individual connection components. This will override any individual
+  # components set (e.g. host, port, etc...)
   url: <%= ENV["DATABASE_URL"] %>
   database: girder_test
 
 development:
   <<: *default
   database: girder_development
+
+staging:
+  <<: *default
+  database: girder_staging
 
 production:
   <<: *default

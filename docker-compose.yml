@@ -1,22 +1,60 @@
 version: '3'
+
+networks:
+  girder_network:
+
+volumes:
+  girder-postgres-volume:
+  girder-redis-volume:
+
 services:
-  redis:
-    image: redis:5.0.6-alpine
-  db:
-    image: postgres:11.5-alpine
-    volumes:
-      - /var/www/girder.xyz/docker_volumes/db/data:/var/lib/postgresql/data
-    env_file:
-      - .env.dockercompose
-  web:
+
+  girder:
+    image: girder/girder:local
     build:
       context: .
       args:
-        RAILS_ENV: production
-    volumes:
-      - /var/www/girder.xyz/docker_volumes/web/log:/app/log
-      - /var/www/girder.xyz/docker_volumes/web/tmp:/app/tmp
-      - /var/www/girder.xyz/docker_volumes/web/public:/app/public
+        RAILS_ENV: development
     depends_on:
-      - db
-      - redis
+      - girder-postgres
+      - girder-redis
+    environment:
+      # See: https://github.com/DatabaseCleaner/database_cleaner#safeguards
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 'true'
+      POSTGRES_HOST: girder-postgres
+      POSTGRES_PASSWORD: sekrit
+      POSTGRES_USER: 'postgres'
+      RAILS_ENV: development
+      REDIS_URL: redis://girder-redis:6379/0
+      RUNNING_IN_DOCKER: 1
+      WAIT_FOR_INIT: 'false'
+    extra_hosts:
+      # Allow accessing services running on `localhost`, outside the container
+      - host.docker.internal:host-gateway
+    networks:
+      - girder_network
+    ports:
+      # HOST:CONTAINER
+      - 7000:7000
+    # Enable TTY & stdin for use with `binding.pry`
+    # See: https://gist.github.com/briankung/ebfb567d149209d2d308576a6a34e5d8
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+
+  girder-redis:
+    image: redis:5.0.14-alpine3.14
+    networks:
+      - girder_network
+    volumes:
+      - girder-redis-volume:/var/lib/redis/data
+
+  girder-postgres:
+    image: postgres:12.8-alpine3.14
+    env_file:
+      - .env.dockercompose
+    networks:
+      - girder_network
+    volumes:
+      - girder-postgres-volume:/var/lib/postgresql/data
