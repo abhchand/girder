@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Exit on script error
+set -e
+
+container () {
+  docker ps | grep girder/girder | cut -d' ' -f 1
+}
+
+db_container() {
+  docker ps | grep girder_girder-postgres | cut -d' ' -f 1
+}
+
+case "$1" in
+  attach)
+    docker attach $(container)
+    ;;
+
+  run | r)
+    docker exec -it $(container) "${@:2}"
+    ;;
+
+  rails)
+    docker exec -it $(container) bundle exec rails "${@:2}"
+    ;;
+
+  rake)
+    docker exec -it $(container) bundle exec rake "${@:2}"
+    ;;
+
+  rspec)
+    CONTAINER_NAME=$(container)
+
+    if ! docker exec -it $CONTAINER_NAME /bin/bash -c 'psql "$DATABASE_URL" -l | grep girder_test' > /dev/null; then
+      echo "Test DB does not exist. Creating..."
+      docker exec -it -e RAILS_ENV=test $CONTAINER_NAME bundle exec rake db:create
+      echo "Done!"
+    fi
+
+    docker exec -it -e RAILS_ENV=test $CONTAINER_NAME bundle exec rspec "${@:2}"
+    ;;
+
+  sh)
+    docker exec -it $(container) /bin/bash
+    ;;
+
+  db)
+    # Enter Postgres through the DB container directly, in case the
+    # Rails container is down or crashing.
+    #
+    # This is useful when manually resetting the DB:
+    #
+    #   bin/girder db
+    #   DROP TABLE IF EXISTS girder
+    #   DROP TABLE IF EXISTS girder_test
+    #   \q
+    #
+    docker exec -it $(db_container) /bin/bash -c 'psql "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost/"'
+    ;;
+
+  log)
+    docker logs $(container) -f
+    ;;
+
+  reset)
+    CONTAINERS=$(docker ps -a | grep avalance | cut -d' ' -f1)
+    IMAGES=$(docker image ls | grep girder | awk '{print $3}')
+    VOLUMES=$(docker volume ls | grep girder | awk '{print $2}')
+
+    docker rm $CONTAINERS                   # Remove containers
+    docker image rm $IMAGES                 # Remove images
+    docker volume rm $VOLUMES               # Remove volumes
+    docker image prune -f                   # Remove dangling images
+    ;;
+
+  *)
+    echo 'Usage:  bin/girder COMMAND [ARGS]'
+    echo ''
+    echo 'Commands:'
+    echo '  attach    Attach to the container'
+    echo '  db        Enter the `psql` console'
+    echo '  log       View logs'
+    echo '  rails     Run a rails commands                    e.g.  bin/girder rails c'
+    echo '  rake      Run a rake command                      e.g.  bin/girder rake -T'
+    echo '  reset     Rebuild the containers'
+    echo '  rspec     Run rspec                               e.g.  bin/girder rspec specs/my_spec.rb'
+    echo '  run       Run a command in the web container      e.g.  bin/girder run ls'
+    echo '  sh        Enter the web container bash shell'
+    echo ''
+    ;;
+esac
