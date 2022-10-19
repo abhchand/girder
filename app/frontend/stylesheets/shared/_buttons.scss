@@ -3,3 +3,13 @@
   background: none;
   border: none;
 }
+
+.link-btn {
+  padding: 0!important;
+  background: none!important;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
