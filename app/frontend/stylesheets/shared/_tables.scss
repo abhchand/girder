@@ -1,6 +1,8 @@
 table {
   width: 100%;
   margin: 20px 0;
+  font-size: 14px;
+  text-align: left;
   border-collapse: collapse;
 
   thead {
@@ -8,6 +10,8 @@ table {
       height: 40px;
       color: $deep-navy;
       font-weight: 700;
+      border-top: 2px solid $grayA;
+      border-bottom: 2px solid $gray8;
 
       td {
         padding: 0 5px;
@@ -17,15 +21,18 @@ table {
 
   tbody {
     tr {
+      height: 25px;
+      line-height: 18px;
+      background-color: $grayE;
       border-top: 1px solid $light-gray;
+
+      &:nth-child(even) {
+        background-color: $white;
+      }
 
       td {
         padding: 7px 5px;
         word-wrap: break-word;
-      }
-
-      &:hover {
-        background-color: $mustard-opacity;
       }
     }
   }
