@@ -64,50 +64,47 @@ const config = {
   },
   devtool: 'cheap-module-source-map',
   devServer: {
-    clientLogLevel: 'none',
+    client: {
+      logging: 'none'
+    },
     compress: true,
-    quiet: false,
-    disableHostCheck: true,
+    // `webpack-dev-middleware` library options
+    devMiddleware: {
+      /*
+       * Webpack-dev-server serves assets from memory. Since
+       * the assets/images/* files are statically copied (via the
+       * `CopyPlugin` below) and not built as a webpack "pack"
+       * (using a defined 'entry point') they are not served
+       * from webpack dev server's memory. To get around this
+       * we write these files to disk and the dev server will
+       * fallback to looking for them on the disk since we
+       * statically serve everything under the public directory.
+       */
+      writeToDisk: (filePath) => {
+        return /assets\/images\//u.test(filePath);
+      }
+    },
     host: 'localhost',
     port: 3035,
     https: false,
     hot: true,
 
-    /*
-     * Note: `publicPath` takes precedence if defined
-     * so don't define it and just serve all content
-     * as static from the `public/` directory
-     */
-    contentBase: PUBLIC_DIR,
-    inline: true,
-    useLocalIp: false,
-    public: 'localhost:3035',
     historyApiFallback: {
       disableDotRule: true
     },
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
-    overlay: true,
-    stats: {
-      errorDetails: true
-    },
-    watchOptions: {
-      ignored: '/node_modules/'
-    },
-
-    /*
-     * Webpack-dev-server serves assets from memory. Since
-     * the assets/images/* files are statically copied (via the
-     * `CopyPlugin` below) and not built as a webpack "pack"
-     * (using a defined 'entry point') they are not served
-     * from webpack dev server's memory. To get around this
-     * we write these files to disk and the dev server will
-     * fallback to looking for them on the disk since we
-     * statically serve everything under the public directory
-     */
-    writeToDisk: (filePath) => {
-      return /assets\/images\//u.test(filePath);
+    static: {
+      /*
+       * Note: `publicPath` takes precedence if defined
+       * so don't define it and just serve all content
+       * as static from the `public/` directory
+       */
+      directory: PUBLIC_DIR,
+      watch: {
+        ignored: '/node_modules/'
+      }
     }
   },
   entry: {
