@@ -38,7 +38,14 @@ const config = {
     pathinfo: true,
     // https://github.com/webpack/webpack/issues/6693#issuecomment-745688108
     hotUpdateChunkFilename: '[id].[fullhash].hot-update.js',
-    hotUpdateMainFilename: '[fullhash].hot-update.json'
+    hotUpdateMainFilename: '[fullhash].hot-update.json',
+    // Expose each pack as `Girder.<pack_name>` (e.g. `Girder.admin`). The value
+    // will be the default export of that pack
+    library: {
+      name: ['Girder', '[name]'],
+      type: 'var',
+      export: 'default'
+    }
   },
   resolve: {
     extensions: [
