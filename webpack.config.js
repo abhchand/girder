@@ -107,31 +107,45 @@ const config = {
       }
     }
   },
+  /*
+   * Define entrypoints to build various "packs".
+   *
+   * Each pack consists of a JS file and a CSS file. Webpack allows specifying
+   * multiple imports so ideally we would do:
+   *
+   *    {
+   *      import: [
+   *        '/path/to/flie.js',
+   *        '/path/to/flie.css'
+   *      ],
+   *      dependOn: 'common'
+   *    }
+   *
+   * However we need to have a singular import so that the return value can
+   * be set as the library value above (in `output.library.name`).
+   *
+   * So instead, we only bundle the JS file here and `import` the CSS file
+   * inside the JS file.
+   *
+   *      * The imported CSS file will be loaded by the `MiniCssExtractPlugin`
+   *        loader below
+   *
+   *      * The compiled file will be fingerprinted by the `MiniCssExtractPlugin`
+   *        plugin below
+   */
   entry: {
     admin: {
-      import: [
-        `${ASSETS_DIR}/javascript/packs/admin.js`,
-        `${ASSETS_DIR}/stylesheets/packs/admin.scss`
-      ],
+      import: `${ASSETS_DIR}/javascript/packs/admin.js`,
       dependOn: 'common'
     },
     auth: {
-      import: [
-        `${ASSETS_DIR}/javascript/packs/auth.js`,
-        `${ASSETS_DIR}/stylesheets/packs/auth.scss`
-      ],
+      import: `${ASSETS_DIR}/javascript/packs/auth.js`,
       dependOn: 'common'
     },
-    common: [
-      `${ASSETS_DIR}/javascript/packs/common.js`,
-      `${ASSETS_DIR}/stylesheets/packs/common.scss`
-    ],
-    i18n: [`${ASSETS_DIR}/javascript/packs/i18n.js`],
+    common: `${ASSETS_DIR}/javascript/packs/common.js`,
+    i18n: `${ASSETS_DIR}/javascript/packs/i18n.js`,
     'users-index': {
-      import: [
-        `${ASSETS_DIR}/javascript/packs/users-index.js`,
-        `${ASSETS_DIR}/stylesheets/packs/users-index.scss`
-      ],
+      import: `${ASSETS_DIR}/javascript/packs/users-index.js`,
       dependOn: 'common'
     }
   },
@@ -226,9 +240,8 @@ const config = {
     new webpack.EnvironmentPlugin(['NODE_ENV']),
     new CaseSensitivePathsPlugin(),
     new MiniCssExtractPlugin({
-      filename: testMode || devMode ? '[name].css' : '[name]-[contenthash].css',
-      chunkFilename:
-        testMode || devMode ? '[id].chunk.css' : '[id]-[contenthash].chunk.css'
+      filename: '[name]-[contenthash].css',
+      chunkFilename: '[id]-[contenthash].chunk.css'
     }),
     new CopyPlugin({
       patterns: [

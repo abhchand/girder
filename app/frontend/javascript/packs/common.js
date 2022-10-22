@@ -15,3 +15,9 @@ import 'javascript/components/example';
 import 'javascript/components/product_feedback_form';
 
 import 'javascript/mount-react-component';
+
+/*
+ * Import CSS for this pack
+ * This will be extracted into a separate file by the webpack build
+ */
+import '../../stylesheets/packs/common.scss';
