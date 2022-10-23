@@ -198,6 +198,21 @@ en:
     users:
       index:
         heading: Users
+        table:
+          header:
+            name: Name
+            email: Email
+            role: Role
+            status: Status
+            actions: Actions
+          actions:
+            delete_user: Remove
+            make_admin: Make Admin
+            remove_admin: Remove Admin
+            resend_invitation: Resend Invitation
+          status:
+            active: Active
+            invited: Invited
     user_roles:
       update_service:
         invalid_roles: One or more role names are invalid

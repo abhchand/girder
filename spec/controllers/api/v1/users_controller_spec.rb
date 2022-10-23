@@ -495,4 +495,197 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let(:admin) { create(:user, :admin) }
+    let(:user) { create(:user) }
+
+    let(:params) do
+      {
+        format: 'json',
+        id: user.synthetic_id
+      }
+    end
+
+    before do
+      sign_in(admin)
+      stub_ability(admin).can(:write, User)
+    end
+
+    context 'admin does not have permissions to write the user' do
+      before { stub_ability(admin).cannot(:write, User) }
+
+      it 'responds with an error' do
+        delete :destroy, params: params
+
+        expect(response.status).to eq(403)
+        expect(JSON.parse(response.body)['errors']).to eq(
+          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+        )
+      end
+    end
+
+    describe 'User record is not found' do
+      before { params[:id] = -1 }
+
+      it 'responds with an error' do
+        delete :destroy, params: params
+
+        expect(response.status).to eq(404)
+        expect(JSON.parse(response.body)['errors']).to eq(
+          [
+            {
+              'title' => 'Record Not Found',
+              'description' => "Couldn't find User with 'id'=-1",
+              'status' => '404'
+            }
+          ]
+        )
+      end
+    end
+
+    describe 'deleting the user' do
+      it 'deletes the user and responds successfully' do
+        delete :destroy, params: params
+
+        expect(User.find_by_id(user.id)).to be_nil
+
+        expect(response.status).to eq(200)
+        expect(response.body).to eq('')
+      end
+
+      context 'admin is trying to delete themselves' do
+        let(:user) { admin }
+
+        it 'does not allow the action' do
+          expect do
+            delete :destroy, params: params
+          end.to_not change { User.count }
+
+          expect(response.status).to eq(400)
+          expect(response.body).to eq('')
+        end
+      end
+    end
+  end
+
+  describe 'POST #add_admin' do
+    let(:admin) { create(:user, :admin) }
+    let(:user) { create(:user) }
+
+    let(:params) do
+      {
+        format: 'json',
+        user_id: user.synthetic_id
+      }
+    end
+
+    before do
+      sign_in(admin)
+      stub_ability(admin).can(:write, User)
+    end
+
+    context 'admin does not have permissions to write the user' do
+      before { stub_ability(admin).cannot(:write, User) }
+
+      it 'responds with an error' do
+        post :add_admin, params: params
+
+        expect(response.status).to eq(403)
+        expect(JSON.parse(response.body)['errors']).to eq(
+          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+        )
+      end
+    end
+
+    describe 'User record is not found' do
+      before { params[:user_id] = -1 }
+
+      it 'responds with an error' do
+        post :add_admin, params: params
+
+        expect(response.status).to eq(404)
+        expect(JSON.parse(response.body)['errors']).to eq(
+          [
+            {
+              'title' => 'Record Not Found',
+              'description' => "Couldn't find User with 'id'=-1",
+              'status' => '404'
+            }
+          ]
+        )
+      end
+    end
+
+    describe 'adding an admin' do
+      it 'makes the user an admin and responds successfully' do
+        expect do
+          post :add_admin, params: params
+        end.to change { user.reload.has_role?('admin') }.from(false).to(true)
+
+        expect(response.status).to eq(200)
+        expect(response.body).to eq('')
+      end
+    end
+  end
+
+  describe 'POST #remove_admin' do
+    let(:admin) { create(:user, :admin) }
+    let(:user) { create(:user, :admin) }
+
+    let(:params) do
+      {
+        format: 'json',
+        user_id: user.synthetic_id
+      }
+    end
+
+    before do
+      sign_in(admin)
+      stub_ability(admin).can(:write, User)
+    end
+
+    context 'admin does not have permissions to write the user' do
+      before { stub_ability(admin).cannot(:write, User) }
+
+      it 'responds with an error' do
+        post :remove_admin, params: params
+
+        expect(response.status).to eq(403)
+        expect(JSON.parse(response.body)['errors']).to eq(
+          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+        )
+      end
+    end
+
+    describe 'User record is not found' do
+      before { params[:user_id] = -1 }
+
+      it 'responds with an error' do
+        post :remove_admin, params: params
+
+        expect(response.status).to eq(404)
+        expect(JSON.parse(response.body)['errors']).to eq(
+          [
+            {
+              'title' => 'Record Not Found',
+              'description' => "Couldn't find User with 'id'=-1",
+              'status' => '404'
+            }
+          ]
+        )
+      end
+    end
+
+    describe 'adding an admin' do
+      it 'makes the user an admin and responds successfully' do
+        expect do
+          post :remove_admin, params: params
+        end.to change { user.reload.has_role?('admin') }.from(true).to(false)
+
+        expect(response.status).to eq(200)
+        expect(response.body).to eq('')
+      end
+    end
+  end
 end

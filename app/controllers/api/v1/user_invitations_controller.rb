@@ -18,6 +18,18 @@ class Api::V1::UserInvitationsController < Api::BaseController
     render json: json, status: :ok
   end
 
+  def resend
+    user_invitation = UserInvitation.find(params[:user_invitation_id])
+
+    authorize! :write, user_invitation
+
+    (head :bad_request and return) unless user_invitation.pending?
+
+    UserInvitationMailer.delay.invite(user_invitation.id)
+
+    head :ok
+  end
+
   private
 
   def search(user_invitations)

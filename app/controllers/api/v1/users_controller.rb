@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action :user, only: %i[show update]
+  before_action :user, only: %i[show update destroy]
 
   def index
     authorize! :read, :users
@@ -45,6 +45,32 @@ class Api::V1::UsersController < Api::BaseController
     end
 
     render json: json, status: status
+  end
+
+  def destroy
+    authorize! :write, user
+
+    (head :bad_request and return) if user == current_user
+
+    user.destroy!
+
+    head :ok
+  end
+
+  def add_admin
+    authorize! :write, user
+
+    user.add_role('admin')
+
+    head :ok
+  end
+
+  def remove_admin
+    authorize! :write, user
+
+    user.remove_role('admin')
+
+    head :ok
   end
 
   private

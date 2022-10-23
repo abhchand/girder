@@ -213,4 +213,86 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #resend' do
+    let(:params) { { format: 'json' } }
+
+    let(:admin) { create(:user, :admin) }
+    let(:user_invitation) { create(:user_invitation, inviter: admin) }
+
+    let(:params) do
+      {
+        format: 'json',
+        user_invitation_id: user_invitation.id
+      }
+    end
+
+    before do
+      sign_in(admin)
+      stub_ability(admin).can(:write, UserInvitation)
+    end
+
+    context 'admin does not have permissions to write the user invitation' do
+      before { stub_ability(admin).cannot(:write, UserInvitation) }
+
+      it 'responds with an error' do
+        post :resend, params: params
+
+        expect(response.status).to eq(403)
+        expect(JSON.parse(response.body)['errors']).to eq(
+          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+        )
+      end
+    end
+
+    describe 'User record is not found' do
+      before { params[:user_invitation_id] = -1 }
+
+      it 'responds with an error' do
+        post :resend, params: params
+
+        expect(response.status).to eq(404)
+        expect(JSON.parse(response.body)['errors']).to eq(
+          [
+            {
+              'title' => 'Record Not Found',
+              'description' => "Couldn't find UserInvitation with 'id'=-1",
+              'status' => '404'
+            }
+          ]
+        )
+      end
+    end
+
+    describe 'invitation is not pending' do
+      let(:user_invitation) do
+        create(:user_invitation, :signed_up, inviter: admin)
+      end
+
+      it 'returns a 400 bad request' do
+        expect do
+          post :resend, params: params
+        end.to_not change { mailer_queue.size }
+
+        expect(response.status).to eq(400)
+        expect(response.body).to eq('')
+      end
+    end
+
+    describe 'invitation is not pending' do
+      it 'resends the invitation and responds successfully' do
+        expect do
+          post :resend, params: params
+        end.to change { mailer_queue.size }.from(0).to(1)
+
+        email = mailer_queue.last
+        expect(email[:klass]).to eq(UserInvitationMailer)
+        expect(email[:method]).to eq(:invite)
+        expect(email[:args][:user_invitation_id]).to eq(user_invitation.id)
+
+        expect(response.status).to eq(200)
+        expect(response.body).to eq('')
+      end
+    end
+  end
 end
