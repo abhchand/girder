@@ -4,7 +4,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     should_run_webpack =
       RSpec.world.registered_example_group_files.any? do |f|
-        f =~ %r{spec\/(features|views)}
+        f =~ %r{spec\/(features)}
       end
 
     if should_run_webpack
