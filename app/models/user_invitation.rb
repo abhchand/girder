@@ -18,4 +18,12 @@ class UserInvitation < ApplicationRecord
 
   scope :pending, -> { where(invitee: nil) }
   scope :completed, -> { where.not(invitee: nil) }
+
+  def pending?
+    invitee.blank?
+  end
+
+  def completed?
+    invitee.present?
+  end
 end
