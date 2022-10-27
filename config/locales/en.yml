@@ -235,66 +235,6 @@ en:
     accordion_table:
       row:
         arrow_title: Expand
-    admin_user_invitation_list:
-      header:
-        email: Email
-        invited_at: Invited At
-        delete_user_invitation:
-          icon_title: Delete Invitation
-      create_user_invitation:
-        button_label: Invite User
-      create_user_invitation_modal:
-        heading: Invite User
-        body: Enter an email address to be invited. They will receive an email with an invitation link.
-        buttons:
-          submit: Invite
-          close: Cancel
-      delete_user_invitation_modal:
-        heading: Confirm deletion
-        body: Delete invitation for %{email}?
-        buttons:
-          submit: Delete
-          close: Cancel
-    admin_deactivated_user_list:
-      header:
-        name: Name
-        email: Email
-        last_signed_in: Last Active
-        activate_user:
-          icon_title: Re-activate User
-      activate_user_modal:
-        heading: Confirm re-activation
-        body: Re-activate %{name}?
-        buttons:
-          submit: Re-activate
-          close: Cancel
-    admin_user_list:
-      header:
-        name: Name
-        email: Email
-        role: Role
-        last_signed_in: Last Active
-        deactivate_user:
-          icon_title: Delete User
-      update_user_role:
-        icon_title: Edit Roles
-      update_user_role_modal:
-        heading: Manage Roles for %{first_name}
-        body: Please select the roles that apply to this user
-        buttons:
-          submit: Update
-          close: Close
-      deactivate_user_modal:
-        heading: Confirm deletion
-        body: Delete %{name}?
-        buttons:
-          submit: Delete
-          close: Cancel
-    admin_user_manager:
-      tabs:
-        users: Users
-        user_invitations: Invitations
-        deactivated_users: Deactivated
     modal:
       buttons:
         submit: Submit
