@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:email) { |n| "email-#{n}@atl.gov" }
     inviter factory: :user
 
-    trait :signed_up do
+    trait :completed do
       invitee factory: :user
     end
   end

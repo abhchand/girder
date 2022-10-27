@@ -21,7 +21,7 @@ RSpec.describe User do
     end
 
     describe '#invitee_id' do
-      subject { create(:user_invitation, :signed_up) }
+      subject { create(:user_invitation, :completed) }
 
       it { should_not validate_presence_of(:invitee_id) }
       it { should validate_uniqueness_of(:invitee_id) }

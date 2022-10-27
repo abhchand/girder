@@ -266,7 +266,7 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
 
     describe 'invitation is not pending' do
       let(:user_invitation) do
-        create(:user_invitation, :signed_up, inviter: admin)
+        create(:user_invitation, :completed, inviter: admin)
       end
 
       it 'returns a 400 bad request' do
