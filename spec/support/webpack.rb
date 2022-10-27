@@ -16,7 +16,7 @@ RSpec.configure do |config|
       end
 
       puts 'Running webpack...'
-      Dir.chdir(Rails.root) { system 'yarn run test-build' }
+      Dir.chdir(Rails.root) { system 'yarn run build:test' }
     end
   end
 end

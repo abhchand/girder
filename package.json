@@ -7,9 +7,9 @@
     "testonly": "TZ='UTC' jest --no-cache --config spec/frontend/javascript/jest.config.js",
     "test": "yarn run lint && yarn run testonly",
     "dev": "NODE_ENV=development webpack-dev-server --output-pathinfo",
-    "test-build": "NODE_ENV=test webpack --config webpack.config.js",
-    "dev-build": "NODE_ENV=development webpack --config webpack.config.js",
-    "prod-build": "NODE_ENV=production webpack --config webpack.config.js"
+    "build:test": "NODE_ENV=test webpack --config webpack.config.js",
+    "build:dev": "NODE_ENV=development webpack --config webpack.config.js",
+    "build:prod": "NODE_ENV=production webpack --config webpack.config.js"
   },
   "author": "Abhishek Chandrasekhar <me@abhchand.me>",
   "license": "MIT",
