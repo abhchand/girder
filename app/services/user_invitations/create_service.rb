@@ -46,11 +46,9 @@ class UserInvitations::CreateService
   end
 
   def create_user_invitation
-    Audited.audit_class.as_user(context.current_user) do
-      user_invitation.attributes = context.params
-      user_invitation.inviter = context.current_user
-      return user_invitation.save
-    end
+    user_invitation.attributes = context.params
+    user_invitation.inviter = context.current_user
+    return user_invitation.save
   end
 
   def handle_already_invited

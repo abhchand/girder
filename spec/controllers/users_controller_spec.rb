@@ -58,16 +58,6 @@ RSpec.describe UsersController, type: :controller do
         expect(response.status).to eq(200)
         expect(response.body).to eq('{}')
       end
-
-      it 'audits the deactivation of the record' do
-        delete :destroy, params: params
-
-        audit = user.audits.last
-
-        expect(audit.action).to eq('update')
-        expect(audit.audited_changes.keys).to include('deactivated_at')
-        expect(audit.user).to eq(admin)
-      end
     end
 
     describe 'removing roles' do
@@ -83,24 +73,6 @@ RSpec.describe UsersController, type: :controller do
 
         expect(response.status).to eq(200)
         expect(response.body).to eq('{}')
-      end
-
-      it 'audits the removal of the roles' do
-        delete :destroy, params: params
-
-        # The order of audits will be
-        #   - Removing role `director`
-        #   - Removing role `manager`
-        #   - Deactivating user
-        audit = user.audits.last(3)
-
-        expect(audit[0].action).to eq('update')
-        expect(audit[0].audited_changes.keys).to include('audited_roles')
-        expect(audit[0].user).to eq(admin)
-
-        expect(audit[1].action).to eq('update')
-        expect(audit[1].audited_changes.keys).to include('audited_roles')
-        expect(audit[1].user).to eq(admin)
       end
     end
 

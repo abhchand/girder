@@ -12,7 +12,6 @@ gem 'inline_svg', '~> 1.5', '>= 1.5.2'
 #
 # Back End
 #
-gem 'audited', '~> 5.0', '>= 5.0.2'
 gem 'bcrypt', '~> 3.1', '>= 3.1.10'
 gem 'cancancan', '~> 3.4'
 gem 'devise', '~> 4.8', '>= 4.8.1'

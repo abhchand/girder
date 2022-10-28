@@ -47,7 +47,7 @@ FactoryBot.define do
         user.avatar.attach(io: file, filename: e.avatar_name)
       end
 
-      user.add_role(:admin, modifier: user) if e.add_admin_role
+      user.add_role(:admin) if e.add_admin_role
     end
   end
 end

@@ -10,22 +10,6 @@ RSpec.describe UserInvitations::MarkAsComplete do
     expect { call }.to change { invitation.reload.invitee }.from(nil).to(user)
   end
 
-  it 'audits the change' do
-    invitation
-
-    expect { call }.to(change { Audited::Audit.count }.by(1))
-
-    audit = Audited::Audit.last
-
-    expect(audit.auditable).to eq(invitation)
-    expect(audit.user).to eq(user)
-    expect(audit.action).to eq('update')
-    expect(audit.audited_changes).to eq('invitee_id' => [nil, user.id])
-    expect(audit.version).to eq(2)
-    expect(audit.request_uuid).to_not be_nil
-    expect(audit.remote_address).to be_nil
-  end
-
   it 'calls UserInvitations::NotifyInviterOfCompletion' do
     invitation
 
@@ -37,7 +21,7 @@ RSpec.describe UserInvitations::MarkAsComplete do
     it 'does nothing' do
       user
 
-      expect { call }.to_not(change { Audited::Audit.count })
+      expect { call }.to_not raise_error
     end
 
     it 'does not call UserInvitations::NotifyInviterOfCompletion' do

@@ -46,7 +46,6 @@ Rails.application.routes.draw do
   resources :admin, only: %i[index]
 
   namespace :admin do
-    resources :audits, only: %i[index]
     resources :users, only: %i[index]
     resources :user_roles, only: %i[update]
   end

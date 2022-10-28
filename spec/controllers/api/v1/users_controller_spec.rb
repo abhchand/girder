@@ -445,27 +445,6 @@ RSpec.describe Api::V1::UsersController, type: :controller do
           expect(user.last_name).to eq('Whitman')
         end
 
-        it 'audits the update' do
-          params[:user][:first_name] = 'Mae'
-          params[:user][:last_name] = 'Whitman'
-
-          expect { post :update, params: params }.to(
-            change { Audited::Audit.count }.by(1)
-          )
-
-          audit = Audited::Audit.last
-
-          expect(audit.auditable).to eq(user)
-          expect(audit.user).to eq(user)
-          expect(audit.action).to eq('update')
-          expect(audit.audited_changes).to eq(
-            'first_name' => %w[Dante Mae], 'last_name' => %w[Basco Whitman]
-          )
-          expect(audit.version).to eq(3)
-          expect(audit.request_uuid).to_not be_nil
-          expect(audit.remote_address).to_not be_nil
-        end
-
         it 'can not remove the first or last names' do
           params[:user][:first_name] = nil
           params[:user][:last_name] = nil

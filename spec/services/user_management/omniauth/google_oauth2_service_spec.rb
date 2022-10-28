@@ -36,16 +36,6 @@ RSpec.describe UserManagement::Omniauth::GoogleOauth2Service,
     expect(result.log).to be_nil
   end
 
-  it 'audits the creation of the record' do
-    result = call
-
-    user = result.user
-    audit = user.audits.last
-
-    expect(audit.action).to eq('create')
-    expect(audit.user).to be_nil
-  end
-
   it "fails when the auth doens't exist" do
     result = nil
     expect { result = call(auth: nil) }.to_not(change { User.count })

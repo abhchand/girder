@@ -29,10 +29,10 @@ class Admin::UserRoles::UpdateService
 
   def update_roles!
     (new_roles - current_roles).each do |role|
-      user.add_role(role, modifier: @current_user)
+      user.add_role(role)
     end
     (current_roles - new_roles).each do |role|
-      user.remove_role(role, modifier: @current_user)
+      user.remove_role(role)
     end
   end
 

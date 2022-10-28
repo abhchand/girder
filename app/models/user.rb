@@ -4,13 +4,6 @@ class User < ApplicationRecord
   }.freeze
 
   OMNIAUTH_PROVIDERS = %w[google_oauth2].freeze
-  DO_NOT_AUDIT = %i[
-    sign_in_count
-    last_sign_in_at
-    last_sign_in_ip
-    current_sign_in_at
-    current_sign_in_ip
-  ].freeze
 
   devise :database_authenticatable,
          :confirmable,
@@ -22,11 +15,9 @@ class User < ApplicationRecord
          :omniauthable,
          omniauth_providers: OMNIAUTH_PROVIDERS
 
-  audited except: DO_NOT_AUDIT
   rolify
 
   include HasSyntheticId
-  include HasAuditableRoles
 
   # rubocop:disable Metrics/LineLength
   has_many :photos,

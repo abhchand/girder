@@ -98,16 +98,6 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
 
     before { request.env['devise.mapping'] = Devise.mappings[:user] }
 
-    it 'audits the creation of the record' do
-      post :create, params: params
-
-      user = User.last
-      audit = user.audits.last
-
-      expect(audit.action).to eq('create')
-      expect(audit.user).to be_nil
-    end
-
     context 'a UserInvitation record exists with this email' do
       let!(:invitation) do
         create(:user_invitation, email: params[:user][:email])
