@@ -79,5 +79,5 @@ group :test do
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
   gem 'rake'
   gem 'selenium-webdriver', '~> 4.5.0'
-  gem 'shoulda-matchers', '~> 4.0', '>= 4.0.1', require: false
+  gem 'shoulda-matchers', '~> 5.0', require: false
 end
