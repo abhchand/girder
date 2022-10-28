@@ -31,11 +31,13 @@ RSpec.feature 'Mobile Navigation', type: :feature do
 
       it 'user can close the menu by clicking the overlay' do
         # The overlay is 400x730 in size (100% filling the mobile window)
-        # `click` by default clicks on the center of the element, but in this
-        # case the overlay is covered by the menu itself and is not clickable
-        # Manually specify a coordinate *offset* to click on
-
-        find('.mobile-navigation__overlay').click(x: 200, y: 600)
+        # `click` by default clicks on the center of the element (200, 365). But
+        # the overlay is covered by the menu itself and is not clickable at its
+        # midpoint.
+        #
+        # So we manually specify a coordinate *offset* relative to the
+        # midpoint to click on: 150px to the right
+        find('.mobile-navigation__overlay').click(x: 150, y: 0)
         expect_mobile_menu_is_closed
       end
     end
