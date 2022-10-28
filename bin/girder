@@ -63,7 +63,7 @@ case "$1" in
     ;;
 
   reset)
-    CONTAINERS=$(docker ps -a | grep avalance | cut -d' ' -f1)
+    CONTAINERS=$(docker ps -a | grep girder | cut -d' ' -f1)
     IMAGES=$(docker image ls | grep girder | awk '{print $3}')
     VOLUMES=$(docker volume ls | grep girder | awk '{print $2}')
 
