@@ -68,10 +68,6 @@ Rails.application.routes.draw do
 
   resources :product_feedbacks, only: :create
 
-  namespace :account do
-    resources :profile, only: :index
-  end
-
   resources :users, only: %i[index destroy]
 
   resources :user_invitations, only: %i[create destroy]
