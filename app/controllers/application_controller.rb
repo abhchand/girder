@@ -12,6 +12,14 @@ class ApplicationController < ActionController::Base
 
   helper_method :view_context
 
+  rescue_from Exception do |_exception|
+    render plain: '500 Internal Server Error', status: 500
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do |_exception|
+    render plain: '404 Not Found', status: 404
+  end
+
   private
 
   def ensure_json_request
