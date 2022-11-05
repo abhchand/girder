@@ -2,8 +2,8 @@
 
 import {
   addAdmin,
-  removeAdmin,
   deleteUser,
+  removeAdmin,
   resendUserInvitation
 } from 'javascript/admin/users/index';
 

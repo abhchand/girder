@@ -98,8 +98,10 @@ class Modal extends React.Component {
 
     const self = this;
 
-    // Automatically close the modal and unregister the async process
-    // after running `onSubmit` (regardless of success or error)
+    /*
+     * Automatically close the modal and unregister the async process
+     * after running `onSubmit` (regardless of success or error)
+     */
     result
       .then(() => {
         self.close();
