@@ -75,7 +75,7 @@ class FilterTable extends React.Component {
       isLoading: true,
       fetchFailed: false,
       lastRefreshedAt: null,
-      shouldRefresh: true
+      shouldRefresh: false
     };
   }
 
