@@ -23,17 +23,55 @@ class BaseModel {
   }
 
   /**
-   * Serialize a model.
-   * @method serialize
-   * @param {object} opts The options for serialization.  Available properties:
+   * Serialize a collection of models into a JSONAPI object
+   */
+  static toJsonApi(collection) {
+    return {
+      data: collection.map((c) => c.serialize()),
+      included: null,
+      links: {},
+      meta: {
+        totalCount: collection.length
+      }
+    };
+  }
+
+  /**
+   * Serialize a single model into a JSONAPI object
+   */
+  toJsonApi() {
+    return {
+      data: this.serialize(),
+      included: null,
+      links: {},
+      meta: {
+        totalCount: 1
+      }
+    };
+  }
+
+  /**
+   * Serialize a model into a JSONAPI *data* object.
    *
-   *  - `{array=}` `attributes` The list of attributes to be serialized (default: all attributes).
-   *  - `{array=}` `relationships` The list of relationships to be serialized (default: all relationships).
+   * That is, this specifically represents the `data` key that would be in a
+   * JSONAPI object
+   *
+   *  {
+   *    "type": "articles",
+   *    "id": "1",
+   *    "attributes": {
+   *      "title": "JSON:API paints my bikeshed!"
+   *    }
+   *  }
+   *
+   * @param {object} opts The options for serialization.
+   *  - `attributes` The list of attributes to be serialized (default: all attributes)
+   *  - `relationships` The list of relationships to be serialized (default: all relationships)
    * @return {object} JSONAPI-compliant object
    */
   serialize(opts) {
     let self = this,
-      res = { data: { type: this._type } },
+      res = { type: this._type },
       key;
 
     opts = opts || {};
@@ -41,17 +79,17 @@ class BaseModel {
     opts.relationships = opts.relationships || this._relationships;
 
     if (this.id !== undefined) {
-      res.data.id = this.id;
+      res.id = this.id;
     }
     if (opts.attributes.length !== 0) {
-      res.data.attributes = {};
+      res.attributes = {};
     }
     if (opts.relationships.length !== 0) {
-      res.data.relationships = {};
+      res.relationships = {};
     }
 
     opts.attributes.forEach((key) => {
-      res.data.attributes[key] = self[key];
+      res.attributes[key] = self[key];
     });
 
     opts.relationships.forEach((key) => {
@@ -59,13 +97,13 @@ class BaseModel {
         return { type: model._type, id: model.id };
       }
       if (!self[key]) {
-        res.data.relationships[key] = { data: null };
+        res.relationships[key] = { data: null };
       } else if (self[key].constructor === Array) {
-        res.data.relationships[key] = {
+        res.relationships[key] = {
           data: self[key].map(relationshipIdentifier)
         };
       } else {
-        res.data.relationships[key] = {
+        res.relationships[key] = {
           data: relationshipIdentifier(self[key])
         };
       }
