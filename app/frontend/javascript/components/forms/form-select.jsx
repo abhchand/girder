@@ -36,9 +36,17 @@ class FormSelect extends React.Component {
     const { onChange, options } = this.props;
     const { selectId } = this.state;
 
-    // As a convenience, pass both the id and value of the selected option
-    const selectValue = options.find((o) => o.id == selectId).value;
+    const selectValue = options.find((o) => {
+      /*
+       * Blank options have an `id` of `null`, but the selected value gets parsed
+       * as blank string
+       */
+      const id = selectId == '' ? null : selectId;
 
+      return o.id == id;
+    }).value;
+
+    // As a convenience, pass both the id and value of the selected option
     if (onChange) onChange(selectId, selectValue);
   }
 
@@ -55,7 +63,7 @@ class FormSelect extends React.Component {
       <select
         id={`${namespace}_${field}`}
         name={`${namespace}[${field}]`}
-        onBlur={this.onChange}
+        onChange={this.onChange}
         defaultValue={this.state.selectId}>
         {
           options.map((option, _i) => {
