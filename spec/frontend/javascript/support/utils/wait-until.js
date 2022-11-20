@@ -5,7 +5,7 @@ const waitUntil = (condition) => {
       if (condition()) {
         return resolve();
       }
-      setTimeout(waitForCondition, 100, condition);
+      setTimeout(waitForCondition, 50, condition);
     })(condition);
   });
 };
