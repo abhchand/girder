@@ -3,10 +3,19 @@ import React from 'react';
 
 class FormInput extends React.Component {
   static propTypes = {
+    // The field name e.g. `model_name[field_name]`
     field: PropTypes.string.isRequired,
     initialValue: PropTypes.string,
+    isError: PropTypes.bool,
+    // The model name e.g. `model_name[field_name]`
     namespace: PropTypes.string.isRequired,
+    // A handler that will be called when the input value changes
     onChange: PropTypes.func
+  };
+
+  static defaultProps = {
+    initialValue: '',
+    isError: false
   };
 
   constructor(props) {
@@ -21,10 +30,10 @@ class FormInput extends React.Component {
   }
 
   afterChange() {
-    const { onChange } = this.props;
+    const { field, namespace, onChange } = this.props;
     const { inputValue } = this.state;
 
-    if (onChange) onChange(inputValue);
+    if (onChange) onChange(inputValue, namespace, field);
   }
 
   onChange(e) {
@@ -34,11 +43,13 @@ class FormInput extends React.Component {
   }
 
   render() {
-    const { field, namespace } = this.props;
+    const { field, isError, namespace } = this.props;
+
+    const errorClass = isError ? 'input--error' : 'input-highlight-on-focus';
 
     return (
       <input
-        className='input-highlight-on-focus'
+        className={errorClass}
         onChange={this.onChange}
         value={this.state.inputValue}
         type='input'

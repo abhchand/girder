@@ -45,6 +45,11 @@ input[type="checkbox"] {
   }
 }
 
+.input--error {
+  border-color: $red;
+  box-shadow: 0 0 3px $red;
+}
+
 ::-webkit-input-placeholder { text-transform: lowercase; }
 ::-moz-placeholder { text-transform: lowercase; }
 
