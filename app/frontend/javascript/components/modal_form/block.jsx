@@ -8,11 +8,13 @@ const Block = (props) => {
     <div className='modal-form__block' data-for={props.labelFor}>
       <label htmlFor={props.labelFor}>{props.label}</label>
 
-      <div className='modal-form__block-element'>
-        {props.children}
-      </div>
+      <div className='modal-form__block-element-container'>
+        <div className='modal-form__block-element'>
+          {props.children}
+        </div>
 
-      {props.errorText && <ModalError text={props.errorText} />}
+        {props.errorText && <ModalError text={props.errorText} />}
+      </div>
     </div>
   );
 };

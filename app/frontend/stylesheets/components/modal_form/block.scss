@@ -15,7 +15,10 @@
     text-overflow: ellipsis;
   }
 }
-
+.modal-form__block-element-container {
+  display: flex;
+  flex-flow: column nowrap;
+}
 .modal-form__block-element {
   input, select, textarea {
     display: block;
