@@ -19,6 +19,7 @@ Build the app:
 docker-compose up
 
 # FrontEnd
+nvm use
 yarn install
 yarn run dev
 ```
