@@ -76,6 +76,11 @@ rspec:
     # See: https://github.com/thoughtbot/capybara-webkit#ci
     - xvfb-run -a bundle exec rspec
 
-rubocop:
+jest:
+  script:
+    - yarn run testonly
+
+lint:
   script:
     - bundle exec rubocop
+    # - yarn run lint  # Need to fix lint issues before un-commenting
