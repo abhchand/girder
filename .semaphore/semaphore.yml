@@ -1,0 +1,122 @@
+version: v1.0
+name: Girder Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+global_job_config:
+  prologue:
+    commands:
+      - checkout
+blocks:
+  - name: Unit Tests
+    task:
+      env_vars:
+        - name: DATABASE_URL
+          value: postgresql://postgres:@0.0.0.0:5432/girder_test
+        # See: https://github.com/DatabaseCleaner/database_cleaner#safeguards
+        - name: DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL
+          value: 'true'
+        - name: RAILS_ENV
+          value: test
+        - name: RUNNING_ON_CI_SERVER
+          value: '1'
+      prologue:
+        commands:
+          # Frontend Setup
+          - cache restore node-$(checksum yarn.lock)
+          - nvm use
+          - yarn install --production=false
+
+          # Backend setup
+          - cache restore gems-$(checksum Gemfile.lock)
+          - sem-version ruby $(cat .ruby-version | xargs)
+          - gem install --no-document bundler -v 2.3.14
+          - bundle install --deployment --path vendor/bundle
+
+          - cache store
+      jobs:
+        - name: rspec
+          commands:
+            # Add Google Chrome's repo to sources list
+            - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list
+
+            # Install Google's public key used for signing packages (e.g. Chrome)
+            # (Source: http://www.google.com/linuxrepositories/)
+            - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+
+            # System
+            - sudo apt-get update -qq
+
+            # Google Chrome
+            # Google does not make it easy to install versions outside of the latest stable
+            # See: https://stackoverflow.com/a/56842239/2490003
+            - sudo apt-get -y -qq install libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
+            - sudo apt-get -y -qq install google-chrome-stable
+            - which google-chrome
+            - google-chrome --version
+
+            # Uninstall Semaphore's Chromedriver
+            - sudo rm $(which chromedriver)
+
+            # Chromedriver
+            # All versions can be found here: http://chromedriver.storage.googleapis.com/
+            #
+            # This needs to be periodically updated to match the version of Google Chrome
+            # installed above
+            - sudo apt-get install unzip
+            - wget -N https://chromedriver.storage.googleapis.com/108.0.5359.71/chromedriver_linux64.zip -P /tmp
+            - unzip /tmp/chromedriver_linux64.zip -d /tmp
+            - chmod +x /tmp/chromedriver
+            - sudo mv -f /tmp/chromedriver /usr/local/share/chromedriver
+            - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+            - sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+            - which chromedriver
+            - chromedriver --version
+
+            # Dependencies to make "headless" chrome/selenium work:
+            - sudo apt-get -y -qq install xvfb gtk2-engines-pixbuf
+            - sudo apt-get -y -qq install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
+
+            # Xvfb
+            - sudo apt-get install -y -qq xvfb
+
+            # Required specifically for json v1.8.3
+            # See: https://stackoverflow.com/a/35384604/10252006
+            - sudo apt-get install -y -qq libgmp3-dev
+
+            # Database Setup
+            - sem-service start postgres 12
+            - bundle exec rake db:create
+            - bundle exec rake db:schema:load
+
+            # Run Tests
+            # See: https://github.com/thoughtbot/capybara-webkit#ci
+            - xvfb-run -a bundle exec rspec
+            - cache store gems-$(checksum Gemfile.lock) vendor/bundle
+        - name: jest
+          commands:
+            - yarn run testonly
+            - cache store node-$(checksum yarn.lock) node_modules
+
+  - name: Lint
+    task:
+      prologue:
+        commands:
+          # Frontend Setup
+          - cache restore node-$(checksum yarn.lock)
+          - nvm use
+          - yarn install --production=false
+
+          # Backend setup
+          - cache restore gems-$(checksum Gemfile.lock)
+          - sem-version ruby $(cat .ruby-version | xargs)
+          - gem install --no-document bundler -v 2.3.14
+          - bundle install --deployment --path vendor/bundle
+      jobs:
+        - name: rubocop
+          commands:
+            - bundle exec rubocop
+        - name: eslint/stylelint
+          commands:
+            - yarn run lint
