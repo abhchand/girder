@@ -5,15 +5,6 @@ const closeModal = async (wrapper, appliance) => {
   await closeBtn.simulate('click');
 }
 
-const openModal = async (wrapper, appliance) => {
-  const row = wrapper.find(
-    `.filter-table__table tbody tr[data-id='${appliance.id}']`
-  );
-
-  const submitBtn = row.find('.actions button');
-  await submitBtn.simulate('click');
-}
-
 const expectModalIsClosed = (wrapper) => {
   expect(wrapper.exists('.modal')).to.eql(false);
 }
@@ -33,7 +24,6 @@ const modalSubmitBtn = (wrapper) => {
 
 export {
   closeModal,
-  openModal,
   expectModalIsClosed,
   expectModalIsOpen,
   modalErrorForBlock,
