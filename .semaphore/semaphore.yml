@@ -96,7 +96,7 @@ blocks:
             - cache store gems-$(checksum Gemfile.lock) vendor/bundle
         - name: jest
           commands:
-            - yarn run testonly
+            - yarn run test
             - cache store node-$(checksum yarn.lock) node_modules
 
   - name: Lint
