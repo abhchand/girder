@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-const closeModal = async (wrapper, appliance) => {
+const closeModal = async (wrapper) => {
   const closeBtn = wrapper.find('.modal-content__button--close');
   await closeBtn.simulate('click');
 }
