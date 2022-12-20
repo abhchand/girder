@@ -12,6 +12,11 @@ module FeatureHelpers
   end
 
   def expect_filter_table_records_to_be(records)
+    # First wait for the table to update
+    wait_for do
+      page.all('.filter-table__table tbody tr').count == records.size
+    end
+
     actual = page.all('.filter-table__table tbody tr').map { |r| r['data-id'] }
 
     if records[0].class.name == 'UserInvitation'
