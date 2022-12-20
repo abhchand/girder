@@ -110,7 +110,6 @@ class FilterTable extends React.Component {
       .then((response) => {
         const collection = response.data;
         const pageParam = (collection.links.last || '').match(
-          // eslint-disable-next-line prefer-named-capture-group
           /page=(\d+)/iu
         ) || [null, 0];
         const displayedItems = self.props.mapResponseDataToItems(

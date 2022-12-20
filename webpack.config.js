@@ -1,4 +1,3 @@
-/* eslint-disable prefer-named-capture-group */
 /* eslint-disable no-process-env */
 
 const testMode = process.env.NODE_ENV === 'test';

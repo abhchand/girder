@@ -56,6 +56,7 @@
     object-shorthand:                       "off",
     one-var:                                "off",
     prefer-destructuring:                   "off",
+    prefer-named-capture-group:             "off",
     react/destructuring-assignment:         "off",
     react/forbid-prop-types:                "off",
     react/jsx-filename-extension:           "warn",
