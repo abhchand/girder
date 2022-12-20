@@ -30,7 +30,7 @@ RSpec.describe 'users/shared/_error_messages.html.erb', type: :view do
 
   def render_partial(opts = {})
     render(
-      partial: 'users/shared/error_messages.html.erb',
+      partial: 'users/shared/error_messages',
       locals: { user: user }.merge(opts)
     )
   end
