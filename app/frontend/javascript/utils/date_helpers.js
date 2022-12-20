@@ -8,12 +8,13 @@ function dateToYMD(date) {
 }
 
 // Parse a date string of YYYY-MM-DD format in *local* time
-function parseLocalYMDString(ymd_str) {
-  if (!ymd_str) {
+function parseLocalYMDString(ymdStr) {
+  if (!ymdStr) {
     return null;
   }
 
-  const parts = ymd_str.split('-');
+  const parts = ymdStr.split('-');
+  // eslint-disable-next-line no-magic-numbers
   return new Date(parts[0], parts[1]-1, parts[2]);
 }
 

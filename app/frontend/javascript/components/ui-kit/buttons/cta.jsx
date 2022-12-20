@@ -4,7 +4,7 @@ import React from 'react';
 const CtaButton = (props) => {
   return (
     <input
-      type={'button'}
+      type="button"
       className={`cta ${props.additionalClasses.join(' ')}`}
       value={props.value}
       disabled={props.disabled}

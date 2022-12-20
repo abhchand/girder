@@ -1,5 +1,4 @@
-/* eslint max-len: "off" */
-/* eslint react/prefer-stateless-function: "off" */
+/* eslint-disable */
 
 import PropTypes from 'prop-types';
 import React from 'react';

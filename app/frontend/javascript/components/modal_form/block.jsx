@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import ModalError from 'javascript/components/modal/error';
 import PropTypes from 'prop-types';
 import React from 'react';

@@ -30,7 +30,7 @@ const getFormSelectId = (wrapper, css) => {
   const el = wrapper.find(css).at(0);
 
   let id = null;
-  const selected = el.find('option').forEach((o) => {
+  el.find('option').forEach((o) => {
     if (o.instance().selected) id = o.prop('value');
   });
 
@@ -41,7 +41,7 @@ const setFormSelectId = (wrapper, css, id) => {
   const el = wrapper.find(css).at(0);
 
   el.find('option').forEach((o) => {
-    if (o.prop('value') == id) o.instance().selected = true;
+    if (o.prop('value') === id) o.instance().selected = true;
   });
 }
 

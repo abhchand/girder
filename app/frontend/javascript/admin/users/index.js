@@ -2,22 +2,6 @@ import axios from 'axios';
 import ReactOnRails from 'react-on-rails/node_package/lib/Authenticity';
 import { setFlash } from 'javascript/application/flash';
 
-function addAdmin(user_id) {
-  httpRequest(`/api/v1/users/${user_id}/add_admin.json`);
-}
-
-function removeAdmin(user_id) {
-  httpRequest(`/api/v1/users/${user_id}/remove_admin.json`);
-}
-
-function deleteUser(user_id) {
-  httpRequest(`/api/v1/users/${user_id}.json`, 'delete');
-}
-
-function resendUserInvitation(user_invitation_id) {
-  httpRequest(`/api/v1/user_invitations/${user_invitation_id}/resend.json`);
-}
-
 /*
  * Send a request to the specified URL. Default is POST, but other methods
  * can be specified.
@@ -36,7 +20,23 @@ function httpRequest(url, method = 'post') {
 
   axios(url, config)
     .then((_response) => window.location.reload())
-    .catch((error) => setFlash('error', I18n.t('generic_error')));
+    .catch((_error) => setFlash('error', I18n.t('generic_error')));
+}
+
+function addAdmin(userId) {
+  httpRequest(`/api/v1/users/${userId}/add_admin.json`);
+}
+
+function removeAdmin(userId) {
+  httpRequest(`/api/v1/users/${userId}/remove_admin.json`);
+}
+
+function deleteUser(userId) {
+  httpRequest(`/api/v1/users/${userId}.json`, 'delete');
+}
+
+function resendUserInvitation(userInvitationid) {
+  httpRequest(`/api/v1/user_invitations/${userInvitationid}/resend.json`);
 }
 
 export {

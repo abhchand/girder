@@ -43,7 +43,7 @@ class FormDatePicker extends React.Component {
       <DatePicker
         id={`${namespace}_${field}`}
         name={`${namespace}[${field}]`}
-        dateFormat={'yyyy-MM-dd'}
+        dateFormat="yyyy-MM-dd"
         onChange={this.onChange}
         selected={this.state.inputValue} />
     );

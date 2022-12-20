@@ -1,6 +1,6 @@
 function parseJsonApiError(error) {
   // If we're dealing with a standard JS TypeError
-  if (!error.hasOwnProperty('response')) {
+  if (!Object.prototype.hasOwnProperty.call(error, 'response')) {
     return error.message;
   }
 

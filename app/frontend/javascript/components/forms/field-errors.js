@@ -1,3 +1,5 @@
+/* eslint no-invalid-this: 0 */
+
 /*
  * Helps manage `state` for field errors on forms
  *

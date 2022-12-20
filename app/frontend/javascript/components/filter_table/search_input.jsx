@@ -28,6 +28,7 @@ class SearchInput extends React.Component {
         name='search'
         autoComplete='off'
         placeholder={I18n.t(`${this.i18nPrefix}.placeholder`, {
+          // eslint-disable-next-line camelcase
           meta_key: metaKeyLabel()
         })}
         onChange={this.onChange}

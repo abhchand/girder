@@ -31,6 +31,7 @@ class Row extends React.Component {
   onClick() {
     const { isExpanded } = this.state;
 
+    // eslint-disable-next-line no-unused-expressions
     isExpanded ? this.collapse() : this.expand();
   }
 

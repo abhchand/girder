@@ -123,10 +123,11 @@ class JsonApiDataStore {
     const klass = this.constructor.MODEL_TYPES[type];
 
     if (!klass) {
-      throw `Unknown model type '${type}'`;
+      throw new Error(`Unknown model type '${type}'`);
     }
 
     this.graph[type] = this.graph[type] || {};
+    // eslint-disable-next-line new-cap
     this.graph[type][id] = this.graph[type][id] || new klass(id);
 
     return this.graph[type][id];
@@ -159,11 +160,14 @@ class JsonApiDataStore {
     return model;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _syncRecordAttributes(model, jsonRecord) {
     let attrName;
 
     for (attrName in jsonRecord.attributes) {
-      model.setAttribute(attrName, jsonRecord.attributes[attrName]);
+      if (Object.prototype.hasOwnProperty.call(jsonRecord.attributes, attrName)) {
+        model.setAttribute(attrName, jsonRecord.attributes[attrName]);
+      }
     }
   }
 
@@ -175,19 +179,22 @@ class JsonApiDataStore {
     }
 
     for (relName in jsonRecord.relationships) {
-      const rel = jsonRecord.relationships[relName];
+      if (Object.prototype.hasOwnProperty.call(jsonRecord.relationships, relName)) {
+        const rel = jsonRecord.relationships[relName];
 
-      if (rel.data === undefined || rel.data === null) {
-        continue;
-      }
+        // eslint-disable-next-line no-undefined
+        if (rel.data === undefined || rel.data === null) {
+          continue;
+        }
 
-      if (Array.isArray(rel.data)) {
-        model.setRelationship(
-          relName,
-          rel.data.map(this._findOrInitPlaceholder)
-        );
-      } else {
-        model.setRelationship(relName, this._findOrInitPlaceholder(rel.data));
+        if (Array.isArray(rel.data)) {
+          model.setRelationship(
+            relName,
+            rel.data.map(this._findOrInitPlaceholder)
+          );
+        } else {
+          model.setRelationship(relName, this._findOrInitPlaceholder(rel.data));
+        }
       }
     }
   }

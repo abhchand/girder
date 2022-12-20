@@ -27,7 +27,7 @@ const fetchPage = (url, page, perPage) => {
     },
     params: {
       page: page || 1,
-      per_page: perPage || PER_PAGE
+      per_page: perPage || PER_PAGE // eslint-disable-line camelcase
     }
   };
 

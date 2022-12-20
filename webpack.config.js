@@ -1,7 +1,6 @@
 /* eslint-disable prefer-named-capture-group */
 /* eslint-disable no-process-env */
 
-const devMode = process.env.NODE_ENV === 'development';
 const testMode = process.env.NODE_ENV === 'test';
 // eslint-disable-next-line
 const prodMode = process.env.NODE_ENV === 'production';

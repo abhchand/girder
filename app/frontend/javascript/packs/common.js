@@ -1,7 +1,8 @@
 /* eslint no-console:0 */
 
 // Expose JQuery globally
-window.$ = window.jQuery = require('jquery');
+window.jQuery = require('jquery');
+window.$ = window.jQuery;
 require('jquery-ujs');
 
 import 'core-js/stable';

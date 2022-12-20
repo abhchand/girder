@@ -1,6 +1,6 @@
 const toSnakeCase = (string) => {
-  return string.replace(/\W+/g, ' ')
-    .split(/ |\B(?=[A-Z])/)
+  return string.replace(/\W+/gu, ' ')
+    .split(/ |\B(?=[A-Z])/u)
     .map(word => word.toLowerCase())
     .join('_');
 };

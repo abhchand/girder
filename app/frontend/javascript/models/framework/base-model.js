@@ -70,14 +70,15 @@ class BaseModel {
    * @return {object} JSONAPI-compliant object
    */
   serialize(opts) {
-    let self = this,
-      res = { type: this._type },
-      key;
+    const res = { type: this._type },
+      self = this;
 
+    // eslint-disable-next-line no-param-reassign
     opts = opts || {};
     opts.attributes = opts.attributes || this._attributes;
     opts.relationships = opts.relationships || this._relationships;
 
+    // eslint-disable-next-line no-undefined
     if (this.id !== undefined) {
       res.id = this.id;
     }

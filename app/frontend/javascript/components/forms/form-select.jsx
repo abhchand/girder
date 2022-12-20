@@ -41,9 +41,9 @@ class FormSelect extends React.Component {
        * Blank options have an `id` of `null`, but the selected value gets parsed
        * as blank string
        */
-      const id = selectId == '' ? null : selectId;
+      const id = selectId === '' ? null : selectId;
 
-      return o.id == id;
+      return o.id === id;
     }).value;
 
     // As a convenience, pass both the id and value of the selected option
@@ -63,7 +63,7 @@ class FormSelect extends React.Component {
       <select
         id={`${namespace}_${field}`}
         name={`${namespace}[${field}]`}
-        onChange={this.onChange}
+        onBlur={this.onChange}
         defaultValue={this.state.selectId}>
         {
           options.map((option, _i) => {

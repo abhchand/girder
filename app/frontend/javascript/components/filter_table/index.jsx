@@ -1,3 +1,5 @@
+import './focus-search-on-keypress';
+
 import {
   registerAsyncProcess,
   unregisterAsyncProcess
@@ -15,8 +17,6 @@ import SearchInput from './search_input';
 import Table from './table';
 import TotalCount from './total_count';
 
-import './focus-search-on-keypress';
-
 class FilterTable extends React.Component {
   static propTypes = {
     renderHeader: PropTypes.func.isRequired,
@@ -25,12 +25,13 @@ class FilterTable extends React.Component {
 
     fetchUrl: PropTypes.string.isRequired,
     containerClass: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
     mapResponseDataToItems: PropTypes.func
   };
 
   static defaultProps = {
     containerClass: '',
-    mapResponseDataToItems: (data, dataStore) => dataStore.sync(data)
+    mapResponseDataToItems: (data, _dataStore) => _dataStore.sync(data)
   };
 
   // eslint-disable-next-line padded-blocks
@@ -88,6 +89,7 @@ class FilterTable extends React.Component {
     this.fetchItems(params);
   }
 
+  // eslint-disable-next-line max-lines-per-function
   fetchItems(params) {
     const self = this;
 
@@ -108,7 +110,8 @@ class FilterTable extends React.Component {
       .then((response) => {
         const collection = response.data;
         const pageParam = (collection.links.last || '').match(
-          /page=(\d+)/i
+          // eslint-disable-next-line prefer-named-capture-group
+          /page=(\d+)/iu
         ) || [null, 0];
         const displayedItems = self.props.mapResponseDataToItems(
           collection,
