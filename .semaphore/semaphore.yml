@@ -117,6 +117,9 @@ blocks:
         - name: rubocop
           commands:
             - bundle exec rubocop
-        - name: eslint/stylelint
+        - name: estlint
           commands:
-            - yarn run lint
+            - yarn run lint:js
+        - name: stylelint
+          commands:
+            - yarn run lint:css

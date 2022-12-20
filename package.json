@@ -2,8 +2,10 @@
   "name": "girder",
   "version": "1.0.0",
   "scripts": {
-    "lint": "eslint . --ext .js,.jsx && stylelint app/frontend/stylesheets/*",
-    "lintfix": "eslint . --ext .js,.jsx --fix && stylelint app/frontend/stylesheets/* --fix",
+    "lint:css": "stylelint app/frontend/stylesheets/*",
+    "lint:css:fix": "stylelint app/frontend/stylesheets/* --fix",
+    "lint:js": "eslint . --ext .js,.jsx",
+    "lint:js:fix": "eslint . --ext .js,.jsx --fix",
     "test": "TZ='UTC' jest --no-cache --config spec/frontend/javascript/jest.config.js",
     "dev": "NODE_ENV=development webpack-dev-server --output-pathinfo",
     "build:test": "NODE_ENV=test webpack --config webpack.config.js",
