@@ -15,7 +15,7 @@ const expectModalIsOpen = (wrapper) => {
 
 const modalErrorForBlock = (wrapper, css) => {
   const errorCss = `.modal-form__block[data-for='${css}'] .modal--error`;
-  return wrapper.find(errorCss).at(0).text;
+  return wrapper.exists(errorCss) ? wrapper.find(errorCss).at(0).text() : null;
 };
 
 const modalSubmitBtn = (wrapper) => {
