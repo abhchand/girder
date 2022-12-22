@@ -56,7 +56,7 @@ RUN curl -LO  https://dl.google.com/linux/direct/google-chrome-stable_current_am
 # This needs to be periodically updated to match the version of Google Chrome
 # installed above
 RUN apt install -y libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev \
-  && wget https://chromedriver.storage.googleapis.com/106.0.5249.21/chromedriver_linux64.zip \
+  && wget https://chromedriver.storage.googleapis.com/108.0.5359.71/chromedriver_linux64.zip \
   && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
   && rm chromedriver_linux64.zip \
   # Clean up
