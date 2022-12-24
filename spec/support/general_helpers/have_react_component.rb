@@ -16,7 +16,10 @@ module GeneralHelpers
       @mount_node && @valid_props
     end
 
-    chain(:including_props) { |props| @props = props.deep_stringify_keys }
+    chain(:including_props) do |props|
+      # Easiest way to deep stringify keys and values
+      @props = JSON.parse(props.to_json)
+    end
 
     description { "have react mount node #{@id}" }
 
