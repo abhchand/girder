@@ -20,6 +20,7 @@ import TotalCount from './total_count';
 class FilterTable extends React.Component {
   static propTypes = {
     renderHeader: PropTypes.func.isRequired,
+    renderActionBar: PropTypes.func.isRequired,
     renderBody: PropTypes.func.isRequired,
     refreshAt: PropTypes.number,
 
@@ -196,10 +197,13 @@ class FilterTable extends React.Component {
       this.refresh();
     }
 
+    const { renderActionBar } = this.props;
+
     return (
       <div className={`filter-table ${this.props.containerClass}`}>
         <div className='filter-table__action-bar'>
           <SearchInput performSearch={this.performSearch} />
+          {renderActionBar && renderActionBar()}
         </div>
         {this.renderContent()}
       </div>
