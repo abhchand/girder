@@ -7,18 +7,18 @@ Rails.application.routes.draw do
   scope :admin do
     mount Sidekiq::Web => '/sidekiq', constraints: Sidekiq::AdminConstraint.new
 
-    unless Rails.env.production?
-      get(
-        '/rails/mailers' => 'rails/mailers#index',
-        constraints: Admin::MailerPreviewConstraint.new,
-        as: 'admin_rails_mailers'
-      )
+    # unless Rails.env.production?
+    #   get(
+    #     '/rails/mailers' => 'rails/mailers#index',
+    #     constraints: Admin::MailerPreviewConstraint.new,
+    #     as: 'admin_rails_mailers'
+    #   )
 
-      get(
-        '/rails/mailers/*path' => 'rails/mailers#preview',
-        constraints: Admin::MailerPreviewConstraint.new
-      )
-    end
+    #   get(
+    #     '/rails/mailers/*path' => 'rails/mailers#preview',
+    #     constraints: Admin::MailerPreviewConstraint.new
+    #   )
+    # end
   end
 
   devise_for(
