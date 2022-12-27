@@ -1,11 +1,16 @@
+import { idFromName } from './helpers';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 class FormTextarea extends React.Component {
   static propTypes = {
-    field: PropTypes.string.isRequired,
     initialValue: PropTypes.string,
-    namespace: PropTypes.string.isRequired,
+    /*
+     * The Rails-style microformat describing the attribute and resource
+     * e.g. `creator[widget_attributes][0][name]`
+     * See: https://wonderfullyflawed.wordpress.com/2009/02/17/rails-forms-microformat/
+     */
+    name: PropTypes.string.isRequired,
     onChange: PropTypes.func
   };
 
@@ -34,13 +39,13 @@ class FormTextarea extends React.Component {
   }
 
   render() {
-    const { field, namespace } = this.props;
+    const { name } = this.props;
 
     return (
       <textarea
         className='input-highlight-on-focus'
-        id={`${namespace}_${field}`}
-        name={`${namespace}[${field}]`}
+        id={idFromName(name)}
+        name={name}
         onChange={this.onChange}
         type='input'
         value={this.state.textareaValue}

@@ -1,16 +1,19 @@
+import { idFromName } from './helpers';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 class FormInput extends React.Component {
   static propTypes = {
-    // The field name e.g. `model_name[field_name]`
-    field: PropTypes.string.isRequired,
     initialValue: PropTypes.string,
     isError: PropTypes.bool,
-    // The model name e.g. `model_name[field_name]`
-    namespace: PropTypes.string.isRequired,
-    // A handler that will be called when the input value changes
-    onChange: PropTypes.func
+    /*
+     * The Rails-style microformat describing the attribute and resource
+     * e.g. `creator[widget_attributes][0][name]`
+     * See: https://wonderfullyflawed.wordpress.com/2009/02/17/rails-forms-microformat/
+     */
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func,
+    placeholderText: PropTypes.string
   };
 
   static defaultProps = {
@@ -30,10 +33,10 @@ class FormInput extends React.Component {
   }
 
   afterChange() {
-    const { field, namespace, onChange } = this.props;
+    const { onChange } = this.props;
     const { inputValue } = this.state;
 
-    if (onChange) onChange(inputValue, namespace, field);
+    if (onChange) onChange(inputValue);
   }
 
   onChange(e) {
@@ -43,7 +46,7 @@ class FormInput extends React.Component {
   }
 
   render() {
-    const { field, isError, namespace } = this.props;
+    const { isError, name, placeholderText } = this.props;
 
     const errorClass = isError ? 'input--error' : 'input-highlight-on-focus';
 
@@ -51,10 +54,11 @@ class FormInput extends React.Component {
       <input
         className={errorClass}
         onChange={this.onChange}
+        placeholder={placeholderText}
         value={this.state.inputValue}
         type='input'
-        name={`${namespace}[${field}]`}
-        id={`${namespace}_${field}`}
+        name={name}
+        id={idFromName(name)}
       />
     );
   }

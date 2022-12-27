@@ -1,11 +1,16 @@
+import { idFromName } from './helpers';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 class FormSelect extends React.Component {
   static propTypes = {
-    field: PropTypes.string.isRequired,
     initialSelectedId: PropTypes.string,
-    namespace: PropTypes.string.isRequired,
+    /*
+     * The Rails-style microformat describing the attribute and resource
+     * e.g. `creator[widget_attributes][0][name]`
+     * See: https://wonderfullyflawed.wordpress.com/2009/02/17/rails-forms-microformat/
+     */
+    name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     /*
      * Expects an array of objects that define the dropdown options.
@@ -57,21 +62,22 @@ class FormSelect extends React.Component {
   }
 
   render() {
-    const { field, namespace, options } = this.props;
+    const { name, options } = this.props;
+    const id = idFromName(name);
 
     return (
       <select
-        id={`${namespace}_${field}`}
-        name={`${namespace}[${field}]`}
+        id={id}
+        name={name}
         onBlur={this.onChange}
         defaultValue={this.state.selectId}>
         {
           options.map((option, _i) => {
             // Placeholder value should have `id` of blank string
-            const id = option.id || '';
+            const optionId = option.id || '';
 
             return (
-              <option key={`${namespace}-${field}-${id}`} value={id}>
+              <option key={`${id}_${optionId}`} value={optionId}>
                 {option.value}
               </option>
             );
