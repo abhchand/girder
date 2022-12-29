@@ -12,9 +12,24 @@ const Block = (props) => {
    */
   const labelFor = idFromName(props.labelFor);
 
+  /*
+   * Some form elements (like radio buttons) utilize individual `<label>` tags
+   * on each element. In those cases, this component allows passing
+   * `isLabelEnabled={false}`, which will effectively disable this top-level
+   * label.
+   *
+   * It still renders as a `<label>` element for styling, but without the
+   * `htmlFor` attribute which gives it any meaning.
+   */
+  const labelAttrs = {};
+  if (props.isLabelEnabled) {
+    labelAttrs.htmlFor = labelFor;
+  }
+
   return (
     <div className='modal-form__block' data-for={labelFor}>
-      <label htmlFor={labelFor}>{props.label}</label>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <label {...labelAttrs}>{props.label}</label>
 
       <div className='modal-form__block-element-container'>
         <div className='modal-form__block-element'>
@@ -30,8 +45,13 @@ const Block = (props) => {
 Block.propTypes = {
   children: PropTypes.node,
   errorText: PropTypes.string,
+  isLabelEnabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
   labelFor: PropTypes.string.isRequired
 };
+
+Block.defaultProps = {
+  isLabelEnabled: true
+}
 
 export default Block;
