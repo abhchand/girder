@@ -23,6 +23,36 @@ const setFormInputValue = (wrapper, css, text) => {
 }
 
 /*
+ * Radio Buttons
+ */
+
+/*
+ * Since Radio buttons have multiple elements with unique `id` values, it is
+ * better to search by `name`.
+ * 
+ *  e.g. "input[name='foo[bar][0][baz]']"
+ */
+const getFormRadioId = (wrapper, css) => {
+  const radios = wrapper.find(css);
+
+  let value = null;
+
+  radios.forEach((r) => {
+    if (r.instance().checked) value = r.prop('value');
+  });
+
+  return value;
+}
+
+const setFormRadioId = (wrapper, css, value) => {
+  const radios = wrapper.find(css);
+
+  radios.forEach((r) => {
+    if (r.prop('value') === value) r.instance().checked = true;
+  });
+}
+
+/*
  * Select Dropdowns
  */
 
@@ -71,6 +101,8 @@ const setFormTextareaValue = (wrapper, css, text) => {
 export {
   getFormInputValue,
   setFormInputValue,
+  getFormRadioId,
+  setFormRadioId,
   getFormSelectId,
   setFormSelectId,
   getFormTextareaValue,
