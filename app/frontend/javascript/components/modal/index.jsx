@@ -5,6 +5,7 @@ import {
 } from 'utils/async-registration';
 
 import { closeModal } from './close';
+import CtaButton from 'javascript/components/ui-kit/buttons/cta';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -46,23 +47,21 @@ class Modal extends React.Component {
     }
 
     return (
-      <input
-        type='button'
-        className='modal-content__button modal-content__button--submit cta cta-purple'
-        value={this.props.submitButtonLabel}
+      <CtaButton
+        additionalClasses={['modal-content__button', 'modal-content__button--submit', 'cta-purple']}
         disabled={!this.props.submitButtonEnabled}
         onClick={this.submit}
+        value={this.props.submitButtonLabel}
       />
     );
   }
 
   closeButton() {
     return (
-      <input
-        type='button'
-        className='modal-content__button modal-content__button--close cta cta-white'
-        value={this.props.closeButtonLabel}
+      <CtaButton
+        additionalClasses={['modal-content__button', 'modal-content__button--close', 'cta-white']}
         onClick={this.close}
+        value={this.props.closeButtonLabel}
       />
     );
   }
