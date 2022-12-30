@@ -114,10 +114,13 @@ blocks:
           - gem install --no-document bundler -v 2.3.14
           - bundle install --deployment --path vendor/bundle
       jobs:
+        - name: prettier
+          commands:
+            - yarn run prettier
         - name: rubocop
           commands:
-            - bundle exec rubocop
-        - name: estlint
+            - yarn run lint:ruby
+        - name: eslint
           commands:
             - yarn run lint:js
         - name: stylelint
