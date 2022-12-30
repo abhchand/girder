@@ -8,29 +8,19 @@ import ReactOnRails from 'react-on-rails/node_package/lib/Authenticity';
 
 class ModalForm extends React.Component {
   static propTypes = {
-    // Modal Props
-    heading: PropTypes.string.isRequired,
-    subheading: PropTypes.string,
-
-    /*
-     * `onSubmit` for the modal is not configurable. The submit behavior
-     * is pre-defined in the `onSubmit` function below. However, this
-     * module does offer an `afterSubmit` to be executed after
-     * submit.
-     * onSubmit: PropTypes.func,
-     */
-    onClose: PropTypes.func,
-    closeModal: PropTypes.func,
-    submitButtonLabel: PropTypes.string,
-    closeButtonLabel: PropTypes.string,
-    submitButtonEnabled: PropTypes.bool,
-    modalClassName: PropTypes.string,
-
-    // ModalForm props
-    formUrl: PropTypes.string.isRequired,
-    httpMethod: PropTypes.string.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
     afterSubmit: PropTypes.func,
+    afterSubmitError: PropTypes.func,
+    beforeSubmit: PropTypes.func,
+    closeButtonLabel: PropTypes.string,
+    closeModal: PropTypes.func,
+    formUrl: PropTypes.string.isRequired,
+    heading: PropTypes.string.isRequired,
+    httpMethod: PropTypes.string.isRequired,
+    modalClassName: PropTypes.string,
+    onClose: PropTypes.func,
+    subheading: PropTypes.string,
+    submitButtonEnabled: PropTypes.bool,
+    submitButtonLabel: PropTypes.string,
 
     children: PropTypes.node.isRequired
   };
@@ -70,16 +60,23 @@ class ModalForm extends React.Component {
       errorText: null
     });
 
+    // Lifecycle methods
+    const { afterSubmit, afterSubmitError, beforeSubmit } = this.props;
+
+    // eslint-disable-next-line no-unused-expressions
+    beforeSubmit && beforeSubmit(config);
+
     return axios(config)
       .then((response) => {
-        if (self.props.afterSubmit) {
-          self.props.afterSubmit(response);
-        }
+        // eslint-disable-next-line no-unused-expressions
+        afterSubmit && afterSubmit(response);
       })
       .catch((error) => {
-        self.setState({
-          errorText: parseJsonApiError(error)
-        });
+        const errorText = parseJsonApiError(error);
+
+        // eslint-disable-next-line no-unused-expressions
+        afterSubmitError && afterSubmitError(error, errorText);
+        self.setState({ errorText: errorText });
 
         /*
          * Return a rejected value so the promise chain remains in
