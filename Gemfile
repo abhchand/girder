@@ -52,6 +52,11 @@ end
 group :development, :test do
   gem 'factory_bot_rails', '~> 4.5'
   gem 'faker', '~> 2.10', '>= 2.10.1'
+  # Prettier docs suggest to _not_ install `prettier` any more, and directly
+  # install the dependencies it depends on. But... it works so far
+  # https://github.com/prettier/plugin-ruby#getting-started
+  gem 'prettier', '~> 3.2', '>= 3.2.2'
+  gem 'prettier_print', '~> 1.2'
   gem 'pry-rails', '~> 0.3.9'
   gem 'rspec-rails', '~> 6.0.0'
   gem 'rubocop', '~> 1.40'
