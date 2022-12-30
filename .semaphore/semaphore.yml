@@ -10,6 +10,7 @@ global_job_config:
       - checkout
 blocks:
   - name: Unit Tests
+    dependencies: []
     task:
       env_vars:
         - name: DATABASE_URL
@@ -100,6 +101,7 @@ blocks:
             - cache store node-$(checksum yarn.lock) node_modules
 
   - name: Lint
+    dependencies: []
     task:
       prologue:
         commands:
