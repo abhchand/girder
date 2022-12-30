@@ -25,9 +25,9 @@ RSpec.describe 'users/shared/_native_links.html.erb', type: :view do
         href: new_user_password_path
       )
       expect(page).to_not have_link(
-                            t("#{@t_prefix}.resend_confirmation"),
-                            href: new_user_confirmation_path
-                          )
+        t("#{@t_prefix}.resend_confirmation"),
+        href: new_user_confirmation_path
+      )
     end
   end
 
@@ -46,9 +46,9 @@ RSpec.describe 'users/shared/_native_links.html.erb', type: :view do
         href: new_user_registration_path
       )
       expect(page).to_not have_link(
-                            t("#{@t_prefix}.reset_password"),
-                            href: new_user_password_path
-                          )
+        t("#{@t_prefix}.reset_password"),
+        href: new_user_password_path
+      )
       expect(page).to have_link(
         t("#{@t_prefix}.resend_confirmation"),
         href: new_user_confirmation_path
@@ -67,13 +67,13 @@ RSpec.describe 'users/shared/_native_links.html.erb', type: :view do
         href: new_user_session_path
       )
       expect(page).to_not have_link(
-                            t("#{@t_prefix}.register"),
-                            href: new_user_registration_path
-                          )
+        t("#{@t_prefix}.register"),
+        href: new_user_registration_path
+      )
       expect(page).to_not have_link(
-                            t("#{@t_prefix}.reset_password"),
-                            href: new_user_password_path
-                          )
+        t("#{@t_prefix}.reset_password"),
+        href: new_user_password_path
+      )
       expect(page).to have_link(
         t("#{@t_prefix}.resend_confirmation"),
         href: new_user_confirmation_path
@@ -88,9 +88,9 @@ RSpec.describe 'users/shared/_native_links.html.erb', type: :view do
       render
 
       expect(page).to_not have_link(
-                            t("#{@t_prefix}.log_in"),
-                            href: new_user_session_path
-                          )
+        t("#{@t_prefix}.log_in"),
+        href: new_user_session_path
+      )
       expect(page).to have_link(
         t("#{@t_prefix}.register"),
         href: new_user_registration_path

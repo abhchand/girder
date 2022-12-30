@@ -22,7 +22,7 @@ class FormTextarea extends React.Component {
 
     this.state = {
       textareaValue: props.initialValue || ''
-    }
+    };
   }
 
   afterChange() {
@@ -33,9 +33,12 @@ class FormTextarea extends React.Component {
   }
 
   onChange(e) {
-    this.setState({
-      textareaValue: e.currentTarget.value
-    }, this.afterChange);
+    this.setState(
+      {
+        textareaValue: e.currentTarget.value
+      },
+      this.afterChange
+    );
   }
 
   render() {

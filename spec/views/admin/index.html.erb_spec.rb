@@ -11,10 +11,12 @@ RSpec.describe 'admin/index.html.erb', type: :view do
     actual_links = []
     expected_links = [admin_users_path]
 
-    page.all('.admin-index__link-element').each do |el|
-      link = el.find('a')
-      actual_links << link['href']
-    end
+    page
+      .all('.admin-index__link-element')
+      .each do |el|
+        link = el.find('a')
+        actual_links << link['href']
+      end
 
     expect(expected_links).to eq(actual_links)
   end

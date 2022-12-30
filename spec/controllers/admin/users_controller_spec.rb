@@ -17,18 +17,20 @@ RSpec.describe Admin::UsersController, type: :controller do
       it 'assigns @users as the ordered list of Users' do
         # Sorting is by first_name, last_name, email
         # Create Users so that the order will be [admin, u3, u2]
-        u2 = create(
-          :user,
-          first_name: admin.first_name,
-          last_name: 'Zzz',
-          email: 'z@b.c'
-        )
-        u3 = create(
-          :user,
-          first_name: admin.first_name,
-          last_name: 'Zzz',
-          email: 'a@b.c'
-        )
+        u2 =
+          create(
+            :user,
+            first_name: admin.first_name,
+            last_name: 'Zzz',
+            email: 'z@b.c'
+          )
+        u3 =
+          create(
+            :user,
+            first_name: admin.first_name,
+            last_name: 'Zzz',
+            email: 'a@b.c'
+          )
 
         get :index
 

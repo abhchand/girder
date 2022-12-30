@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.feature 'Confirming Email', type: :feature do
-  # rubocop:disable Metrics/LineLength
   #
   # Explanation of confirmation routes behavior
   #
@@ -17,8 +16,6 @@ RSpec.feature 'Confirming Email', type: :feature do
   #        user_confirmation GET    /users/confirmation      ->  devise/confirmations#show
   #                          POST   /users/confirmation      ->  devise/confirmations#create
   #
-  # rubocop:enable Metrics/LineLength
-
   let(:user_attrs) do
     {
       first_name: 'Asha',
@@ -39,8 +36,9 @@ RSpec.feature 'Confirming Email', type: :feature do
     confirm(user)
 
     expect(page).to have_current_path(new_user_session_path)
-    expect(page).to have_flash_message(t('devise.confirmations.confirmed'))
-      .of_type(:notice)
+    expect(page).to have_flash_message(
+      t('devise.confirmations.confirmed')
+    ).of_type(:notice)
 
     expect(user.reload.confirmed?).to eq(true)
   end
@@ -97,17 +95,15 @@ RSpec.feature 'Confirming Email', type: :feature do
     let(:user) { create(:user, :pending_reconfirmation) }
 
     it 'user can confirm their email' do
-      # rubocop:disable Metrics/LineLength
       expect { confirm(user) }.to(
         change { user.reload.pending_reconfirmation? }.from(true).to(false)
       )
-      # rubocop:enable Metrics/LineLength
-
       expect(user.reload.confirmed?).to eq(true)
 
       expect(page).to have_current_path(new_user_session_path)
-      expect(page).to have_flash_message(t('devise.confirmations.confirmed'))
-        .of_type(:notice)
+      expect(page).to have_flash_message(
+        t('devise.confirmations.confirmed')
+      ).of_type(:notice)
     end
   end
 

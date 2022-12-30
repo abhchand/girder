@@ -15,11 +15,7 @@ function parseLocalYMDString(ymdStr) {
 
   const parts = ymdStr.split('-');
   // eslint-disable-next-line no-magic-numbers
-  return new Date(parts[0], parts[1]-1, parts[2]);
+  return new Date(parts[0], parts[1] - 1, parts[2]);
 }
 
-
-export {
-  dateToYMD,
-  parseLocalYMDString
-};
+export { dateToYMD, parseLocalYMDString };

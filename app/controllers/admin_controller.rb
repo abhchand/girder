@@ -4,7 +4,8 @@ class AdminController < ApplicationController
   before_action :admin_only
   before_action { @use_packs << 'admin' }
 
-  def index; end
+  def index
+  end
 
   private
 

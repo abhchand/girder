@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/LineLength
-# rubocop:disable Metrics/BlockLength
+# rubocop:disable Layout/LineLength
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
@@ -309,5 +308,4 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 end
 
-# rubocop:enable Metrics/BlockLength
-# rubocop:enable Metrics/LineLength
+# rubocop:enable Layout/LineLength

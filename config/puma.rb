@@ -19,7 +19,7 @@ threads 1, Integer(ENV['PUMA_MAX_THREADS'] || 5)
 
 # Socket
 if is_remote
-  socket_dir = tmp_dir + '/sockets'
+  socket_dir = "#{tmp_dir}/sockets"
   system 'mkdir', '-p', socket_dir
   bind "unix://#{socket_dir}/puma.sock"
 end
@@ -35,7 +35,7 @@ if is_remote
 end
 
 # PID
-pid_dir = tmp_dir + '/pids'
+pid_dir = "#{tmp_dir}/pids"
 system 'mkdir', '-p', pid_dir
 pidfile "#{pid_dir}/puma.pid"
 state_path "#{pid_dir}/puma.state"
@@ -45,15 +45,15 @@ activate_control_app
 on_worker_boot do
   require 'active_record'
 
-  # rubocop:disable Metrics/LineLength, Style/RescueModifier
   begin
     ActiveRecord::Base.connection.disconnect!
   rescue StandardError
     ActiveRecord::ConnectionNotEstablished
   end
-  # rubocop:enable Metrics/LineLength, Style/RescueModifier
-
-  configs = ActiveRecord::Base.configurations.configs_for(env_name: rails_env)[0].configuration_hash
+  configs =
+    ActiveRecord::Base.configurations.configs_for(env_name: rails_env)[
+      0
+    ].configuration_hash
   ActiveRecord::Base.establish_connection(configs)
 end
 

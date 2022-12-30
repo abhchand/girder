@@ -7,8 +7,6 @@
  */
 const idFromName = (name) => {
   return name.replace(/\[/gu, '_').replace(/\]/gu, '');
-}
+};
 
-export {
-  idFromName
-}
+export { idFromName };

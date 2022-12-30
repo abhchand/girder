@@ -38,7 +38,9 @@ class Api::V1::UserInvitationsController < Api::BaseController
   end
 
   def serialize(user, opts = {})
-    UserInvitationSerializer.new(user, { params: {} }.deep_merge(opts))
-      .serializable_hash
+    UserInvitationSerializer.new(
+      user,
+      { params: {} }.deep_merge(opts)
+    ).serializable_hash
   end
 end

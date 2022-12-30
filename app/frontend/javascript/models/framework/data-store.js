@@ -165,7 +165,9 @@ class JsonApiDataStore {
     let attrName;
 
     for (attrName in jsonRecord.attributes) {
-      if (Object.prototype.hasOwnProperty.call(jsonRecord.attributes, attrName)) {
+      if (
+        Object.prototype.hasOwnProperty.call(jsonRecord.attributes, attrName)
+      ) {
         model.setAttribute(attrName, jsonRecord.attributes[attrName]);
       }
     }
@@ -179,7 +181,9 @@ class JsonApiDataStore {
     }
 
     for (relName in jsonRecord.relationships) {
-      if (Object.prototype.hasOwnProperty.call(jsonRecord.relationships, relName)) {
+      if (
+        Object.prototype.hasOwnProperty.call(jsonRecord.relationships, relName)
+      ) {
         const rel = jsonRecord.relationships[relName];
 
         // eslint-disable-next-line no-undefined

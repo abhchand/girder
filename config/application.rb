@@ -23,11 +23,8 @@ module Girder
 
     # The default locale is :en and all translations from
     # config/locales/*.rb,yml are auto loaded.
-    # rubocop:disable Metrics/LineLength
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    # rubocop:enable Metrics/LineLength
-
     # Don't force requests from old versions of IE to be UTF-8 encoded.
     config.action_view.default_enforce_utf8 = false
 
@@ -43,8 +40,7 @@ module Girder
 
     config.generators do |g|
       # Don't generate certain files during `rails generate` calls
-      g.javascripts =
-        false
+      g.javascripts = false
       g.stylesheets = false
       g.helper = false
       g.factory_bot = false

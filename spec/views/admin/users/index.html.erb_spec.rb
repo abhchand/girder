@@ -10,10 +10,8 @@ RSpec.describe 'admin/users/index.html.erb', type: :view do
     stub_current_user
     assign(:users, [user_invitation, user])
 
-    # rubocop:disable Metrics/LineLength
     stub_template 'shared/_breadcrumb_heading.html.erb' =>
                     '_stubbed_breadcrumb_heading'
-    # rubocop:enable Metrics/LineLength
   end
 
   it 'renders the breadcrumb heading' do
@@ -24,10 +22,7 @@ RSpec.describe 'admin/users/index.html.erb', type: :view do
   it 'renders the users index table' do
     render
 
-    ids =
-      page.all('.admin-users-index-table__row').map do |row|
-        row['data-id']
-      end
+    ids = page.all('.admin-users-index-table__row').map { |row| row['data-id'] }
 
     expect(ids).to eq([user_invitation.id, user.synthetic_id].map(&:to_s))
   end

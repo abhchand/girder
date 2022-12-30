@@ -48,7 +48,7 @@ class UserInvitations::CreateService
   def create_user_invitation
     user_invitation.attributes = context.params
     user_invitation.inviter = context.current_user
-    return user_invitation.save
+    user_invitation.save
   end
 
   def handle_already_invited

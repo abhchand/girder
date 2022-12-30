@@ -8,10 +8,7 @@ unless defined?(SidekiqRedisConnectionWrapper)
   Sidekiq::Extensions.enable_delay!
 
   class SidekiqRedisConnectionWrapper
-    # rubocop:disable Style/IfUnlessModifier
     URL = ENV['REDIS_URL'] || 'redis://localhost:6379/' unless defined?(URL)
-    # rubocop:enable Style/IfUnlessModifier
-
     def initialize
       Sidekiq.configure_server do |config|
         config.redis = { url: URL, network_timeout: 3 }
@@ -23,12 +20,9 @@ unless defined?(SidekiqRedisConnectionWrapper)
       end
     end
 
-    # rubocop:disable Style/MethodMissingSuper
     def method_missing(meth, *args, &block)
       Sidekiq.redis { |connection| connection.send(meth, *args, &block) }
     end
-    # rubocop:enable Style/MethodMissingSuper
-
     def respond_to_missing?(meth)
       Sidekiq.redis { |connection| connection.respond_to?(meth) }
     end

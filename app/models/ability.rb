@@ -11,7 +11,6 @@ class Ability
   #      not a best-practice
   #
   #   3. Define by ability, not by role
-
   def initialize(user)
     @user = user
 
@@ -35,7 +34,7 @@ class Ability
       true
     end
 
-    can :read, User do |u|
+    can :read, User do |_u|
       admin?
     end
 

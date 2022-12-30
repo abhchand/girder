@@ -39,7 +39,8 @@ class UserInvitationsController < ApplicationController
   def create_service
     @create_service ||=
       UserInvitations::CreateService.call(
-        params: create_params, current_user: current_user
+        params: create_params,
+        current_user: current_user
       )
   end
 end

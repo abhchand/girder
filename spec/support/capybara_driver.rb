@@ -18,7 +18,10 @@ Capybara.register_driver :headless_chrome do |app|
   opts.add_argument('--enable-logging')
 
   opts.add_preference(:download, prompt_for_download: true)
-  opts.add_preference(:download, default_directory: FeatureHelpers::BROWSER_DOWNLOAD_PATH.to_s)
+  opts.add_preference(
+    :download,
+    default_directory: FeatureHelpers::BROWSER_DOWNLOAD_PATH.to_s
+  )
   opts.add_preference(:download, directory_upgrade: true)
   opts.add_preference(:default_content_settings, popups: 0)
 
@@ -26,6 +29,6 @@ Capybara.register_driver :headless_chrome do |app|
     app,
     browser: :chrome,
     capabilities: capabilities,
-    options: opts,
+    options: opts
   )
 end

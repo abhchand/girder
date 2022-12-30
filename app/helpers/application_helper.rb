@@ -1,9 +1,7 @@
 module ApplicationHelper
   def current_user_presenter
     @current_user_presenter ||=
-      begin
-        UserPresenter.new(current_user, view: view_context) if current_user
-      end
+      (UserPresenter.new(current_user, view: view_context) if current_user)
   end
 
   # Devise
@@ -70,13 +68,16 @@ module ApplicationHelper
   def translate_synthetic_id!(id, klass = User)
     return if id.blank?
 
-    klass.find_by_synthetic_id(id).tap do |record|
-      if record.nil?
-        raise(
-          ActiveRecord::RecordNotFound,
-          "Couldn't find #{klass} with 'synthetic_id'=#{id}"
-        )
+    klass
+      .find_by_synthetic_id(id)
+      .tap do |record|
+        if record.nil?
+          raise(
+            ActiveRecord::RecordNotFound,
+            "Couldn't find #{klass} with 'synthetic_id'=#{id}"
+          )
+        end
       end
-    end.id
+      .id
   end
 end

@@ -1,4 +1,3 @@
-
 /*
  * Input Fields
  */
@@ -9,18 +8,23 @@ const getFormInputValue = (wrapper, css) => {
    * supposed to be unique). But some libraries nest elements with the same
    * attributes, so we need to filter by element type too
    */
-  return(
-    wrapper.find(css).filterWhere((n) => n.type() === 'input').at(0).prop('value')
-  );
-}
+  return wrapper
+    .find(css)
+    .filterWhere((n) => n.type() === 'input')
+    .at(0)
+    .prop('value');
+};
 
 const setFormInputValue = (wrapper, css, text) => {
-  const input = wrapper.find(css).filterWhere((n) => n.type() === 'input').at(0);
+  const input = wrapper
+    .find(css)
+    .filterWhere((n) => n.type() === 'input')
+    .at(0);
 
   // Both are required, to set the value and trigger the handler
   input.getDOMNode().value = text;
   input.simulate('change', { currentTarget: { value: text } });
-}
+};
 
 /*
  * Radio Buttons
@@ -29,7 +33,7 @@ const setFormInputValue = (wrapper, css, text) => {
 /*
  * Since Radio buttons have multiple elements with unique `id` values, it is
  * better to search by `name`.
- * 
+ *
  *  e.g. "input[name='foo[bar][0][baz]']"
  */
 const getFormRadioId = (wrapper, css) => {
@@ -42,7 +46,7 @@ const getFormRadioId = (wrapper, css) => {
   });
 
   return value;
-}
+};
 
 const setFormRadioId = (wrapper, css, value) => {
   const radios = wrapper.find(css);
@@ -50,7 +54,7 @@ const setFormRadioId = (wrapper, css, value) => {
   radios.forEach((r) => {
     if (r.prop('value') === value) r.instance().checked = true;
   });
-}
+};
 
 /*
  * Select Dropdowns
@@ -65,7 +69,7 @@ const getFormSelectId = (wrapper, css) => {
   });
 
   return id;
-}
+};
 
 const setFormSelectId = (wrapper, css, id) => {
   const el = wrapper.find(css).at(0);
@@ -73,7 +77,7 @@ const setFormSelectId = (wrapper, css, id) => {
   el.find('option').forEach((o) => {
     if (o.prop('value') === id) o.instance().selected = true;
   });
-}
+};
 
 /*
  * Textarea Fields
@@ -85,18 +89,23 @@ const getFormTextareaValue = (wrapper, css) => {
    * supposed to be unique). But some libraries nest elements with the same
    * attributes, so we need to filter by element type too
    */
-  return(
-    wrapper.find(css).filterWhere((n) => n.type() === 'textarea').at(0).prop('value')
-  );
-}
+  return wrapper
+    .find(css)
+    .filterWhere((n) => n.type() === 'textarea')
+    .at(0)
+    .prop('value');
+};
 
 const setFormTextareaValue = (wrapper, css, text) => {
-  const textarea = wrapper.find(css).filterWhere((n) => n.type() === 'textarea').at(0);
+  const textarea = wrapper
+    .find(css)
+    .filterWhere((n) => n.type() === 'textarea')
+    .at(0);
 
   // Both are required, to set the value and trigger the handler
   textarea.getDOMNode().value = text;
   textarea.simulate('change', { currentTarget: { value: text } });
-}
+};
 
 export {
   getFormInputValue,
@@ -107,4 +116,4 @@ export {
   setFormSelectId,
   getFormTextareaValue,
   setFormTextareaValue
-}
+};

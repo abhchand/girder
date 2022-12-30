@@ -38,7 +38,7 @@ class FormRadioGroup extends React.Component {
 
     this.state = {
       selectedValue: props.initialSelectedValue
-    }
+    };
   }
 
   afterChange() {
@@ -49,9 +49,12 @@ class FormRadioGroup extends React.Component {
   }
 
   onChange(e) {
-    this.setState({
-      selectedValue: e.currentTarget.value
-    }, this.afterChange);
+    this.setState(
+      {
+        selectedValue: e.currentTarget.value
+      },
+      this.afterChange
+    );
   }
 
   render() {
@@ -63,29 +66,28 @@ class FormRadioGroup extends React.Component {
 
     return (
       <div className={`${id}_radio_group`}>
-        {
-          values.map((value) => {
-            /*
-             * The `id` for a radio button group must be unique, so we follow
-             * the Rails-style microformat and append the value to the `id`
-             */
-            const radioId = `${id}_${value}`;
+        {values.map((value) => {
+          /*
+           * The `id` for a radio button group must be unique, so we follow
+           * the Rails-style microformat and append the value to the `id`
+           */
+          const radioId = `${id}_${value}`;
 
-            return (
-              <label key={radioId} htmlFor={radioId}>
-                {renderDisplayContentForRadioValue(value)}
-                <input
-                  checked={selectedValue === value}
-                  id={radioId}
-                  name={name}
-                  onChange={onChange}
-                  tabIndex="0"
-                  type='radio'
-                  value={value} />
-              </label>
-            );
-          })
-        }
+          return (
+            <label key={radioId} htmlFor={radioId}>
+              {renderDisplayContentForRadioValue(value)}
+              <input
+                checked={selectedValue === value}
+                id={radioId}
+                name={name}
+                onChange={onChange}
+                tabIndex='0'
+                type='radio'
+                value={value}
+              />
+            </label>
+          );
+        })}
       </div>
     );
   }

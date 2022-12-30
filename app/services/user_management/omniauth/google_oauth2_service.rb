@@ -51,7 +51,9 @@ module UserManagement
 
       def create_user
         user.attributes = {
-          first_name: first_name, last_name: last_name, email: email
+          first_name: first_name,
+          last_name: last_name,
+          email: email
         }
 
         user.save.tap { |res| context.was_user_created = true if res }
@@ -72,13 +74,15 @@ module UserManagement
 
       def handle_blank_uid
         context.fail!(
-          log: "#{log_tags} Missing uid", error: I18n.t('generic_error')
+          log: "#{log_tags} Missing uid",
+          error: I18n.t('generic_error')
         )
       end
 
       def handle_blank_auth
         context.fail!(
-          log: "#{log_tags} Missing auth", error: I18n.t('generic_error')
+          log: "#{log_tags} Missing auth",
+          error: I18n.t('generic_error')
         )
       end
 
@@ -112,9 +116,9 @@ module UserManagement
         # This is a bit hacky but it retreives the actual domain name that
         # failed validation.
         @invalid_domain ||=
-          user.errors.details[:email].detect do |h|
-            h[:error] == :invalid_domain
-          end.try(:[], :domain)
+          user.errors.details[:email]
+            .detect { |h| h[:error] == :invalid_domain }
+            .try(:[], :domain)
       end
 
       def log_tags

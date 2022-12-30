@@ -25,7 +25,7 @@ class FormDatePicker extends React.Component {
 
     this.state = {
       inputValue: props.initialValue
-    }
+    };
   }
 
   afterChange() {
@@ -47,9 +47,10 @@ class FormDatePicker extends React.Component {
       <DatePicker
         id={idFromName(name)}
         name={name}
-        dateFormat="yyyy-MM-dd"
+        dateFormat='yyyy-MM-dd'
         onChange={this.onChange}
-        selected={inputValue} />
+        selected={inputValue}
+      />
     );
   }
 }

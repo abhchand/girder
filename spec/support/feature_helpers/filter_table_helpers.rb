@@ -13,13 +13,11 @@ module FeatureHelpers
 
   def expect_filter_table_records_to_be(records)
     # First wait for the table to update
-    wait_for do
-      page.all('.filter-table__table tbody tr').count == records.size
-    end
+    wait_for { page.all('.filter-table__table tbody tr').count == records.size }
 
     actual = page.all('.filter-table__table tbody tr').map { |r| r['data-id'] }
 
-    if records[0].class.name == 'UserInvitation'
+    if records[0].instance_of?(::UserInvitation)
       expect(actual).to eq(records.map(&:id).map(&:to_s))
     else
       expect(actual).to eq(records.map(&:synthetic_id))

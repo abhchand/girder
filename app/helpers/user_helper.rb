@@ -1,11 +1,9 @@
 module UserHelper
   def user
     @user ||=
-      begin
-        User.find_by_synthetic_id(params[:id]).tap do |u|
-          handle_user_not_found if u.blank?
-        end
-      end
+      User
+        .find_by_synthetic_id(params[:id])
+        .tap { |u| handle_user_not_found if u.blank? }
   end
 
   def only_editable_users

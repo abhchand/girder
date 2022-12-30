@@ -1,6 +1,11 @@
 class User < ApplicationRecord
   AVATAR_SIZES = {
-    thumb: { resize: '75x75' }, medium: { resize: '200x200' }
+    thumb: {
+      resize: '75x75'
+    },
+    medium: {
+      resize: '200x200'
+    }
   }.freeze
 
   OMNIAUTH_PROVIDERS = %w[google_oauth2].freeze
@@ -19,9 +24,10 @@ class User < ApplicationRecord
 
   include HasSyntheticId
 
-  # rubocop:disable Metrics/LineLength
   has_many :photos,
-           foreign_key: :owner_id, dependent: :destroy, inverse_of: :owner
+           foreign_key: :owner_id,
+           dependent: :destroy,
+           inverse_of: :owner
 
   has_one :invitation,
           class_name: 'UserInvitation',
@@ -58,7 +64,10 @@ class User < ApplicationRecord
     omniauth.validates :confirmed_at, absence: true
     omniauth.validates :confirmation_sent_at, absence: true
     omniauth.validates :uid,
-                       presence: true, uniqueness: { case_sensitive: false }
+                       presence: true,
+                       uniqueness: {
+                         case_sensitive: false
+                       }
   end
 
   # Override default Devise behavior. We want to skip sending confirmation for
@@ -68,8 +77,6 @@ class User < ApplicationRecord
 
   scope :active, -> { where(deactivated_at: nil) }
   scope :deactivated, -> { where.not(deactivated_at: nil) }
-
-  # rubocop:enable Metrics/LineLength
 
   # Override Devise's implementation of this method which relies on
   # enqueuing mailers through ActiveJob. Below uses Sidekiq's ActionMailer
@@ -133,12 +140,11 @@ class User < ApplicationRecord
     domain = (email || '').split('@').last
 
     return if domain.blank?
-    # rubocop:disable Metrics/LineLength
+    # rubocop:disable Style/IfUnlessModifier
     if registration_email_whitelisted_domains.any? { |d| domain =~ /#{d}/i }
       return
     end
-    # rubocop:enable Metrics/LineLength
-
+    # rubocop:enable Style/IfUnlessModifier
     errors.add(:email, :invalid_domain, domain: domain)
   end
 

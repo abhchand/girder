@@ -2,9 +2,11 @@ class UserPresenter < ApplicationPresenter
   include WebpackHelper
 
   def avatar_path(size: nil)
+    # rubocop:disable Style/IfUnlessModifier
     unless avatar.attached?
       return image_path("blank-avatar-#{size&.downcase || :medium}.jpg")
     end
+    # rubocop:enable Style/IfUnlessModifier
 
     # Somewhat annoyingly, ActiveStorage only provides URL path helpers on
     # variants or previews, not on ::Blob records themselves. So we have to
@@ -15,7 +17,8 @@ class UserPresenter < ApplicationPresenter
 
     rails_representation_url(
       variant,
-      disposition: 'attachment', only_path: true
+      disposition: 'attachment',
+      only_path: true
     )
   end
 

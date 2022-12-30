@@ -75,10 +75,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
           data = JSON.parse(response.body)['data']
           actual = data.map { |d| d['id'] }
-          expected =
-            [users[2], users[0], users[1], users[3]].map(&:synthetic_id).map(
-              &:to_s
-            )
+          expected = [users[2], users[0], users[1], users[3]].map(
+            &:synthetic_id
+          ).map(&:to_s)
 
           expect(actual).to eq(expected)
         end
@@ -95,10 +94,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
           data = JSON.parse(response.body)['data']
           actual = data.map { |d| d['id'] }
-          expected =
-            [users[1], users[2], users[0], users[3]].map(&:synthetic_id).map(
-              &:to_s
-            )
+          expected = [users[1], users[2], users[0], users[3]].map(
+            &:synthetic_id
+          ).map(&:to_s)
 
           expect(actual).to eq(expected)
         end
@@ -115,10 +113,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
           data = JSON.parse(response.body)['data']
           actual = data.map { |d| d['id'] }
-          expected =
-            [users[2], users[0], users[1], users[3]].map(&:synthetic_id).map(
-              &:to_s
-            )
+          expected = [users[2], users[0], users[1], users[3]].map(
+            &:synthetic_id
+          ).map(&:to_s)
 
           expect(actual).to eq(expected)
         end
@@ -134,8 +131,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
           data = JSON.parse(response.body)['data']
           actual = data.map { |d| d['id'] }
-          expected =
-            [users[0], users[2], users[3]].map(&:synthetic_id).map(&:to_s)
+          expected = [users[0], users[2], users[3]].map(&:synthetic_id).map(
+            &:to_s
+          )
 
           expect(actual).to match_array(expected)
         end
@@ -171,8 +169,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
             data = JSON.parse(response.body)['data']
             actual = data.map { |d| d['id'] }
-            expected =
-              [users[0], users[2], users[3]].map(&:synthetic_id).map(&:to_s)
+            expected = [users[0], users[2], users[3]].map(&:synthetic_id).map(
+              &:to_s
+            )
 
             expect(actual).to match_array(expected)
           end
@@ -371,7 +370,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       {
         format: 'json',
         id: user.synthetic_id,
-        user: { first_name: 'Mae', last_name: 'Whitman' }
+        user: {
+          first_name: 'Mae',
+          last_name: 'Whitman'
+        }
       }
     end
 
@@ -479,12 +481,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:admin) { create(:user, :admin) }
     let(:user) { create(:user) }
 
-    let(:params) do
-      {
-        format: 'json',
-        id: user.synthetic_id
-      }
-    end
+    let(:params) { { format: 'json', id: user.synthetic_id } }
 
     before do
       sign_in(admin)
@@ -537,9 +534,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         let(:user) { admin }
 
         it 'does not allow the action' do
-          expect do
-            delete :destroy, params: params
-          end.to_not change { User.count }
+          expect { delete :destroy, params: params }.to_not(
+            change { User.count }
+          )
 
           expect(response.status).to eq(400)
           expect(response.body).to eq('')
@@ -552,12 +549,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:admin) { create(:user, :admin) }
     let(:user) { create(:user) }
 
-    let(:params) do
-      {
-        format: 'json',
-        user_id: user.synthetic_id
-      }
-    end
+    let(:params) { { format: 'json', user_id: user.synthetic_id } }
 
     before do
       sign_in(admin)
@@ -598,9 +590,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     describe 'adding an admin' do
       it 'makes the user an admin and responds successfully' do
-        expect do
-          post :add_admin, params: params
-        end.to change { user.reload.has_role?('admin') }.from(false).to(true)
+        expect { post :add_admin, params: params }.to change {
+          user.reload.has_role?('admin')
+        }.from(false).to(true)
 
         expect(response.status).to eq(200)
         expect(response.body).to eq('')
@@ -612,12 +604,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:admin) { create(:user, :admin) }
     let(:user) { create(:user, :admin) }
 
-    let(:params) do
-      {
-        format: 'json',
-        user_id: user.synthetic_id
-      }
-    end
+    let(:params) { { format: 'json', user_id: user.synthetic_id } }
 
     before do
       sign_in(admin)
@@ -658,9 +645,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     describe 'adding an admin' do
       it 'makes the user an admin and responds successfully' do
-        expect do
-          post :remove_admin, params: params
-        end.to change { user.reload.has_role?('admin') }.from(true).to(false)
+        expect { post :remove_admin, params: params }.to change {
+          user.reload.has_role?('admin')
+        }.from(true).to(false)
 
         expect(response.status).to eq(200)
         expect(response.body).to eq('')

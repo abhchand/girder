@@ -13,7 +13,8 @@ module Admin
     # @return [String] The HTML for the generated `<button>` actions
     def actions_for(target)
       case
-      when target.is_a?(User) && current_user.has_role?('admin') && current_user != target
+      when target.is_a?(User) && current_user.has_role?('admin') &&
+             current_user != target
         actions_for_user(target)
       when target.is_a?(UserInvitation) && target.pending?
         actions_for_invitation(target)

@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   root to: 'root#new'
 
   scope :admin do
-    mount Sidekiq::Web => '/sidekiq', constraints: Sidekiq::AdminConstraint.new
+    mount Sidekiq::Web => '/sidekiq',
+          :constraints => Sidekiq::AdminConstraint.new
 
     # unless Rails.env.production?
     #   get(

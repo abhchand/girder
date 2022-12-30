@@ -73,7 +73,9 @@ end
 end
 
 # Photos
+# rubocop:disable Style/CombinableLoops
 (1..10).each do |i|
   puts "Creating photo ##{i + 1}"
   FactoryBot.create(:photo, owner: User.first, taken_at: (10 * i).days.from_now)
 end
+# rubocop:enable Style/CombinableLoops

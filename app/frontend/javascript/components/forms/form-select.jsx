@@ -34,7 +34,7 @@ class FormSelect extends React.Component {
 
     this.state = {
       selectId: props.initialSelectedId || ''
-    }
+    };
   }
 
   afterChange() {
@@ -56,9 +56,12 @@ class FormSelect extends React.Component {
   }
 
   onChange(e) {
-    this.setState({
-      selectId: e.currentTarget.value
-    }, this.afterChange);
+    this.setState(
+      {
+        selectId: e.currentTarget.value
+      },
+      this.afterChange
+    );
   }
 
   render() {
@@ -71,18 +74,16 @@ class FormSelect extends React.Component {
         name={name}
         onBlur={this.onChange}
         defaultValue={this.state.selectId}>
-        {
-          options.map((option, _i) => {
-            // Placeholder value should have `id` of blank string
-            const optionId = option.id || '';
+        {options.map((option, _i) => {
+          // Placeholder value should have `id` of blank string
+          const optionId = option.id || '';
 
-            return (
-              <option key={`${id}_${optionId}`} value={optionId}>
-                {option.value}
-              </option>
-            );
-          })
-        }
+          return (
+            <option key={`${id}_${optionId}`} value={optionId}>
+              {option.value}
+            </option>
+          );
+        })}
       </select>
     );
   }

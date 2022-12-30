@@ -48,7 +48,11 @@ class Modal extends React.Component {
 
     return (
       <CtaButton
-        additionalClasses={['modal-content__button', 'modal-content__button--submit', 'cta-purple']}
+        additionalClasses={[
+          'modal-content__button',
+          'modal-content__button--submit',
+          'cta-purple'
+        ]}
         disabled={!this.props.submitButtonEnabled}
         onClick={this.submit}
         value={this.props.submitButtonLabel}
@@ -59,7 +63,11 @@ class Modal extends React.Component {
   closeButton() {
     return (
       <CtaButton
-        additionalClasses={['modal-content__button', 'modal-content__button--close', 'cta-white']}
+        additionalClasses={[
+          'modal-content__button',
+          'modal-content__button--close',
+          'cta-white'
+        ]}
         onClick={this.close}
         value={this.props.closeButtonLabel}
       />

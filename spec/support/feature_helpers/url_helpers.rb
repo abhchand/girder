@@ -1,8 +1,9 @@
 module FeatureHelpers
   def url_params(url_to_parse = current_url)
     params =
-      Rack::Utils.parse_query(URI.parse(url_to_parse).query)
-        .with_indifferent_access
+      Rack::Utils.parse_query(
+        URI.parse(url_to_parse).query
+      ).with_indifferent_access
 
     params.each { |k, v| params[k] = CGI.unescape(v) }
     params

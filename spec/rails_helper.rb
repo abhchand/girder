@@ -5,9 +5,11 @@ Dotenv.load(File.expand_path('../.env.test'))
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 
+# rubocop:disable Style/IfUnlessModifier
 if Rails.env.production?
   abort('The Rails environment is running in production mode!')
 end
+# rubocop:enable Style/IfUnlessModifier
 
 require 'spec_helper'
 require 'rspec/rails'

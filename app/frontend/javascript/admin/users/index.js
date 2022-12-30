@@ -39,9 +39,4 @@ function resendUserInvitation(userInvitationid) {
   httpRequest(`/api/v1/user_invitations/${userInvitationid}/resend.json`);
 }
 
-export {
-  addAdmin,
-  removeAdmin,
-  deleteUser,
-  resendUserInvitation
-}
+export { addAdmin, removeAdmin, deleteUser, resendUserInvitation };

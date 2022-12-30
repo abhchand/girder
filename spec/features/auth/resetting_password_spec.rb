@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.feature 'Resetting Password', type: :feature do
-  # rubocop:disable Metrics/LineLength
   #
   # Explanation of password paths routes behavior
   #
@@ -21,8 +20,6 @@ RSpec.feature 'Resetting Password', type: :feature do
   #                             PUT    /users/password                -> devise/passwords#update
   #                             POST   /users/password                -> devise/passwords#create
   #
-  # rubocop:enable Metrics/LineLength
-
   let(:user) { create(:user) }
 
   describe 'requesting password reset' do
@@ -186,15 +183,18 @@ RSpec.feature 'Resetting Password', type: :feature do
         visit edit_user_password_path(reset_password_token: @token)
 
         expect(page).to have_current_path(new_user_session_path)
-        expect(page).to have_flash_message(t('devise.passwords.no_token'))
-          .of_type(:alert)
+        expect(page).to have_flash_message(
+          t('devise.passwords.no_token')
+        ).of_type(:alert)
       end
     end
 
     context 'form submission error' do
       it 'displays an auth error when password is blank' do
         submit_password_reset(
-          token: @token, password: nil, password_confirmation: 'new!Password123'
+          token: @token,
+          password: nil,
+          password_confirmation: 'new!Password123'
         )
 
         expect(page).to have_auth_error(validation_error_for(:password, :blank))
@@ -202,7 +202,9 @@ RSpec.feature 'Resetting Password', type: :feature do
 
       it 'displays an auth error when password confirmation is blank' do
         submit_password_reset(
-          token: @token, password: 'new!Password123', password_confirmation: nil
+          token: @token,
+          password: 'new!Password123',
+          password_confirmation: nil
         )
 
         expect(page).to have_auth_error(
@@ -244,8 +246,9 @@ RSpec.feature 'Resetting Password', type: :feature do
         visit edit_user_password_path(reset_password_token: @token)
 
         expect(page).to have_current_path(new_user_session_path)
-        expect(page).to have_flash_message(t('devise.passwords.no_token'))
-          .of_type(:alert)
+        expect(page).to have_flash_message(
+          t('devise.passwords.no_token')
+        ).of_type(:alert)
       end
 
       context 'reset password token exists' do

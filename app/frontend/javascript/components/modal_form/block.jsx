@@ -32,9 +32,7 @@ const Block = (props) => {
       <label {...labelAttrs}>{props.label}</label>
 
       <div className='modal-form__block-element-container'>
-        <div className='modal-form__block-element'>
-          {props.children}
-        </div>
+        <div className='modal-form__block-element'>{props.children}</div>
 
         {props.errorText && <ModalError text={props.errorText} />}
       </div>
@@ -52,6 +50,6 @@ Block.propTypes = {
 
 Block.defaultProps = {
   isLabelEnabled: true
-}
+};
 
 export default Block;

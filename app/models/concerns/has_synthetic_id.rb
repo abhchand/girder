@@ -12,10 +12,9 @@ module HasSyntheticId
   end
 
   def generate_synthetic_id
-    self[:synthetic_id] ||=
-      loop do
-        token = SecureRandom.base58(10)
-        break token unless self.class.exists?(synthetic_id: token)
-      end
+    self[:synthetic_id] ||= loop do
+      token = SecureRandom.base58(10)
+      break token unless self.class.exists?(synthetic_id: token)
+    end
   end
 end

@@ -19,9 +19,9 @@ RSpec.describe 'application/_desktop_navigation.html.erb', type: :view do
 
   def rendered_links
     [].tap do |links|
-      page.all('.desktop-navigation__link-element').each do |el|
-        links << el.find('a')['href']
-      end
+      page
+        .all('.desktop-navigation__link-element')
+        .each { |el| links << el.find('a')['href'] }
     end
   end
 end

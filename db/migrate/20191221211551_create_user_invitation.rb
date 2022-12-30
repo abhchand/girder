@@ -5,7 +5,11 @@ class CreateUserInvitation < ActiveRecord::Migration[6.0]
       t.string :email, null: false, index: { unique: true }
       t.references :inviter, references: :users, index: true, null: false
       t.references :invitee,
-                   references: :users, index: { unique: true }, null: true
+                   references: :users,
+                   index: {
+                     unique: true
+                   },
+                   null: true
     end
 
     # Can't use `foreign_key:` option when using `references:` option

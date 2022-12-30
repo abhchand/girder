@@ -19,7 +19,7 @@ LinkButton.propTypes = {
 };
 
 LinkButton.defaultProps = {
-  additionalClasses: [],
-}
+  additionalClasses: []
+};
 
 export default LinkButton;

@@ -24,7 +24,7 @@ const AccordionTable = (props) => {
       })}
     </div>
   );
-}
+};
 
 AccordionTable.propTypes = {
   name: PropTypes.string.isRequired,

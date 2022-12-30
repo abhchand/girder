@@ -17,7 +17,10 @@ class Api::V1::UsersController < Api::BaseController
     json =
       serialize(
         UserPresenter.wrap(users, view: view_context),
-        links: links, meta: { totalCount: total }
+        links: links,
+        meta: {
+          totalCount: total
+        }
       )
 
     render json: json, status: :ok

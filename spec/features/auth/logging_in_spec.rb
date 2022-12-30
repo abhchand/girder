@@ -91,8 +91,9 @@ RSpec.feature 'Logging In', type: :feature do
       log_in(user)
 
       expect(page).to have_current_path(new_user_session_path)
-      expect(page).to have_flash_message(t('devise.failure.unconfirmed'))
-        .of_type(:alert)
+      expect(page).to have_flash_message(
+        t('devise.failure.unconfirmed')
+      ).of_type(:alert)
     end
   end
 

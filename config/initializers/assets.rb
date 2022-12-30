@@ -1,5 +1,3 @@
-# rubocop:disable Metrics/LineLength
-
 image_folder = Rails.env.test? ? 'images-test' : 'images'
 
 WEBPACK_PACKS_DIR =
@@ -29,5 +27,3 @@ class CustomSvgAssetLoader
 end
 
 InlineSvg.configure { |config| config.asset_file = CustomSvgAssetLoader }
-
-# rubocop:enable Metrics/LineLength

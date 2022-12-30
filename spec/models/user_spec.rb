@@ -1,10 +1,8 @@
 require 'rails_helper'
-# rubocop:disable Metrics/LineLength
-require Rails.root.join(
-          'spec/support/shared_examples/models/concerns/has_synthetic_id'
-        ).to_s
-# rubocop:enable Metrics/LineLength
-
+require Rails
+          .root
+          .join('spec/support/shared_examples/models/concerns/has_synthetic_id')
+          .to_s
 RSpec.describe User do
   it_behaves_like 'has synthetic id'
 
@@ -118,7 +116,7 @@ RSpec.describe User do
 
           user.valid?
 
-          error = [:confirmation, attribute: 'Password']
+          error = [:confirmation, { attribute: 'Password' }]
           expect(user.errors.added?(:password_confirmation, *error)).to eq(true)
         end
 

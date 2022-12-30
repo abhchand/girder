@@ -1,7 +1,4 @@
-# rubocop:disable Metrics/LineLength
 class Devise::Custom::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  # rubocop:enable Metrics/LineLength
-
   def google_oauth2
     Rails.logger.info("Google OAuth2 Omniauth for #{auth&.uid}")
 

@@ -161,7 +161,7 @@ class BaseModel {
      * models of a different `type`, but we expect whatever
      * calls this method to ensure that's correct
      */
-    const idx = curModels.findIndex(i => i.id === model.id);
+    const idx = curModels.findIndex((i) => i.id === model.id);
     if (idx > -1) {
       return;
     }
@@ -192,7 +192,7 @@ class BaseModel {
      * models of a different `type`, but we expect whatever
      * calls this method to ensure that's correct
      */
-    const idx = curModels.findIndex(i => i.id === model.id);
+    const idx = curModels.findIndex((i) => i.id === model.id);
     if (idx === -1) {
       return;
     }

@@ -1,9 +1,6 @@
 require Rails.root.join('config/smtp')
 
-# rubocop:disable Metrics/BlockLength
-
 Rails.application.configure do
-  # rubocop:disable Metrics/LineLength
   # Settings specified here will take precedence over those in
   # config/application.rb.
 
@@ -88,7 +85,7 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
-    logger = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
@@ -113,7 +110,4 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
-  # rubocop:enable Metrics/LineLength
 end
-
-# rubocop:enable Metrics/BlockLength

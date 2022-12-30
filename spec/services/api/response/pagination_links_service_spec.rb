@@ -176,8 +176,9 @@ RSpec.describe Api::Response::PaginationLinksService do
 
     params =
       if uri.query
-        Hash[uri.query.split('&').map { |p| p.split('=') }]
-          .with_indifferent_access
+        Hash[
+          uri.query.split('&').map { |p| p.split('=') }
+        ].with_indifferent_access
       else
         {}
       end

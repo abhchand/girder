@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   private
 
   def ensure_json_request
-    return if (defined?(request)) && request.format.to_sym == :json
+    return if defined?(request) && request.format.to_sym == :json
     redirect_to(root_path)
   end
 

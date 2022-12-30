@@ -14,7 +14,9 @@ class Api::BaseController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound do |exception|
     # NOTE: Errors not visible to end users are not translated
     error = {
-      title: 'Record Not Found', description: exception.message, status: '404'
+      title: 'Record Not Found',
+      description: exception.message,
+      status: '404'
     }
 
     render json: { errors: [error] }, status: 404
@@ -52,14 +54,16 @@ class Api::BaseController < ApplicationController
         # This method won't work in general if User is a nested child resource
         id = params[:user_id] || params[:id]
 
-        User.find_by_synthetic_id(id).tap do |user|
-          if user.nil?
-            raise(
-              ActiveRecord::RecordNotFound,
-              "Couldn't find User with 'id'=#{id}"
-            )
+        User
+          .find_by_synthetic_id(id)
+          .tap do |user|
+            if user.nil?
+              raise(
+                ActiveRecord::RecordNotFound,
+                "Couldn't find User with 'id'=#{id}"
+              )
+            end
           end
-        end
       end
   end
 
@@ -67,7 +71,8 @@ class Api::BaseController < ApplicationController
     default = Api::Response::PaginationLinksService::PAGE_SIZE
 
     collection.paginate(
-      page: params[:page], per_page: params[:per_page] || default
+      page: params[:page],
+      per_page: params[:per_page] || default
     )
   end
 

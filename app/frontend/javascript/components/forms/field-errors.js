@@ -9,7 +9,7 @@
 import { toSnakeCase } from 'javascript/utils/case';
 
 function clearFieldError(field) {
-  this.setState(prevState => {
+  this.setState((prevState) => {
     // Copy the object
     const fieldErrors = { ...prevState.fieldErrors };
 
@@ -33,21 +33,19 @@ function formHasError() {
 }
 
 function setFieldError(field, key) {
-  this.setState(prevState => {
+  this.setState((prevState) => {
     // Copy the object
     const fieldErrors = { ...prevState.fieldErrors };
 
     // Dynamically set the field error
     fieldErrors[field] = I18n.t(
-      `activerecord.errors.models.appliance.attributes.${toSnakeCase(field)}.${key}`
+      `activerecord.errors.models.appliance.attributes.${toSnakeCase(
+        field
+      )}.${key}`
     );
 
     return { fieldErrors };
   });
 }
 
-export {
-  clearFieldError,
-  formHasError,
-  setFieldError
-}
+export { clearFieldError, formHasError, setFieldError };

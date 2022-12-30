@@ -4,7 +4,6 @@ RSpec.describe 'users/sessions/new.html.erb', type: :view do
   let(:user) { User.new }
 
   before do
-    # rubocop:disable Metrics/LineLength
     stub_template 'layouts/_flash.html.erb' => '_stubbed_flash'
     stub_template 'users/shared/_error_messages.html.erb' =>
                     '_stubbed_error_messages'
@@ -12,8 +11,6 @@ RSpec.describe 'users/sessions/new.html.erb', type: :view do
                     '_stubbed_users_native_links'
     stub_template 'users/shared/_omniauth_links.html.erb' =>
                     '_stubbed_users_omniauth_links'
-    # rubocop:enable Metrics/LineLength
-
     assign(:user, user)
 
     @t_prefix = 'users.sessions.new'

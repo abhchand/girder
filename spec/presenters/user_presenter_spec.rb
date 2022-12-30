@@ -38,7 +38,8 @@ RSpec.describe PhotoPresenter, type: :presenter do
 
     rails_representation_url(
       variant,
-      disposition: 'attachment', only_path: true
+      disposition: 'attachment',
+      only_path: true
     )
   end
 end

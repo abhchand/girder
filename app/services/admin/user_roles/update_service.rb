@@ -28,12 +28,8 @@ class Admin::UserRoles::UpdateService
   end
 
   def update_roles!
-    (new_roles - current_roles).each do |role|
-      user.add_role(role)
-    end
-    (current_roles - new_roles).each do |role|
-      user.remove_role(role)
-    end
+    (new_roles - current_roles).each { |role| user.add_role(role) }
+    (current_roles - new_roles).each { |role| user.remove_role(role) }
   end
 
   def handle_invalid_roles

@@ -16,19 +16,20 @@ module FeatureHelpers
           '.accordion-table-row-descendants'
       )
 
-    within(scope) { yield }
+    within(scope, &block)
   end
 
   def toggle_accordion_row(record)
-    accordion_table_row_for(record).find('.accordion-table-row__expand-arrow')
-      .click
+    accordion_table_row_for(record).find(
+      '.accordion-table-row__expand-arrow'
+    ).click
   end
 
   def expect_accordion_table_rows_to_be(data, type:)
     actual =
-      page.all(".accordion-table-row[data-type='#{type}']").map do |row|
-        row['data-id']
-      end
+      page
+        .all(".accordion-table-row[data-type='#{type}']")
+        .map { |row| row['data-id'] }
     expected = data.map(&:id).map(&:to_s)
 
     expect(actual).to eq(expected)

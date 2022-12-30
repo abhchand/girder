@@ -29,7 +29,7 @@ class FormInput extends React.Component {
 
     this.state = {
       inputValue: props.initialValue || ''
-    }
+    };
   }
 
   afterChange() {
@@ -40,9 +40,12 @@ class FormInput extends React.Component {
   }
 
   onChange(e) {
-    this.setState({
-      inputValue: e.currentTarget.value
-    }, this.afterChange);
+    this.setState(
+      {
+        inputValue: e.currentTarget.value
+      },
+      this.afterChange
+    );
   }
 
   render() {

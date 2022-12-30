@@ -15,16 +15,18 @@ RSpec.describe Admin::UserHelper, type: :helper do
         actions = to_html_node(actions_for(user))
         buttons = actions.all('button')
 
-        expect(buttons[0]).
-          to have_text(t("#{i18n_prefix}.table.actions.make_admin"))
+        expect(buttons[0]).to have_text(
+          t("#{i18n_prefix}.table.actions.make_admin")
+        )
       end
 
       it 'generates the button to delete the target user' do
         actions = to_html_node(actions_for(user))
         buttons = actions.all('button')
 
-        expect(buttons[1]).
-          to have_text(t("#{i18n_prefix}.table.actions.delete_user"))
+        expect(buttons[1]).to have_text(
+          t("#{i18n_prefix}.table.actions.delete_user")
+        )
       end
 
       context 'target user is an admin' do
@@ -34,8 +36,9 @@ RSpec.describe Admin::UserHelper, type: :helper do
           actions = to_html_node(actions_for(user))
           buttons = actions.all('button')
 
-          expect(buttons[0]).
-            to have_text(t("#{i18n_prefix}.table.actions.remove_admin"))
+          expect(buttons[0]).to have_text(
+            t("#{i18n_prefix}.table.actions.remove_admin")
+          )
         end
       end
 
@@ -61,8 +64,9 @@ RSpec.describe Admin::UserHelper, type: :helper do
         actions = to_html_node(actions_for(user_invitation))
         buttons = actions.all('button')
 
-        expect(buttons[0]).
-          to have_text(t("#{i18n_prefix}.table.actions.resend_invitation"))
+        expect(buttons[0]).to have_text(
+          t("#{i18n_prefix}.table.actions.resend_invitation")
+        )
       end
 
       context 'UserInvitation is not pending' do
@@ -132,8 +136,9 @@ RSpec.describe Admin::UserHelper, type: :helper do
 
     context 'target is a UserInvitation' do
       it 'returns the invited label' do
-        expect(status_for(user_invitation)).
-          to eq(t("#{i18n_prefix}.table.status.invited"))
+        expect(status_for(user_invitation)).to eq(
+          t("#{i18n_prefix}.table.status.invited")
+        )
       end
     end
   end

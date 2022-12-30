@@ -2,15 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Users::SearchService, type: :interactor do
   let(:user_attributes) do
-    # rubocop:disable Metrics/LineLength
     [
       { first_name: 'Leonardo', last_name: 'Davinci', email: 'leo@def.it' },
       {
-        first_name: 'Michelangelo', last_name: 'Simoni', email: 'mikey@abc.it'
+        first_name: 'Michelangelo',
+        last_name: 'Simoni',
+        email: 'mikey@abc.it'
       },
       { first_name: 'Donatello', last_name: 'Bardi', email: 'donny@ghi.it' }
     ]
-    # rubocop:enable Metrics/LineLength
   end
 
   let!(:users) do

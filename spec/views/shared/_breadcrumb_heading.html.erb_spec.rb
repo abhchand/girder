@@ -15,9 +15,9 @@ RSpec.describe 'shared/_breadcrumb_heading.html.erb', type: :view do
 
     render_partial
 
-    page.all('.breadcrumb-heading h3 a').each do |el|
-      actual << { label: el.text, href: el['href'] }
-    end
+    page
+      .all('.breadcrumb-heading h3 a')
+      .each { |el| actual << { label: el.text, href: el['href'] } }
 
     expect(actual).to eq(expected)
   end
@@ -30,7 +30,10 @@ RSpec.describe 'shared/_breadcrumb_heading.html.erb', type: :view do
 
   def render_partial
     render(
-      partial: 'shared/breadcrumb_heading', locals: { breadcrumbs: breadcrumbs }
+      partial: 'shared/breadcrumb_heading',
+      locals: {
+        breadcrumbs: breadcrumbs
+      }
     )
   end
 end

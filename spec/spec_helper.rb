@@ -25,8 +25,7 @@ RSpec.configure do |config|
   config.around(:each, :mobile, type: :feature) do |example|
     # rack-test has no concept of a window so need to use
     # :headless_chrome for mobile responsive tests
-    Capybara.current_driver =
-      :headless_chrome
+    Capybara.current_driver = :headless_chrome
 
     resize_window_to_mobile
 

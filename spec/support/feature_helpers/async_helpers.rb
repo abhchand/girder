@@ -22,23 +22,23 @@ module FeatureHelpers
       loop until finished_async_process?(name)
     end
 
-    # rubocop:disable Style/Semicolon
     wait_for do
       sleep(delay)
       true
     end
-    # rubocop:enable Style/Semicolon
   end
 
+  # rubocop:disable Lint/SuppressedException
   def finished_all_xhr_requests?
     page.evaluate_script('jQuery.active').tap { |result| return result.zero? }
-  rescue Timeout::Error # rubocop:disable Lint/HandleExceptions
+  rescue Timeout::Error
   end
 
   def finished_async_process?(name)
-    page.evaluate_script('window.asyncRegistration').tap do |result|
-      return !result.include?(name)
-    end
-  rescue Timeout::Error # rubocop:disable Lint/HandleExceptions
+    page
+      .evaluate_script('window.asyncRegistration')
+      .tap { |result| return !result.include?(name) }
+  rescue Timeout::Error
   end
+  # rubocop:enable Lint/SuppressedException
 end

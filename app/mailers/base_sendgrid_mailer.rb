@@ -1,7 +1,8 @@
 class BaseSendgridMailer < ApplicationMailer
   helper_method :namespace_url
 
-  class MissingSubject < StandardError; end
+  class MissingSubject < StandardError
+  end
 
   private
 
