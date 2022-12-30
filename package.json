@@ -6,6 +6,8 @@
     "lint:css:fix": "stylelint app/frontend/stylesheets/* --fix",
     "lint:js": "eslint . --ext .js,.jsx",
     "lint:js:fix": "eslint . --ext .js,.jsx --fix",
+    "lint:ruby": "bundle exec rubocop",
+    "lint:ruby:fix": "bundle exec rubocop --autocorrect",
     "prettier": "prettier --check --config .prettierrc.json '**/*'",
     "prettier:fix": "prettier --write --config .prettierrc.json '**/*'",
     "test": "TZ='UTC' jest --no-cache --config spec/frontend/javascript/jest.config.js",
