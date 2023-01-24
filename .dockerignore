@@ -5,7 +5,6 @@ public/
 tmp/
 vendor/cache/
 .env.development
-.env.dockercompose
 .bundle
 tags
 .git

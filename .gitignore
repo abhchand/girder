@@ -21,7 +21,6 @@
 # Dotenv files
 .env.development
 .env.production
-.env.dockercompose
 
 # RSpec
 spec/examples.txt

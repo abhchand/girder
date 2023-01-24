@@ -52,8 +52,10 @@ services:
 
   girder-postgres:
     image: postgres:12.8-alpine3.14
-    env_file:
-      - .env.dockercompose
+    environment:
+      # See: https://hub.docker.com/_/postgres
+      POSTGRES_PASSWORD: sekrit
+      POSTGRES_USER: postgres
     networks:
       - girder_network
     volumes:
