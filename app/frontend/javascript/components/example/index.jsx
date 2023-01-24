@@ -1,4 +1,3 @@
-import { IconCheckMark } from 'components/icons';
 import mountReactComponent from 'mount-react-component.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -11,12 +10,7 @@ class Example extends React.Component {
   constructor(props) {
     super(props);
 
-    this.renderCheckMark = this.renderCheckMark.bind(this);
     this.renderPhotoElement = this.renderPhotoElement.bind(this);
-  }
-
-  renderCheckMark() {
-    return <IconCheckMark fillColor='#FFFFFF' />;
   }
 
   renderPhotoElement(photo) {
