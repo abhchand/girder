@@ -1,24 +1,16 @@
-# girder
+# Girder
 
-[![Build Status](https://github.com/abhchand/girder/badges/master/build.svg)](https://github.com/abhchand/girder/pipelines)
+The application and all of its services run inside docker containers, as defined in `docker-compose.yml`.
 
+The `bin/app` script provides command line helpers to interact with and run commands inside the docker container ecosystem. Most commands will require that the application backend be running for the command to work.
 
-# Quick-Start
-
-Create environment file, following instructions inside the file:
-
-```bash
-cp .env.development.sample .env.development
-```
-
-Build the app:
+# Development
 
 ```bash
-
-# BackEnd
+# Run the BackEnd
 docker-compose up
 
-# FrontEnd
+# Run the FrontEnd
 nvm use
 yarn install
 yarn run dev
@@ -26,35 +18,30 @@ yarn run dev
 
 Visit [http://localhost:3000/](http://localhost:7000/)
 
-## The FrontEnd
+For more detail on how the frontend works, see [the frontend `README`](app/frontend/README.md).
 
-* On `development`/`test` the frontend is served from a running `webpack-dev-server` instance.
-* On `production` the assets are compiled into `public/` (by running `yarn run build:prod` on Semaphore CI) and served statically.
+# Test
 
+```bash
+# BackEnd Tests (requires backend running)
+bin/app rspec
 
-### Githooks
-
-Install githooks, if you plan on committing or contributing to Girder.
-
-The script below registers a new hook under the `.git/hooks/pre-commit` which will run all the linters and stylers under `contrib/hooks/scripts/*`.
-
-```
-bin/install-githooks
+# FrontEnd Tests
+yarn run test
 ```
 
+# Code Formatting & Linting
 
-# Production (Automated)
+```shell
+# Run linters
+yarn run prettier
+yarn run lint:ruby
+yarn run lint:js
+yarn run lint:css
 
-The above production build and deploy can be automated with the [girder-ansible](https://gitlab.com/girder/girder-ansible) repo.
-
-Follow the instructions in there to provision the server.
-
-Then add a new git remote and push changes to create a new build
-
-```
-git remote add production ssh://git@XXXXX:/opt/git/girder.git
-
-# Commit new changes
-
-git push production master
+# Auto-fix any issues
+yarn run prettier:fix
+yarn run lint:ruby:fix
+yarn run lint:js:fix
+yarn run lint:css:fix
 ```
