@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UserInvitationMailer do
-  let(:hostname) { BaseSendgridMailer.send(:new).send(:hostname) }
+  let(:hostname) { ApplicationMailer.send(:new).send(:hostname) }
 
   describe 'invite' do
     let(:mail) { UserInvitationMailer.invite(@user_invitation.id) }

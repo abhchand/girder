@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Devise::Mailer do
-  let(:hostname) { BaseSendgridMailer.send(:new).send(:hostname) }
+  let(:hostname) { ApplicationMailer.send(:new).send(:hostname) }
 
   before { @user = create(:user) }
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ExampleMailer do
-  let(:hostname) { BaseSendgridMailer.send(:new).send(:hostname) }
+  let(:hostname) { ApplicationMailer.send(:new).send(:hostname) }
 
   describe 'new_example' do
     let(:mail) { ExampleMailer.new_example(@user.id) }

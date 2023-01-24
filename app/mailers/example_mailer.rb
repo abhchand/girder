@@ -1,4 +1,4 @@
-class ExampleMailer < BaseSendgridMailer
+class ExampleMailer < ApplicationMailer
   def new_example(user_id)
     user = User.find(user_id)
 

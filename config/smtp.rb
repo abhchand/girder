@@ -6,11 +6,11 @@ domain =
   end
 
 SMTP_SETTINGS = {
-  user_name: ENV['SENDGRID_USERNAME'],
-  password: ENV['SENDGRID_PASSWORD'],
+  user_name: ENV['SMTP_USERNAME'],
+  password: ENV['SMTP_PASSWORD'],
   domain: domain,
-  address: 'smtp.sendgrid.net',
-  port: '587',
+  address: ENV['SMTP_HOST'],
+  port: ENV.fetch('SMTP_PORT', '587'),
   authentication: :plain,
   enable_starttls_auto: true
 }.freeze

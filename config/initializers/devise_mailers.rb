@@ -20,7 +20,7 @@ module Devise
       #
       # See: https://github.com/plataformatec/devise/blob/master/lib/devise/mailers/helpers.rb#L64
       #
-      # Also see app/mailers/base_sendgrid_mailer.rb which defines similar
+      # Also see app/mailers/application_mailer.rb which defines similar
       # template paths for non-Devise mailers.
       #
 

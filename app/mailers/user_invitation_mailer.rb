@@ -1,4 +1,4 @@
-class UserInvitationMailer < BaseSendgridMailer
+class UserInvitationMailer < ApplicationMailer
   def invite(user_invitation_id)
     @user_invitation = UserInvitation.find(user_invitation_id)
 
