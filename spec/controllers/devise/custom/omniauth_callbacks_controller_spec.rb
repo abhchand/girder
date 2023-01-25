@@ -32,6 +32,16 @@ RSpec.describe Devise::Custom::OmniauthCallbacksController, type: :controller do
       expect(flash[:error]).to be_nil
     end
 
+    context 'google_oauth2 is disabled' do
+      before { stub_env('GOOGLE_OMNIAUTH_ENABLED' => 0) }
+
+      it 'redirects to the login page' do
+        get :google_oauth2
+
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
     context 'error in creating' do
       before { auth[:info][:email] = 'bad-email' }
 

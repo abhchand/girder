@@ -22,6 +22,17 @@ RSpec.describe 'users/shared/_omniauth_links.html.erb', type: :view do
         )
       end
     end
+
+    context 'google omniauth is disabled' do
+      before { stub_env('GOOGLE_OMNIAUTH_ENABLED' => 0) }
+
+      it 'renders the omniauth links' do
+        render
+
+        href = user_google_oauth2_omniauth_authorize_path
+        expect(page).to_not have_selector("a[href='#{href}']")
+      end
+    end
   end
 
   context 'sessions controller' do
@@ -36,6 +47,17 @@ RSpec.describe 'users/shared/_omniauth_links.html.erb', type: :view do
 
         label = page.find(".omniauth-btn--#{provider} .label")
         expect(label).to have_content(t("#{@t_prefix}.log_in_with.#{provider}"))
+      end
+    end
+
+    context 'google omniauth is disabled' do
+      before { stub_env('GOOGLE_OMNIAUTH_ENABLED' => 0) }
+
+      it 'renders the omniauth links' do
+        render
+
+        href = user_google_oauth2_omniauth_authorize_path
+        expect(page).to_not have_selector("a[href='#{href}']")
       end
     end
   end

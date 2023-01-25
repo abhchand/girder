@@ -27,7 +27,9 @@
 
   <% end %>
 
+  <%if any_omniauth_enabled? %>
   <div class="auth__action-conditional"><%= t(".or") %></div>
+  <% end %>
   <% end %>
 
   <%= render "users/shared/omniauth_links" %>

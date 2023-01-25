@@ -1,5 +1,10 @@
 class Devise::Custom::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
+    unless provider_google_oauth2_enabled?
+      redirect_to(new_user_session_path)
+      return
+    end
+
     Rails.logger.info("Google OAuth2 Omniauth for #{auth&.uid}")
 
     service = UserManagement::Omniauth::GoogleOauth2Service.call(auth: auth)

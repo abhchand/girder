@@ -1,4 +1,5 @@
 <ul class="auth__links auth__links--omniauth">
+  <% if provider_google_oauth2_enabled? %>
   <li>
     <a href="<%= omniauth_authorize_path(:user, "google_oauth2") %>">
       <div class="omniauth-btn omniauth-btn--google_oauth2">
@@ -12,4 +13,5 @@
       </div>
     </a>
   </li>
+  <% end %>
 </ul>
