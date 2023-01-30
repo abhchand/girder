@@ -20,6 +20,16 @@ Visit [http://localhost:3000/](http://localhost:7000/)
 
 For more detail on how the frontend works, see [the frontend `README`](app/frontend/README.md).
 
+## Sidekiq
+
+Sidekiq client doesn't run by default, so any enqueued jobs just wait in the queue to be processed.
+
+You can start Sidekiq with:
+
+```bash
+bin/app bundle exec sidekiq
+```
+
 # Test
 
 ```bash
