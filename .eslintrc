@@ -41,6 +41,7 @@
     function-call-argument-newline:         "off",
     id-length:                              "off",
     init-declarations:                      "off",
+    jsx-a11y/media-has-caption:             "off",
     max-lines-per-function:                 ["error", { skipComments: true, skipBlankLines: true }],
     max-statements-per-line:                "off",
     max-statements:                         "off",
