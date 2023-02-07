@@ -1,6 +1,6 @@
+import Example from 'javascript/components/example';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import Example from 'javascript/components/example';
 import React from 'react';
 
 let photos, wrapper;
