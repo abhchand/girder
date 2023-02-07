@@ -4,7 +4,9 @@
   </div>
 
   <div class="mobile-navigation__profile">
-    <%= link_to(image_tag(current_user_presenter.avatar_path(size: :thumb)), root_path) %>
+    <%= link_to(root_path) do %>
+      <img src="<%= current_user_presenter.avatar.dig(:url, :thumb) %>" />
+    <% end %>
     <span><%= current_user.first_name.downcase %></span>
   </div>
 

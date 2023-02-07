@@ -2,15 +2,8 @@ class UserSerializer < ApplicationSerializer
   set_id :synthetic_id
   attributes :first_name, :last_name, :email, :last_sign_in_at
 
-  attributes :avatar_paths do |user, _params|
-    u = user
-    u = UserPresenter.new(u, view: nil) if user.is_a?(User)
-
-    {}.tap do |paths|
-      ([nil] + User::AVATAR_SIZES.keys).each do |size|
-        paths[size || :original] = u.avatar_path(size: size)
-      end
-    end
+  attribute(:avatar) do |user|
+    UserPresenter.new(user, view: nil).avatar
   end
 
   attribute :current_user_abilities do |user, _params|

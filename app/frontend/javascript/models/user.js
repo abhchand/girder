@@ -8,7 +8,6 @@ class User extends BaseModel {
     super('user', id);
 
     // Function Bindings
-    this.avatarPath = this.avatarPath.bind(this);
     this.hasAbility = this.hasAbility.bind(this);
     this.name = this.name.bind(this);
   }
@@ -16,11 +15,6 @@ class User extends BaseModel {
   /**
    * Helpers
    */
-
-  avatarPath(size = null) {
-    const _size = size || 'thumb';
-    return this.avatarPaths[_size];
-  }
 
   hasAbility(ability) {
     const allAbilities = this.currentUserAbilities;

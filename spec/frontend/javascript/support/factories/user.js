@@ -9,9 +9,13 @@ class UserFactory {
   static defaultAttributes = {
     firstName: 'Devi',
     lastName: 'Vishwakumar',
-    avatarPaths: {
-      thumb: '/foo/bar-thumb.jpg',
-      medium: '/foo/bar-medium.jpg'
+    avatar: {
+      type: 'image',
+      urls: {
+        original: '/foo/bar.jpg',
+        thumb: '/foo/bar-thumb.jpg',
+        medium: '/foo/bar-medium.jpg'
+      }
     }
   };
 }

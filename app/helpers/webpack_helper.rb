@@ -13,10 +13,6 @@ module WebpackHelper
     stylesheet_link_tag(pack, options)
   end
 
-  def image_tag(name, options = {})
-    tag('img', options.merge(src: image_path(name)))
-  end
-
   # NOTE: overrides ActionView's `image_path` helper
   # https://apidock.com/rails/ActionView/Helpers/AssetTagHelper/image_path
   def image_path(name)
