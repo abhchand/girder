@@ -2,9 +2,7 @@ class UserSerializer < ApplicationSerializer
   set_id :synthetic_id
   attributes :first_name, :last_name, :email, :last_sign_in_at
 
-  attribute(:avatar) do |user|
-    UserPresenter.new(user, view: nil).avatar
-  end
+  attribute(:avatar) { |user| UserPresenter.new(user, view: nil).avatar }
 
   attribute :current_user_abilities do |user, _params|
     ability = Ability.new(user)

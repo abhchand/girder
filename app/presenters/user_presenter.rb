@@ -41,7 +41,7 @@ class UserPresenter < ApplicationPresenter
   private
 
   def blank_avatar_path(size: nil)
-    return image_path("blank-avatar.jpg") if size.nil?
+    return image_path('blank-avatar.jpg') if size.nil?
 
     image_path("blank-avatar-#{size}.jpg")
   end
