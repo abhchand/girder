@@ -48,7 +48,7 @@ determine the fingerprinted file for each name.
 
 ### ReactJS
 
-React components live under `app/frontend/components/*`. To mount a React
+React components live under `app/frontend/src/components/*`. To mount a React
 component on a page, just include `react_component()` in the Rails view and
 pass in an `id` and a list of initial props.
 
@@ -101,7 +101,7 @@ The JS `default export` value of every **pack** is set as `Girder.<pack_name>`  
 the global namespace.
 
 ```js
-// app/frontend/javascript/packs/admin.js
+// app/frontend/src/packs/admin.js
 const doFoo = () => alert('boo!');
 
 export default {

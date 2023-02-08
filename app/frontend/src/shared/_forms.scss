@@ -1,0 +1,109 @@
+@import 'src/shared/_colors.scss';
+
+// Some form elements don't inherit font properties by
+// default
+// See: https://stackoverflow.com/a/2875030/2490003
+textarea, input, button, select {
+   font-size: inherit;
+   font-family: inherit;
+}
+
+input {
+  box-sizing: border-box;
+  width: 300px;
+  height: 48px;
+  margin: 10px 0;
+  padding: 10px 15px;
+  font-size: 18px;
+  line-height: 48px;
+  border: 1px solid $dark-gray;
+}
+
+input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px 0 0;
+}
+
+.checkbox-label {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 200px;
+  height: 20px;
+}
+
+.input-highlight-on-focus {
+  &:focus {
+    border-color: $mustard;
+    box-shadow: 0 0 3px $mustard;
+  }
+}
+
+.input--error {
+  border-color: $red;
+  box-shadow: 0 0 3px $red;
+}
+
+::-webkit-input-placeholder { text-transform: lowercase; }
+::-moz-placeholder { text-transform: lowercase; }
+
+select {
+  box-sizing: border-box;
+  width: 300px;
+  height: 48px;
+  margin: 10px 0;
+  padding: 10px 15px;
+  font-size: 18px;
+  line-height: 48px;
+  border: 1px solid $dark-gray;
+}
+
+textarea {
+  box-sizing: border-box;
+  width: 300px;
+  padding: 10px 15px;
+  font-size: 18px;
+  border: 1px solid $dark-gray;
+
+  &:focus {
+    border-color: $mustard;
+    box-shadow: 0 0 3px $mustard;
+  }
+}
+
+.cta {
+  width: 100px;
+  font-weight: 600;
+
+  // CSS magic: 1px keeps the text vertically aligned in the button
+  line-height: 1px;
+  border: none;
+
+  cursor: pointer;
+
+  -webkit-transition: 0.15s ease-in-out;
+  -moz-transition: 0.15s ease-in-out;
+  -o-transition: 0.15s ease-in-out;
+  transition: 0.15s ease-in-out;
+
+  &:disabled {
+    opacity: 0.2;
+  }
+}
+.cta-purple {
+  color: $white;
+  background: $dark-purple;
+}
+.cta-white {
+  color: $dark-purple;
+  background: $white;
+  border: 1px solid $dark-purple;
+}

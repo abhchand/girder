@@ -89,13 +89,7 @@
       ],
       env: {
         jest: true
-      }
-    },
-    {
-      files: [
-        "spec/**/*.js",
-        "spec/**/*.jsx"
-      ],
+      },
       rules: {
         max-lines:                          "off",
         max-lines-per-function:             "off",

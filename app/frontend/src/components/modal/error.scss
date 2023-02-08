@@ -1,0 +1,5 @@
+@import 'src/shared/_styles.scss';
+
+.modal--error {
+  @extend .error-text;
+}

@@ -23,7 +23,7 @@
     [
       "module-resolver",
       {
-        "root": ["./app/frontend/javascript"]
+        "root": ["./app/frontend/src"]
       }
     ],
     "@babel/plugin-syntax-dynamic-import",

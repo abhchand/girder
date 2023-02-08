@@ -1,0 +1,40 @@
+@import 'src/shared/_colors.scss';
+
+.breadcrumb-heading {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  margin: 20px 0 50px 0;
+  color: $dark-gray;
+  font-weight: 500;
+  text-align: left;
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h1, h3 {
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 24px;
+    text-transform: lowercase;
+
+    :link, :visited {
+      color: $dark_gray;
+    }
+  }
+
+  svg {
+    margin-right: 5px;
+    margin-left: 2px;
+
+    path {
+      fill: $dark_gray;
+    }
+  }
+}

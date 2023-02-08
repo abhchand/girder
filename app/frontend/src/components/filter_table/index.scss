@@ -1,0 +1,21 @@
+@import 'src/shared/_breakpoints.scss';
+
+.filter-table {
+  width: 300px;
+  text-align: left;
+
+  @include breakpoint($screen-xs) {
+    width: 90%;
+  }
+}
+.filter-table__action-bar {
+  margin-top: 15px;
+}
+.filter-table__pagination-bar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 30px;
+}

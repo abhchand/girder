@@ -1,0 +1,18 @@
+@charset 'utf-8';
+
+@import './_colors';
+@import './_breadcrumb_heading';
+@import './_breakpoints';
+@import './_buttons';
+@import './_fonts';
+@import './_forms';
+@import './_links';
+@import './_pagination_navigation';
+@import './_styles';
+@import './_tables';
+@import './_tabnav';
+@import './_vars';
+@import './_with_responsive_navigation.scss';
+
+// Load the general file last
+@import './_application.scss';

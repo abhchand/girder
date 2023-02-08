@@ -1,0 +1,63 @@
+@import 'src/shared/_colors.scss';
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  background: $very-dark-gray-opacity;
+}
+.modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 450px;
+  margin: 60px auto 0;
+  padding: 20px 16px 20px;
+  background: white;
+  border-radius: 4px;
+}
+.modal-content--loading {
+}
+.modal-content--error {
+  height: 50px;
+  margin: 40px 0;
+  font-weight: 700;
+  line-height: 50px;
+  background: $mustard;
+}
+.modal-content__heading {
+  color: $black;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: left;
+}
+.modal-content__subheading {
+  font-size: 14px;
+  line-height: 18px;
+  text-align: left;
+}
+.modal-content__body {
+  overflow-x: scroll;
+  text-align: left;
+}
+.modal-content__button-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+.modal-content__button {
+  width: 90px;
+  height: 45px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.modal-content__button--submit {
+}
+.modal-content__button--close {
+}

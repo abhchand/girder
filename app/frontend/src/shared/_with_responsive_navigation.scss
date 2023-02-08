@@ -1,0 +1,28 @@
+@import 'src/shared/_breakpoints.scss';
+@import 'src/shared/_colors.scss';
+
+.responsive-navigation-view-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: 100%;
+}
+.responsive-navigation-content-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+
+  @include breakpoint($screen-xs) {
+    // At desktop resolution, left-hand navbar is
+    // fixed on the screen. Shift the content under
+    // it by the same width
+    margin-left: $desktop-navigation-width;
+  }
+}
+.responsive-navigation-content {
+  @extend .page-content;
+}

@@ -1,0 +1,35 @@
+@import 'src/shared/_breakpoints.scss';
+@import 'src/shared/_colors.scss';
+
+.desktop-header {
+  display: none;
+
+  @include breakpoint($screen-xs) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+
+    width: 100%;
+    height: 75px;
+    min-height: 75px;
+    border-bottom: solid 1px $medium-gray;
+  }
+}
+.desktop-header__profile {
+  font-size: 16px;
+}
+.desktop-header__profile-pic {
+  width: 42px;
+  height: 42px;
+  margin-left: 20px;
+  margin-right: 25px;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    border-radius: 50%;
+  }
+}

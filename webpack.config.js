@@ -22,6 +22,7 @@ const PUBLIC_PATH = testMode ? '/packs-test/' : '/packs/';
 
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const webpack = require('webpack');
@@ -68,6 +69,20 @@ const config = {
   },
   resolveLoader: {
     modules: ['node_modules']
+  },
+  optimization: {
+    /*
+     * Minimization will remove duplicate CSS that occurs from repeated
+     * `@xtend` and `@import` statements.
+     *
+     * By default minimization will only happen in `production`, but can be
+     * forced in `development` with `minimize: true`.
+     */
+    minimizer: [
+      // Triple dot preserves existing minimizers that Webpack may define
+      `...`,
+      new CssMinimizerPlugin(),
+    ]
   },
   devtool: 'cheap-module-source-map',
   devServer: {
@@ -142,19 +157,15 @@ const config = {
    */
   entry: {
     admin: {
-      import: `${ASSETS_DIR}/javascript/packs/admin.js`,
+      import: `${ASSETS_DIR}/packs/admin.js`,
       dependOn: 'common'
     },
     auth: {
-      import: `${ASSETS_DIR}/javascript/packs/auth.js`,
+      import: `${ASSETS_DIR}/packs/auth.js`,
       dependOn: 'common'
     },
-    common: `${ASSETS_DIR}/javascript/packs/common.js`,
-    i18n: `${ASSETS_DIR}/javascript/packs/i18n.js`,
-    'users-index': {
-      import: `${ASSETS_DIR}/javascript/packs/users-index.js`,
-      dependOn: 'common'
-    }
+    common: `${ASSETS_DIR}/packs/common.js`,
+    i18n: `${ASSETS_DIR}/packs/i18n.js`
   },
   module: {
     strictExportPresence: true,
