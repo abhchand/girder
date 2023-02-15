@@ -1,7 +1,5 @@
 /* eslint no-console:0 */
 
-import 'core-js/stable';
-
 import 'src/application/_desktop_navigation';
 import 'src/application/_global_modal_close';
 import 'src/application/_mobile_navigation';
