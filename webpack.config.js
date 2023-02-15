@@ -165,7 +165,8 @@ const config = {
       dependOn: 'common'
     },
     common: `${ASSETS_DIR}/packs/common.js`,
-    i18n: `${ASSETS_DIR}/packs/i18n.js`
+    i18n: `${ASSETS_DIR}/packs/i18n.js`,
+    'jquery-for-test': `${ASSETS_DIR}/packs/jquery-for-test.js`
   },
   module: {
     strictExportPresence: true,

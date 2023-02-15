@@ -1,10 +1,5 @@
 /* eslint no-console:0 */
 
-// Expose JQuery globally
-window.jQuery = require('jquery');
-window.$ = window.jQuery;
-require('jquery-ujs');
-
 import 'core-js/stable';
 
 import 'src/application/_desktop_navigation';

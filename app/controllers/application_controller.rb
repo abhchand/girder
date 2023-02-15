@@ -37,6 +37,10 @@ class ApplicationController < ActionController::Base
 
   def set_default_pack
     @use_packs << 'common'
+
+    # This pack should only be included in the test environment. It includes
+    # JQuery so the Capybara tests can use it
+    @use_packs << 'jquery-for-test' if Rails.env.test?
   end
 
   def verifier
