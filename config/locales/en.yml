@@ -195,14 +195,14 @@ en:
     navigation:
       shared: &shared_navigation
         links:
-          my_photos: my photos
-          account: account
-          admin: admin
-          product_feedback: give feedback
-          log_out: log out
-    desktop_navigation:
+          my_photos: My photos
+          account: Profile
+          admin: Admin
+          product_feedback: Give feedback
+          log_out: Log out
+    desktop_header:
       <<: *shared_navigation
-    mobile_navigation:
+    mobile_header:
       <<: *shared_navigation
 
   components:

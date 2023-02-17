@@ -1,8 +1,8 @@
 /* eslint no-console:0 */
 
-import 'src/application/_desktop_navigation';
+import 'src/application/_desktop_header';
 import 'src/application/_global_modal_close';
-import 'src/application/_mobile_navigation';
+import 'src/application/_mobile_header';
 import 'src/application/flash.js';
 
 import 'src/components/example';

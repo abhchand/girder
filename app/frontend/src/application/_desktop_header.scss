@@ -1,5 +1,6 @@
 @import 'src/shared/_breakpoints.scss';
 @import 'src/shared/_colors.scss';
+@import 'src/shared/_styles.scss';
 
 .desktop-header {
   display: none;
@@ -17,9 +18,6 @@
     border-bottom: solid 1px $medium-gray;
   }
 }
-.desktop-header__profile {
-  font-size: 16px;
-}
 .desktop-header__profile-pic {
   width: 42px;
   height: 42px;
@@ -31,5 +29,89 @@
     height: auto;
     max-height: 100%;
     border-radius: 50%;
+  }
+}
+.desktop-header-account-dropdown {
+  width: 250px;
+  background-color: $white;
+  transition: transform .15s cubic-bezier(0,0,.3,1);
+  will-change: transform;
+  top: 65px;
+  right: 25px;
+  bottom: auto;
+  padding: 24px 0px;
+  position: absolute;
+  border-radius: 0 0 16px 16px;
+
+  &.inactive {
+    display: none;
+  }
+}
+
+.desktop-header-account-dropdown__links {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.desktop-header-account-dropdown__link-element {
+  height: 40px;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: left;
+
+  a {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    // Boostrap tries to set the anchor color, override it
+    color: $black;
+  }
+
+  svg {
+    margin-right: 20px;
+    // Give icons some breathing room
+    margin-left: auto;
+  }
+
+  &:hover {
+    background-color: $cultured;
+  }
+}
+
+.desktop-header-account-dropdown__link-element--minor {
+  height: 28px;
+  padding-left: 40px;
+  font-size: 14px;
+  // Vertically center the text
+  line-height: 28px;
+
+  a {
+    line-height: 28px;
+  }
+}
+
+.desktop-header-account-dropdown__link-element--admin {
+  svg {
+    rect, path {
+      stroke: $dark-cornflower-blue;
+    }
+  }
+
+  #handle {
+    fill: $dark-cornflower-blue;
+  }
+}
+
+.desktop-header-account-dropdown__link-element--product-feedback {
+  svg {
+    rect, path {
+      stroke: $dark-cornflower-blue;
+    }
   }
 }

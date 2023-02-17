@@ -22,7 +22,7 @@ const PUBLIC_PATH = testMode ? '/packs-test/' : '/packs/';
 
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const webpack = require('webpack');
@@ -81,7 +81,7 @@ const config = {
     minimizer: [
       // Triple dot preserves existing minimizers that Webpack may define
       `...`,
-      new CssMinimizerPlugin(),
+      new CssMinimizerPlugin()
     ]
   },
   devtool: 'cheap-module-source-map',

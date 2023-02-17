@@ -1,15 +1,8 @@
 <%= render_inside(parent_layout: "application") do %>
-  <section class="responsive-navigation-view-container">
-    <%= render "desktop_navigation" %>
-    <%= render "mobile_navigation" %>
+  <%= render "desktop_header" %>
+  <%= render "mobile_header" %>
 
-    <div class="responsive-navigation-content-container">
-      <%= render "desktop_header" %>
-      <%= render "mobile_header" %>
-
-      <div class="responsive-navigation-content">
-        <%= yield %>
-      </div>
-    </div>
-  </section>
+  <div class="responsive-navigation-content">
+    <%= yield %>
+  </div>
 <% end %>

@@ -1,10 +1,46 @@
 <div class="desktop-header">
-  <div class="desktop-header__profile">
-    <span><%= current_user.first_name.downcase %></span>
-  </div>
   <div class="desktop-header__profile-pic">
     <%= link_to(root_path) do %>
       <img src="<%= current_user_presenter.avatar.dig(:url, :thumb) %>" />
     <% end %>
   </div>
+
+  <!--
+    Mobile menu is just a single consolidated menu, but a desktop menu can have
+    multiple dropdowns. So we have to distinguish dropdowns by name
+    e.g. "Account Dropdown"
+  -->
+
+  <!-- Account Dropdown -->
+  <nav class="desktop-header-account-dropdown soft-shadow inactive">
+    <ul class="desktop-header-account-dropdown__links">
+      <li class="desktop-header-account-dropdown__link-element">
+        <%= link_to(t(".links.my_photos"), photos_path) %>
+      </li>
+
+      <li class="desktop-header-account-dropdown__link-element">
+        <%= link_to(t(".links.account"), account_profile_index_path) %>
+      </li>
+
+      <% if can?(:read, :admin) %>
+      <li class="desktop-header-account-dropdown__link-element desktop-header-account-dropdown__link-element--admin">
+        <%= link_to(admin_index_path) do %>
+          <%=t(".links.admin") %>
+          <%= inline_svg_tag("icons/lock.svg", width: "22px", height: "22px") %>
+        <% end %>
+      </li>
+      <% end %>
+
+      <li class="desktop-header-account-dropdown__link-element desktop-header-account-dropdown__link-element--product-feedback">
+        <%= link_to("#") do %>
+          <%= t(".links.product_feedback") %>
+          <%= inline_svg_tag("icons/speaker.svg", width: "22px", height: "22px") %>
+        <% end %>
+      </li>
+
+      <li class="desktop-header-account-dropdown__link-element">
+        <%= link_to(t(".links.log_out"), destroy_user_session_path) %>
+      </li>
+    </ul>
+  </nav>
 </div>
