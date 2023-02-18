@@ -2,8 +2,8 @@
   "name": "girder",
   "version": "1.0.0",
   "scripts": {
-    "lint:css": "stylelint app/frontend/stylesheets/*",
-    "lint:css:fix": "stylelint app/frontend/stylesheets/* --fix",
+    "lint:css": "stylelint app/frontend/src/*",
+    "lint:css:fix": "stylelint app/frontend/src/* --fix",
     "lint:js": "eslint . --ext .js,.jsx",
     "lint:js:fix": "eslint . --ext .js,.jsx --fix",
     "lint:ruby": "bundle exec rubocop",
