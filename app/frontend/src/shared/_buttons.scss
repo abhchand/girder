@@ -6,6 +6,9 @@
 
 .link-btn {
   padding: 0!important;
+  // Using a hard-coded color because the "default" link styling in browsers
+  // uses blue as well
+  color: blue;
   background: none!important;
   border: none;
   cursor: pointer;
