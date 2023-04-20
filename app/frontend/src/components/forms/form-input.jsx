@@ -7,6 +7,7 @@ import React from 'react';
 class FormInput extends React.Component {
   static propTypes = {
     initialValue: PropTypes.string,
+    inputType: PropTypes.string,
     isError: PropTypes.bool,
     /*
      * The Rails-style microformat describing the attribute and resource
@@ -20,6 +21,7 @@ class FormInput extends React.Component {
 
   static defaultProps = {
     initialValue: '',
+    inputType: 'input',
     isError: false
   };
 
@@ -51,7 +53,7 @@ class FormInput extends React.Component {
   }
 
   render() {
-    const { isError, name, placeholderText } = this.props;
+    const { inputType, isError, name, placeholderText } = this.props;
 
     const errorClass = isError ? 'input--error' : 'input-highlight-on-focus';
 
@@ -61,7 +63,7 @@ class FormInput extends React.Component {
         onChange={this.onChange}
         placeholder={placeholderText}
         value={this.state.inputValue}
-        type='input'
+        type={inputType}
         name={name}
         id={idFromName(name)}
       />
