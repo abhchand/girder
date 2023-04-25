@@ -5,22 +5,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 /*
- * This `<input>` can be controlled either internally or externally
+ * This `<input>` can be controlled either internally or externally.
  *
  *   * Externally:
- *       Specifying the `value` prop will allow a parent to fully manage the
- *       state and value of this component via props
+ *       The `onChange` prop is specified. In this case the `value` prop from
+ *       the parent will be used to continusouly set the current value.
  *
  *   * Internally:
- *       Specifying the `initialValue` prop will allow a parent to specify the
- *       value once, and this component will manage its own state.
- *
- * If both `value` and `initialValue` are specified, `value` takes precedence.
+ *       The `onChange` prop is not specified. In this case the `value` prop
+ *       from the parent is just used as an initial value.
  */
 class FormInput extends React.Component {
   static propTypes = {
-    initialValue: PropTypes.string,
-    inputType: PropTypes.string,
+    // For an input type of `file`, see `<FormInputFile> specifically
+    inputType: PropTypes.oneOf(['input', 'hidden', 'radio', 'select']),
     isError: PropTypes.bool,
     /*
      * The Rails-style microformat describing the attribute and resource
@@ -30,7 +28,7 @@ class FormInput extends React.Component {
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     placeholderText: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
   };
 
   static defaultProps = {
@@ -41,53 +39,36 @@ class FormInput extends React.Component {
   constructor(props) {
     super(props);
 
-    this.broadcastValue = this.broadcastValue.bind(this);
     this.isExternallyControlled = this.isExternallyControlled.bind(this);
     this.onChange = this.onChange.bind(this);
 
+    /*
+     * For internally controlled components, use the `value` to initialize the
+     * internal state, once.
+     */
     this.state = {
-      inputValue: props.initialValue
+      internalValue: this.isExternallyControlled() ? null : props.value
     };
   }
 
-  broadcastValue(newValue, forceInvokeHandler) {
-    const { onChange } = this.props;
-
-    /*
-     * In the case of an externally controlled component, we'll want to set
-     * `forceInvokeHandler` as `true` so that we always call `onChange` (if not,
-     * how else will a parent "subscribe" to updates?).
-     */
-    if (forceInvokeHandler || onChange) onChange(newValue);
-  }
-
   isExternallyControlled() {
-    const { value } = this.props;
-
-    return typeof value === 'string';
+    return typeof this.props.onChange === 'function';
   }
 
   onChange(e) {
-    const newValue = e.currentTarget.value;
+    const input = e.currentTarget;
 
-    /*
-     * If this component is externally controlled, skip updating state and
-     * jump to broadcasting
-     */
     if (this.isExternallyControlled()) {
-      this.broadcastValue(newValue, true);
+      this.props.onChange(input.value);
       return;
     }
 
-    this.setState(
-      { inputValue: newValue },
-      this.broadcastValue(newValue, false)
-    );
+    this.setState({ internalValue: input.value });
   }
 
   render() {
     const { inputType, isError, name, placeholderText, value } = this.props;
-    const { inputValue } = this.state;
+    const { internalValue } = this.state;
 
     const errorClass = isError ? 'input--error' : 'input-highlight-on-focus';
 
@@ -96,7 +77,7 @@ class FormInput extends React.Component {
         className={errorClass}
         onChange={this.onChange}
         placeholder={placeholderText}
-        value={this.isExternallyControlled() ? value : inputValue}
+        value={(this.isExternallyControlled() ? value : internalValue) || ''}
         type={inputType}
         name={name}
         id={idFromName(name)}
