@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import './form-input-file.scss';
 
 import React, { useEffect, useRef } from 'react';
@@ -15,8 +16,13 @@ import PropTypes from 'prop-types';
  *     by specifyin `onChange()`, which will send the file list as an argument
  *     to the handler on each file change.
  */
-const FormInputFile = ({ name, onChange, value }) => {
+const FormInputFile = ({ accept, name, onChange, value }) => {
   const inputRef = useRef();
+  const otherAttrs = {};
+
+  if (accept) {
+    otherAttrs.accept = accept.join(',');
+  }
 
   useEffect(() => {
     if (value === '') {
@@ -26,6 +32,7 @@ const FormInputFile = ({ name, onChange, value }) => {
 
   return (
     <input
+      {...otherAttrs}
       id={idFromName(name)}
       name={name}
       onChange={(e) => onChange && onChange([...e.target.files])}
@@ -36,6 +43,7 @@ const FormInputFile = ({ name, onChange, value }) => {
 };
 
 FormInputFile.propTypes = {
+  accept: PropTypes.array,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
