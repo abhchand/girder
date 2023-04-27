@@ -2,7 +2,7 @@ import { openModal } from 'src/components/modal/open';
 import ProductFeedbackForm from 'src/components/product_feedback_form';
 import React from 'react';
 
-// eslint-disable-next-line padded-blocks,max-lines-per-function
+// eslint-disable-next-line padded-blocks
 $(document).ready(() => {
   function findMobileDropdownEl() {
     return document.querySelector('.mobile-header-dropdown');

@@ -42,7 +42,7 @@
     id-length:                              "off",
     init-declarations:                      "off",
     jsx-a11y/media-has-caption:             "off",
-    max-lines-per-function:                 ["error", { skipComments: true, skipBlankLines: true }],
+    max-lines-per-function:                 "off",
     max-statements-per-line:                "off",
     max-statements:                         "off",
     multiline-ternary:                      "off",
@@ -92,7 +92,6 @@
       },
       rules: {
         max-lines:                          "off",
-        max-lines-per-function:             "off",
         no-magic-numbers:                   "off",
         no-use-before-define:               "off",
         react/jsx-props-no-spreading:       "off"

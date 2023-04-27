@@ -91,7 +91,7 @@ class FilterTable extends React.Component {
     this.fetchItems(params);
   }
 
-  // eslint-disable-next-line max-lines-per-function
+  // eslint-disable-next-line
   fetchItems(params) {
     const self = this;
 
