@@ -48,7 +48,7 @@
     multiline-ternary:                      "off",
     no-continue:                            "off",
     no-inline-comments:                     "warn",
-    no-magic-numbers:                       ["warn", { "ignore": [-1, 0, 1] }],
+    no-magic-numbers:                       ["warn", { "ignore": [-1, 0, 1, 100] }],
     no-plusplus:                            ["warn", { "allowForLoopAfterthoughts": true }],
     no-ternary:                             "off",
     no-underscore-dangle:                   "off",
