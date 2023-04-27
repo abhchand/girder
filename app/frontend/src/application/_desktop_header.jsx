@@ -49,8 +49,6 @@ $(document).ready(() => {
    *
    */
   $('body').on('click', '.responsive-navigation-content', (e) => {
-    e.preventDefault();
-
     const dropdown = findDesktopDropdownEl();
     const clickedInsideDropdown =
       dropdown !== e.target && dropdown.contains(e.target);
