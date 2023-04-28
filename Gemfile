@@ -6,9 +6,9 @@ ruby '3.0.0'
 #
 # Front End
 #
-gem 'i18n-js', '>= 3.0.0.rc11'
+gem 'i18n-js', '~> 4.2', '>= 4.2.2'
 gem 'inline_svg', '~> 1.5', '>= 1.5.2'
-
+gem 'listen', '~> 3.8', require: false
 #
 # Back End
 #

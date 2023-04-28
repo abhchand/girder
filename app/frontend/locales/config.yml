@@ -1,0 +1,6 @@
+# Config file used by the `i18n-js` CLI to export translations
+translations:
+  - file: app/frontend/locales/translations.json
+    patterns:
+      - '{en}.*'
+      - '!*.faker.*'

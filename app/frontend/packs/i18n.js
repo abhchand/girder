@@ -1,1 +1,1 @@
-window.I18n = require('i18n-js');
+require('locales/loader');

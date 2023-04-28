@@ -13,9 +13,6 @@ Rails.application.configure do
   # to work on development without any side effects right now.
   $LOAD_PATH.unshift(Rails.root) unless $LOAD_PATH.include?(Rails.root)
 
-  # Automatically re-build JS translations file (`i18n-js` gem)
-  config.middleware.use I18n::JS::Middleware
-
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
