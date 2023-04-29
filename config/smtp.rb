@@ -1,5 +1,5 @@
 domain =
-  if Rails.env.production?
+  if Rails.env.production? || Rails.env.staging?
     ENV.fetch('APP_HOST')
   else
     ENV.fetch('APP_HOST', 'localhost')

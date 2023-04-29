@@ -59,7 +59,7 @@ module Girder
           host: ENV.fetch('APP_HOST', 'localhost'),
           port: ENV.fetch('APP_PORT', '3000')
         }
-      when Rails.env.production?
+      else
         { host: ENV.fetch('APP_HOST') }
       end
 
