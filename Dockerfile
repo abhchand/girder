@@ -52,11 +52,11 @@ RUN curl -LO  https://dl.google.com/linux/direct/google-chrome-stable_current_am
   && apt-get install -y ./google-chrome-stable_current_amd64.deb \
   && rm google-chrome-stable_current_amd64.deb
 
-# Install ChromeDriver v103
+# Install ChromeDriver v112
 # This needs to be periodically updated to match the version of Google Chrome
 # installed above
 RUN apt install -y libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev \
-  && wget https://chromedriver.storage.googleapis.com/108.0.5359.71/chromedriver_linux64.zip \
+  && wget https://chromedriver.storage.googleapis.com/112.0.5615.49/chromedriver_linux64.zip \
   && unzip chromedriver_linux64.zip -d /usr/local/bin/ \
   && rm chromedriver_linux64.zip \
   # Clean up
