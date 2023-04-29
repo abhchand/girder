@@ -2,7 +2,7 @@ module GeneralHelpers
   def mailer_queue
     Sidekiq::Extensions::DelayedMailer.jobs.map do |job|
       # rubocop:disable Security/YAMLLoad
-      klass, method_name, args = YAML.load(job['args'].first)
+      klass, method_name, args = YAML.unsafe_load(job['args'].first)
       # rubocop:enable Security/YAMLLoad
       method_name = args.shift if method_name == :send
 
