@@ -98,6 +98,7 @@ GEM
     connection_pool (2.2.2)
     crass (1.0.6)
     database_cleaner (1.7.0)
+    date (3.3.3)
     debug_inspector (1.1.0)
     devise (4.8.1)
       bcrypt (~> 3.0)
@@ -189,6 +190,15 @@ GEM
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.2.3)
+    net-imap (0.3.4)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.1)
+      timeout
+    net-smtp (0.3.3)
+      net-protocol
     nio4r (2.5.8)
     nokogiri (1.13.8)
       mini_portile2 (~> 2.8.0)
@@ -347,6 +357,7 @@ GEM
     temple (0.9.1)
     thor (1.2.1)
     tilt (2.0.11)
+    timeout (0.3.2)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
@@ -391,6 +402,9 @@ DEPENDENCIES
   letter_opener (~> 1.7)
   listen (~> 3.8)
   mock_redis (~> 0.19.0)
+  net-imap
+  net-pop
+  net-smtp
   nokogiri (>= 1.10.4)
   omniauth (~> 1.9)
   omniauth-google-oauth2 (~> 0.8.0)
@@ -418,7 +432,7 @@ DEPENDENCIES
   will_paginate (~> 3.3)
 
 RUBY VERSION
-   ruby 3.0.0p0
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.3.14

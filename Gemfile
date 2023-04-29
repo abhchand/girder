@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '6.1.7'
-ruby '3.0.0'
+ruby '3.2.2'
 
 #
 # Front End
@@ -45,6 +45,14 @@ gem 'sprockets', '~> 3.0'
 
 gem 'nokogiri', '>= 1.10.4'     # https://nvd.nist.gov/vuln/detail/CVE-2019-5477
 gem 'rubyzip', '>= 1.3.0'       # https://nvd.nist.gov/vuln/detail/CVE-2019-16892
+
+#
+# Ruby Compatibility. Might be able to remove in the future.
+# See: https://stackoverflow.com/a/70500221/2490003
+# Source PR: https://github.com/rails/rails/pull/44083
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
 
 group :production do
 end
