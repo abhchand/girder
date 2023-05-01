@@ -1,6 +1,24 @@
 require File.expand_path('boot', __dir__)
 
-require 'rails/all'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_view/railtie'
+require 'action_mailer/railtie'
+require 'active_job/railtie'
+require 'action_cable/engine'
+require 'action_mailbox/engine'
+require 'action_text/engine'
+require 'rails/test_unit/railtie'
+
+# In Rails < 7 we required files individually so that we could manually
+# exclude Sprockets. As of Rails 7, sprockets has been removed from 'rails/all',
+# so we can just `require 'rails/all'` again instead of requiring each
+# individually above
+# See: https://github.com/rails/rails/pull/43261/commits/579fe208c91a0e6e941830ad5dc744c289257939
+if Rails.version.split('.').first.to_i >= 7
+  raise "Time to require 'rails/all' again."
+end
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -27,9 +45,6 @@ module Girder
     # config.i18n.default_locale = :de
     # Don't force requests from old versions of IE to be UTF-8 encoded.
     config.action_view.default_enforce_utf8 = false
-
-    # Disable the built-in asset pipeline
-    config.assets.enabled = false
 
     # Tell the Zeitwerk autoloader to ignore the entire app/frontend folder.
     # Ain't no ruby files there

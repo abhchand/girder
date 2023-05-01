@@ -427,7 +427,6 @@ DEPENDENCIES
   sidekiq (~> 5.2, >= 5.2.5)
   smtpapi (~> 0.1.0)
   spring
-  sprockets (~> 3.0)
   web-console (~> 4.2)
   will_paginate (~> 3.3)
 
