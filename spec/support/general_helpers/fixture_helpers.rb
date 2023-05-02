@@ -3,8 +3,8 @@ module GeneralHelpers
     Pathname.new(fixture_path).join(fixture)
   end
 
-  def attach_photo_fixture(photo:, fixture:)
-    file = File.open(fixture_path_for("images/#{fixture}"))
-    photo.source_file.attach(io: file, filename: fixture)
+  def create_blob_fixture(fixture_name:)
+    file = File.open(fixture_path_for("images/#{fixture_name}"))
+    ActiveStorage::Blob.create_and_upload!(io: file, filename: fixture_name)
   end
 end
