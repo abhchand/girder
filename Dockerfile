@@ -6,9 +6,6 @@ ENV RAILS_ENV=$RAILS_ENV
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-# Install dependencies
-# RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
-
 # Configure working directory
 RUN mkdir /app
 WORKDIR /app
@@ -35,11 +32,22 @@ RUN apt-get -q update \
   && apt-get clean -y
 
 # NodeJS
-RUN mkdir -p /usr/local/nvm \
-  && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-  && apt-get install -y nodejs \
+# Installing a specific version of node directly is dificult. Use `nvm` to
+# install it (which installs both `node` and `npm`)
+ENV NODE_VERSION 14.17.5
+ENV NVM_DIR /usr/local/nvm
+ENV NVM_VERSION 0.39.3
+
+RUN mkdir -p $NVM_DIR \
+  && curl https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh | bash \
+  && . $NVM_DIR/nvm.sh \
+  && nvm install $NODE_VERSION \
+  && nvm alias default $NODE_VERSION \
+  && nvm use default \
   && node -v \
   && npm -v
+
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 # Yarn
 RUN npm install -g yarn \
