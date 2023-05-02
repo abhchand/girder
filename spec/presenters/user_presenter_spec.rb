@@ -4,42 +4,44 @@ RSpec.describe PhotoPresenter, type: :presenter do
   let(:model) { create(:user) }
   let(:user) { UserPresenter.new(model, view: view_context) }
 
-  describe '#avatar_path' do
+  describe '#avatar' do
     let(:model) { create(:user, with_avatar: true) }
 
-    it 'returns the avatar url based on the size' do
-      # No size specified
-      expect(user.avatar_path).to eq(avatar_path_for(user))
+    before do
+      # Stub avatar sizes for consistent testing
+      stub_const('User::AVATAR_SIZES', { thumb: { resize: '75x75' } })
+    end
 
-      # Size specified
-      expect(user.avatar_path(size: :thumb)).to eq(
-        avatar_path_for(user, size: :thumb)
+    it 'returns the avatar urls' do
+      expect(user.avatar).to eq(
+        {
+          type: 'image',
+          url: {
+            original: url_for(model.avatar),
+            thumb: url_for(model.avatar.variant(resize: '75x75'))
+          }
+        }
       )
     end
 
     context 'no avatar attached' do
       let(:model) { create(:user) }
 
-      it 'returns the default blank avatar based on the size' do
-        # No size specified
-        expect(user.avatar_path).to eq(image_path('blank-avatar-medium.jpg'))
-
-        # Size specified
-        expect(user.avatar_path(size: :thumb)).to eq(
-          image_path('blank-avatar-thumb.jpg')
+      it 'returns the default blank avatars' do
+        expect(user.avatar).to eq(
+          {
+            type: 'image',
+            url: {
+              original: image_path('blank-avatar.jpg'),
+              thumb: image_path('blank-avatar-thumb.jpg')
+            }
+          }
         )
       end
     end
   end
 
-  def avatar_path_for(user, size: nil)
-    transformations = User::AVATAR_SIZES[size] || {}
-    variant = user.avatar.variant(transformations)
-
-    rails_representation_url(
-      variant,
-      disposition: 'attachment',
-      only_path: true
-    )
+  def url_for(resource)
+    Rails.application.routes.url_helpers.url_for(resource)
   end
 end
