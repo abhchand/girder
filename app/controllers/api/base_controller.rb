@@ -67,6 +67,15 @@ class Api::BaseController < ApplicationController
       end
   end
 
+  def has_next_page?(total)
+    default = Api::Response::PaginationLinksService::PAGE_SIZE
+
+    page = (params[:page] || 1).to_i
+    per_page = (params[:per_page] || default).to_i
+
+    page < (total.to_f / per_page).ceil
+  end
+
   def paginate(collection)
     default = Api::Response::PaginationLinksService::PAGE_SIZE
 
