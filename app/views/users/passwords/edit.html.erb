@@ -1,9 +1,7 @@
 <%= render "layouts/flash" %>
 
 <div class="auth__container container">
-  <div class="auth__logo">
-    <%= inline_svg_tag("logo.svg", height: "65px") %>
-  </div>
+  <%= render 'users/shared/logo' %>
 
   <h1 class="auth__heading"><%= t(".heading") %></h1>
 
