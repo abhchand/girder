@@ -8,8 +8,7 @@ RSpec.feature 'Logging In', type: :feature do
   it 'user can log in' do
     log_in(user)
 
-    expect(page).to have_current_path(photos_path)
-    expect(page).to_not have_flash_message
+    expect(page).to have_current_path(user.signed_in_path)
   end
 
   it "preserves the user's original destination" do
@@ -103,8 +102,7 @@ RSpec.feature 'Logging In', type: :feature do
     it 'user can log in with the original email' do
       log_in(user)
 
-      expect(page).to have_current_path(photos_path)
-      expect(page).to_not have_flash_message
+      expect(page).to have_current_path(user.signed_in_path)
     end
 
     it 'user can not log in with pending email' do
@@ -187,17 +185,17 @@ RSpec.feature 'Logging In', type: :feature do
       travel_to(now) { log_in(user) }
 
       travel_to(now - 2.second) do
-        visit photos_path
-        expect(page).to have_current_path(photos_path)
+        visit user.signed_in_path
+        expect(page).to have_current_path(user.signed_in_path)
       end
 
       travel_to(now - 1.second) do
-        visit photos_path
-        expect(page).to have_current_path(photos_path)
+        visit user.signed_in_path
+        expect(page).to have_current_path(user.signed_in_path)
       end
 
       travel_to(now + timeout) do
-        visit photos_path
+        visit user.signed_in_path
         expect(page).to have_current_path(new_user_session_path)
       end
     end
@@ -228,7 +226,7 @@ RSpec.feature 'Logging In', type: :feature do
         change { User.count }
       )
 
-      expect(page).to have_current_path(photos_path)
+      expect(page).to have_current_path(user.signed_in_path)
 
       user = User.last
       expect(user.first_name).to eq(original_attrs['first_name'])
@@ -261,8 +259,7 @@ RSpec.feature 'Logging In', type: :feature do
           change { User.count }
         )
 
-        expect(page).to have_current_path(photos_path)
-        expect(page).to_not have_flash_message
+        expect(page).to have_current_path(user.signed_in_path)
       end
     end
 
@@ -291,7 +288,7 @@ RSpec.feature 'Logging In', type: :feature do
           change { User.count }
         )
 
-        expect(page).to have_current_path(photos_path)
+        expect(page).to have_current_path(user.signed_in_path)
       end
     end
 

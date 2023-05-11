@@ -5,7 +5,7 @@ RSpec.feature 'creating product feedback', type: :feature do
 
   before do
     log_in(user)
-    visit photos_path
+    visit user.signed_in_path
   end
 
   it 'user can leave product feedback', :js do

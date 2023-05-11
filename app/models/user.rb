@@ -126,6 +126,10 @@ class User < ApplicationRecord
     self[:first_name], self[:last_name] = full_name.split(' ', 2)
   end
 
+  def signed_in_path
+    Rails.application.routes.url_helpers.photos_path
+  end
+
   private
 
   # Override Devise check in `:validatable` module

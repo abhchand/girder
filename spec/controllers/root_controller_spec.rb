@@ -8,13 +8,13 @@ RSpec.describe RootController, type: :controller do
       expect(response).to redirect_to(new_user_session_path)
     end
 
-    it 'it redirects to photos_path when user is authenticated' do
+    it 'it redirects to the `User#signed_in_path` when user is authenticated' do
       user = create(:user)
       log_in(user)
 
       get :new
 
-      expect(response).to redirect_to(photos_path)
+      expect(response).to redirect_to(user.signed_in_path)
     end
   end
 end

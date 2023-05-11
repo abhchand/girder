@@ -129,7 +129,7 @@ RSpec.feature 'Resetting Password', type: :feature do
       expect(user.reset_password_token).to_not be_nil
       expect(user.reset_password_sent_at).to_not be_nil
 
-      expect(page).to have_current_path(photos_path)
+      expect(page).to have_current_path(user.signed_in_path)
     end
 
     it 'user can not re-use the same link after it has been used once' do

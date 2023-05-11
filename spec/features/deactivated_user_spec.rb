@@ -27,14 +27,14 @@ RSpec.feature 'Deactivated User', type: :feature do
     it 'user can not access the deactivated user page' do
       log_in(user)
 
-      expect(page).to have_current_path(photos_path)
+      expect(page).to have_current_path(user.signed_in_path)
 
       # First visit another random path so we can confirm that the path
-      # changes TO photos_path (target of root_path redirect)
+      # changes TO the `User#signed_in_path` (target of root_path redirect)
       visit account_profile_index_path
 
       visit deactivated_users_path
-      expect(page).to have_current_path(photos_path)
+      expect(page).to have_current_path(user.signed_in_path)
     end
   end
 end

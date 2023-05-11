@@ -29,6 +29,8 @@ RSpec.feature 'Signing Up', type: :feature do
     }
   end
 
+  let(:signed_in_path) { root_path }
+
   it 'user can sign up and receive a confirmation email' do
     expect { register(user_attrs) }.to(change { User.count }.by(1))
 
@@ -202,7 +204,7 @@ RSpec.feature 'Signing Up', type: :feature do
         change { User.count }.by(1)
       )
 
-      expect(page).to have_current_path(photos_path)
+      expect(page).to have_current_path(signed_in_path)
 
       user = User.last
       expect(user.first_name).to eq(auth_hash[:info][:first_name])
@@ -283,7 +285,7 @@ RSpec.feature 'Signing Up', type: :feature do
           change { User.count }.by(1)
         )
 
-        expect(page).to have_current_path(photos_path)
+        expect(page).to have_current_path(signed_in_path)
 
         user = User.last
         expect(user.email).to eq(auth_hash[:info][:email])
@@ -318,7 +320,7 @@ RSpec.feature 'Signing Up', type: :feature do
           change { User.count }.by(1)
         )
 
-        expect(page).to have_current_path(photos_path)
+        expect(page).to have_current_path(signed_in_path)
       end
     end
 
