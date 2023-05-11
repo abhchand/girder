@@ -29,12 +29,6 @@ class User < ApplicationRecord
            dependent: :destroy,
            inverse_of: :owner
 
-  has_one :invitation,
-          class_name: 'UserInvitation',
-          foreign_key: :invitee_id,
-          dependent: :destroy,
-          inverse_of: :invitee
-
   has_one_attached :avatar
 
   # NOTE: Devise `authenticatable:`, `:database_authenticatable`,

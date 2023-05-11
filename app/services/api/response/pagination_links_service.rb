@@ -1,5 +1,5 @@
 class Api::Response::PaginationLinksService
-  PAGE_SIZE = 50
+  PAGE_SIZE = 10
 
   def initialize(data, request_url, query_params)
     @data = data

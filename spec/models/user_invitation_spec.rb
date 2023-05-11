@@ -6,7 +6,6 @@ RSpec.describe User do
 
   describe 'Associations' do
     it { should belong_to(:inviter) }
-    it { should belong_to(:invitee).inverse_of(:invitation).optional }
   end
 
   describe 'Validations' do
@@ -18,13 +17,6 @@ RSpec.describe User do
     describe '#inviter_id' do
       it { should validate_presence_of(:inviter_id) }
       it { should_not validate_uniqueness_of(:inviter_id) }
-    end
-
-    describe '#invitee_id' do
-      subject { create(:user_invitation, :completed) }
-
-      it { should_not validate_presence_of(:invitee_id) }
-      it { should validate_uniqueness_of(:invitee_id) }
     end
   end
 

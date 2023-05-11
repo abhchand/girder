@@ -2,7 +2,7 @@ class Api::V1::UserInvitationsController < Api::BaseController
   def index
     authorize! :read, :user_invitations
 
-    user_invitations = UserInvitation.pending.order('lower(email)')
+    user_invitations = UserInvitation.order('lower(email)')
     user_invitations = search(user_invitations)
 
     # Order matters! We need to determine meta data *before* we
@@ -22,8 +22,6 @@ class Api::V1::UserInvitationsController < Api::BaseController
     user_invitation = UserInvitation.find(params[:user_invitation_id])
 
     authorize! :write, user_invitation
-
-    (head :bad_request and return) unless user_invitation.pending?
 
     UserInvitationMailer.delay.invite(user_invitation.id)
 

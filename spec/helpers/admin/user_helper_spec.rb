@@ -68,14 +68,6 @@ RSpec.describe Admin::UserHelper, type: :helper do
           t("#{i18n_prefix}.table.actions.resend_invitation")
         )
       end
-
-      context 'UserInvitation is not pending' do
-        before { user_invitation.update!(invitee: user) }
-
-        it 'generates no buttons' do
-          expect(actions_for(user_invitation)).to be_nil
-        end
-      end
     end
   end
 

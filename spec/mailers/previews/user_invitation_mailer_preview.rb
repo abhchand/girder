@@ -7,9 +7,10 @@ class UserInvitationMailerPreview < ActionMailer::Preview
   end
 
   def notify_inviter_of_completion
-    user_invitation = UserInvitation.completed.last
-    raise 'No completed UserInvitation found' if user_invitation.blank?
+    inviter = User.all.sample
+    invitee = User.all.sample
+    raise 'No Users found' if inviter.blank? || invitee.blank?
 
-    UserInvitationMailer.notify_inviter_of_completion(user_invitation.id)
+    UserInvitationMailer.notify_inviter_of_completion(inviter.id, invitee.id)
   end
 end

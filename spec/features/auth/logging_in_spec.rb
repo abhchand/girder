@@ -42,15 +42,19 @@ RSpec.feature 'Logging In', type: :feature do
         create(:user_invitation, email: user_attrs[:email])
       end
 
-      it 'completes the user invitation' do
-        register(user_attrs)
+      it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
+        expect do register(user_attrs) end.to change {
+          UserInvitation::MarkAsCompleteJob.jobs.count
+        }.by(1)
 
         user = User.last
 
         confirm(user)
         log_in(user, password: user_attrs[:password])
 
-        expect(user_invitation.reload.invitee).to eq(user)
+        job = UserInvitation::MarkAsCompleteJob.jobs.last
+
+        expect(job['args']).to eq([user.id])
       end
     end
   end

@@ -57,31 +57,26 @@ RSpec.describe Devise::Custom::OmniauthCallbacksController, type: :controller do
     context 'a UserInvitation record exists with this email' do
       let!(:invitation) { create(:user_invitation, email: auth[:info][:email]) }
 
-      it 'marks the invitation as complete' do
-        expect(invitation.invitee).to be_nil
+      it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
+        expect do
+          expect do get :google_oauth2 end.to change {
+            UserInvitation::MarkAsCompleteJob.jobs.count
+          }.by(1)
+        end.to change { User.count }.by(1)
 
-        get :google_oauth2
+        job = UserInvitation::MarkAsCompleteJob.jobs.last
+        user = User.last
 
-        invitation.reload
-        expect(invitation.invitee.email).to eq(auth[:info][:email])
-      end
-
-      it 'notifies the inviter of completion' do
-        expect { get :google_oauth2 }.to(change { mailer_queue.count }.by(1))
-
-        email = mailer_queue.last
-        expect(email[:klass]).to eq(UserInvitationMailer)
-        expect(email[:method]).to eq(:notify_inviter_of_completion)
-        expect(email[:args][:user_invitation_id]).to eq(invitation.id)
+        expect(job['args']).to eq([user.id])
       end
 
       context 'user record failed to create' do
         before { auth[:uid] = nil }
 
-        it 'does not update the invitation' do
-          expect { get :google_oauth2 }.to_not(change { User.count })
-
-          expect(invitation.reload.invitee).to be_nil
+        it 'does not enqueue the `UserInvitation::MarkAsCompleteJob` job' do
+          expect do get :google_oauth2 end.to_not change {
+            UserInvitation::MarkAsCompleteJob.jobs.count
+          }
         end
       end
     end
@@ -110,7 +105,7 @@ RSpec.describe Devise::Custom::OmniauthCallbacksController, type: :controller do
 
       context 'a UserInvitation record exists for this user\'s email' do
         let(:invitation) do
-          create(:user_invitation, invitee: user, email: auth[:info][:email])
+          create(:user_invitation, email: auth[:info][:email])
         end
 
         it 'does not update the invitation' do

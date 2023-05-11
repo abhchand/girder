@@ -11,6 +11,8 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
     before do
       sign_in(user)
       stub_ability(user).can(:read, :user_invitations)
+
+      stub_const('Api::Response::PaginationLinksService::PAGE_SIZE', 100)
     end
 
     context 'user is not signed in' do
@@ -102,22 +104,6 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
 
           expect(actual).to eq(expected)
         end
-      end
-
-      it 'ignores non-pending user_invitations' do
-        user_invitations[1].update(invitee: user)
-
-        get :index, params: params
-
-        expect(response.status).to eq(200)
-
-        data = JSON.parse(response.body)['data']
-        actual = data.map { |d| d['id'] }
-        expected = [user_invitations[0], user_invitations[2]].map(&:id).map(
-          &:to_s
-        )
-
-        expect(actual).to match_array(expected)
       end
 
       it 'filters by the search string' do
@@ -264,35 +250,18 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
       end
     end
 
-    describe 'invitation is not pending' do
-      let(:user_invitation) do
-        create(:user_invitation, :completed, inviter: admin)
-      end
+    it 'resends the invitation and responds successfully' do
+      expect { post :resend, params: params }.to change {
+        mailer_queue.size
+      }.from(0).to(1)
 
-      it 'returns a 400 bad request' do
-        expect { post :resend, params: params }.to_not(
-          change { mailer_queue.size }
-        )
+      email = mailer_queue.last
+      expect(email[:klass]).to eq(UserInvitationMailer)
+      expect(email[:method]).to eq(:invite)
+      expect(email[:args][:user_invitation_id]).to eq(user_invitation.id)
 
-        expect(response.status).to eq(400)
-        expect(response.body).to eq('')
-      end
-    end
-
-    describe 'invitation is not pending' do
-      it 'resends the invitation and responds successfully' do
-        expect { post :resend, params: params }.to change {
-          mailer_queue.size
-        }.from(0).to(1)
-
-        email = mailer_queue.last
-        expect(email[:klass]).to eq(UserInvitationMailer)
-        expect(email[:method]).to eq(:invite)
-        expect(email[:args][:user_invitation_id]).to eq(user_invitation.id)
-
-        expect(response.status).to eq(200)
-        expect(response.body).to eq('')
-      end
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('')
     end
   end
 end

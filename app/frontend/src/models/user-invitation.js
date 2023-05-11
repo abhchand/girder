@@ -25,14 +25,6 @@ class UserInvitation extends BaseModel {
   removeInviter() {
     this.setRelationship('inviter', null);
   }
-
-  setInvitee(invitee) {
-    this.setRelationship('invitee', invitee);
-  }
-
-  removeInvitee() {
-    this.setRelationship('invitee', null);
-  }
 }
 
 export default UserInvitation;

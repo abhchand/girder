@@ -103,25 +103,17 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
         create(:user_invitation, email: params[:user][:email])
       end
 
-      it 'marks the invitation as complete' do
-        expect(invitation.invitee).to be_nil
+      it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
+        expect do
+          expect do post :create, params: params end.to change {
+            UserInvitation::MarkAsCompleteJob.jobs.count
+          }.by(1)
+        end.to change { User.count }.by(1)
 
-        post :create, params: params
+        job = UserInvitation::MarkAsCompleteJob.jobs.last
+        user = User.last
 
-        invitation.reload
-        expect(invitation.invitee.email).to eq(params[:user][:email])
-      end
-
-      it 'notifies the inviter of completion' do
-        # mailer_queue changes by 2 since we send confirmation email as well
-        expect { post :create, params: params }.to(
-          change { mailer_queue.count }.by(2)
-        )
-
-        email = mailer_queue.last
-        expect(email[:klass]).to eq(UserInvitationMailer)
-        expect(email[:method]).to eq(:notify_inviter_of_completion)
-        expect(email[:args][:user_invitation_id]).to eq(invitation.id)
+        expect(job['args']).to eq([user.id])
       end
 
       context 'user record failed to create' do
@@ -129,10 +121,10 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
         # `registrations#create` in Devise
         before { expect_any_instance_of(User).to receive(:save) { false } }
 
-        it 'does not update the invitation' do
-          expect { post :create, params: params }.to_not(change { User.count })
-
-          expect(invitation.reload.invitee).to be_nil
+        it 'does not enqueue the `UserInvitation::MarkAsCompleteJob` job' do
+          expect do post :create, params: params end.to_not change {
+            UserInvitation::MarkAsCompleteJob.jobs.count
+          }
         end
       end
     end

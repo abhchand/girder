@@ -17,7 +17,6 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
     user_invitation = result.user_invitation
     expect(user_invitation.email).to eq(params[:email])
     expect(user_invitation.inviter).to eq(admin)
-    expect(user_invitation.invitee).to be_nil
 
     expect(result.error).to be_nil
     expect(result.log).to be_nil
@@ -85,7 +84,6 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
       user_invitation = result.user_invitation
       expect(user_invitation.email).to eq(params[:email])
       expect(user_invitation.inviter).to eq(admin)
-      expect(user_invitation.invitee).to be_nil
 
       expect(result.error).to be_nil
       expect(result.log).to be_nil

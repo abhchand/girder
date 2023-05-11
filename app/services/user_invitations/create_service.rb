@@ -29,7 +29,7 @@ class UserInvitations::CreateService
   end
 
   def invited?
-    user_invitation.persisted? && user_invitation.invitee.blank?
+    user_invitation.persisted?
   end
 
   def registered?

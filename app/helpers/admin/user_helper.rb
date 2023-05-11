@@ -16,7 +16,7 @@ module Admin
       when target.is_a?(User) && current_user.has_role?('admin') &&
              current_user != target
         actions_for_user(target)
-      when target.is_a?(UserInvitation) && target.pending?
+      when target.is_a?(UserInvitation)
         actions_for_invitation(target)
       end
     end

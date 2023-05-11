@@ -38,15 +38,14 @@ RSpec.describe UserInvitationMailer do
 
   describe 'notify_inviter_of_completion' do
     let(:mail) do
-      UserInvitationMailer.notify_inviter_of_completion(@user_invitation.id)
+      UserInvitationMailer.notify_inviter_of_completion(inviter.id, invitee.id)
     end
 
     let(:inviter) { create(:user) }
     let(:invitee) { create(:user) }
 
     before do
-      @user_invitation =
-        create(:user_invitation, inviter: inviter, invitee: invitee)
+      @user_invitation = create(:user_invitation, inviter: inviter)
       @t_prefix = 'user_invitation_mailer.notify_inviter_of_completion'
     end
 
@@ -59,7 +58,7 @@ RSpec.describe UserInvitationMailer do
     end
 
     it "displays the invitee's name" do
-      expect(mail.body).to have_content(@user_invitation.invitee.name)
+      expect(mail.body).to have_content(invitee.name)
     end
 
     it 'displays the admin index url' do

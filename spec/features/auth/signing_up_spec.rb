@@ -159,17 +159,17 @@ RSpec.feature 'Signing Up', type: :feature do
   context 'a user invitation exists' do
     let!(:invitation) { create(:user_invitation, email: user_attrs[:email]) }
 
-    it 'marks the user invitation as complete and notifies the inviter' do
-      expect(invitation.invitee).to be_nil
+    it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
+      expect do
+        expect do register(user_attrs) end.to change {
+          UserInvitation::MarkAsCompleteJob.jobs.count
+        }.by(1)
+      end.to change { User.count }.by(1)
 
-      register(user_attrs)
+      job = UserInvitation::MarkAsCompleteJob.jobs.last
+      user = User.last
 
-      expect(invitation.reload.invitee.email).to eq(user_attrs[:email])
-
-      email = mailer_queue.last
-      expect(email[:klass]).to eq(UserInvitationMailer)
-      expect(email[:method]).to eq(:notify_inviter_of_completion)
-      expect(email[:args][:user_invitation_id]).to eq(invitation.id)
+      expect(job['args']).to eq([user.id])
     end
   end
 
@@ -242,18 +242,18 @@ RSpec.feature 'Signing Up', type: :feature do
         create(:user_invitation, email: auth_hash[:info][:email])
       end
 
-      it 'marks the user invitation as complete and notifies the inviter' do
-        expect(invitation.invitee).to be_nil
+      it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
+        expect do
+          expect do
+            mock_google_oauth2_auth_response(auth_hash)
+            log_in_with_omniauth('google_oauth2')
+          end.to change { UserInvitation::MarkAsCompleteJob.jobs.count }.by(1)
+        end.to change { User.count }.by(1)
 
-        mock_google_oauth2_auth_response(auth_hash)
-        log_in_with_omniauth('google_oauth2')
+        job = UserInvitation::MarkAsCompleteJob.jobs.last
+        user = User.last
 
-        expect(invitation.reload.invitee.email).to eq(auth_hash[:info][:email])
-
-        email = mailer_queue.last
-        expect(email[:klass]).to eq(UserInvitationMailer)
-        expect(email[:method]).to eq(:notify_inviter_of_completion)
-        expect(email[:args][:user_invitation_id]).to eq(invitation.id)
+        expect(job['args']).to eq([user.id])
       end
     end
 
