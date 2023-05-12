@@ -33,6 +33,7 @@
 .ruby-version
 .scss-style.yml
 .stylelintrc
+app/frontend/locales/translations.json
 bin/*
 config.ru
 db/schema.rb
@@ -49,3 +50,4 @@ Rakefile
 storage/*
 tmp/*
 vendor/*
+yarn-error.log
