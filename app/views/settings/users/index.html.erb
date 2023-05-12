@@ -1,0 +1,34 @@
+<%=
+  render(
+    "shared/breadcrumb_heading",
+    breadcrumbs: [
+      { label: t("settings.index.heading"), href: settings_path },
+      { label: t(".heading"), href: nil }
+    ]
+  )
+%>
+
+<%= render 'layouts/flash', flash: flash %>
+
+<table class='settings-users-index-table'>
+  <thead>
+    <tr>
+      <td class='name'><%= t('.header.name') %></td>
+      <td class='email'><%= t('.header.email') %></td>
+      <td class='roles'><%= t('.header.role') %></td>
+      <td class='roles'><%= t('.header.status') %></td>
+      <td class='actions'><%= t('.header.actions') %></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr class='settings-users-index-table__row' data-id='<%= id_for(user) %>'>
+      <td class='name'><%= name_for(user) %></td>
+      <td class='email'><%= user.email %></td>
+      <td class='roles'><%= role_for(user) %></td>
+      <td class='status'><%= status_for(user) %></td>
+      <td class='actions'><%= (actions_for(user) || '-').html_safe %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

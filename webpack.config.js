@@ -39,7 +39,7 @@ const config = {
     hotUpdateChunkFilename: '[id].[fullhash].hot-update.js',
     hotUpdateMainFilename: '[runtime].[fullhash].hot-update.json',
     /*
-     * Expose each pack as `Girder.<pack_name>` (e.g. `Girder.admin`). The value
+     * Expose each pack as `Girder.<pack_name>` (e.g. `Girder.settings`). The value
      * will be the default export of that pack
      */
     library: {
@@ -156,17 +156,17 @@ const config = {
    *        plugin below
    */
   entry: {
-    admin: {
-      import: `${ASSETS_DIR}/packs/admin.js`,
-      dependOn: 'common'
-    },
     auth: {
       import: `${ASSETS_DIR}/packs/auth.js`,
       dependOn: 'common'
     },
     common: `${ASSETS_DIR}/packs/common.js`,
     i18n: `${ASSETS_DIR}/packs/i18n.js`,
-    'jquery-for-test': `${ASSETS_DIR}/packs/jquery-for-test.js`
+    'jquery-for-test': `${ASSETS_DIR}/packs/jquery-for-test.js`,
+    settings: {
+      import: `${ASSETS_DIR}/packs/settings.js`,
+      dependOn: 'common'
+    }
   },
   module: {
     strictExportPresence: true,

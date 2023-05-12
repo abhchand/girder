@@ -161,43 +161,13 @@ en:
         cancel: Cancel my account
         confirm_cancel: Are you sure?
 
-  admin:
-    filter_warning:
-      warning: You are viewing records for '%{name}'.
-      clear: View all
-    index:
-      heading: Admin
-      pages:
-        users: Users
-    users:
-      index:
-        heading: Users
-        table:
-          header:
-            name: Name
-            email: Email
-            role: Role
-            status: Status
-            actions: Actions
-          actions:
-            delete_user: Remove
-            make_admin: Make Admin
-            remove_admin: Remove Admin
-            resend_invitation: Resend Invitation
-          status:
-            active: Active
-            invited: Invited
-    user_roles:
-      update_service:
-        invalid_roles: One or more role names are invalid
-
   application:
     navigation:
       shared: &shared_navigation
         links:
           my_photos: My photos
           account: Profile
-          admin: Admin
+          settings: Settings
           product_feedback: Give feedback
           log_out: Log out
     desktop_header:
@@ -251,6 +221,33 @@ en:
       label:
         one: <span>1</span> photo
         other: <span>%{count}</span> photos
+
+  settings:
+    index:
+      heading: Settings
+      pages:
+        users: Users
+    users:
+      index:
+        heading: Users
+        table:
+          header:
+            name: Name
+            email: Email
+            role: Role
+            status: Status
+            actions: Actions
+          actions:
+            delete_user: Remove
+            make_admin: Make Admin
+            remove_admin: Remove Admin
+            resend_invitation: Resend Invitation
+          status:
+            active: Active
+            invited: Invited
+    user_roles:
+      update_service:
+        invalid_roles: One or more role names are invalid
 
   users:
     shared:

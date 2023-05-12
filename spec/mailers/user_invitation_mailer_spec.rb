@@ -61,9 +61,9 @@ RSpec.describe UserInvitationMailer do
       expect(mail.body).to have_content(invitee.name)
     end
 
-    it 'displays the admin index url' do
-      url = admin_index_url
-      expect(mail.body).to have_link('admin panel', href: url)
+    it 'displays the settings url' do
+      url =
+      expect(mail.body).to have_link('settings page', href: settings_url)
     end
   end
 end

@@ -20,24 +20,24 @@ Each `entry` in `webpack.config.js` is a "pack". A pack consists of a bundle of
 JS + CSS.
 
 Packs are fingerprinted based on contents. An `assets-manifest.json` file holds
-the mapping between a pack name (e.g. `'admin'`) and it's latest fingerprinted
-file name. E.g. -
+the mapping between a pack name (e.g. `'settings'`) and it's latest
+fingerprinted file name. E.g. -
 
 ```shell
 ls -hlt public/packs
 assets-manifest.json
-admin-f2ef4449ffece4629993.js
+settings-f2ef4449ffece4629993.js
 ...
 ```
 
 ## Including Packs
 
-Rails can include certain packs when building view. A Rails controller just needs
-to include the name of the pack in an array called `@use_packs`:
+Rails can include certain packs when building view. A Rails controller just
+needs to include the name of the pack in an array called `@use_packs`:
 
 ```ruby
-# app/controllers/admin_controller.rb
-before_action { @use_packs << 'admin' }
+# app/controllers/settings_controller.rb
+before_action { @use_packs << 'settings' }
 ```
 
 When rendering the view, Rails will include the JS and CSS associated with each
@@ -97,11 +97,11 @@ $(document).ready(() => {
 
 ### Exported Functions
 
-The JS `default export` value of every **pack** is set as `Girder.<pack_name>`  on
-the global namespace.
+The JS `default export` value of every **pack** is set as
+`Girder.<pack_name>` on the global namespace.
 
 ```js
-// app/frontend/src/packs/admin.js
+// app/frontend/src/packs/settings.js
 const doFoo = () => alert('boo!');
 
 export default {
@@ -112,5 +112,5 @@ export default {
 In the console:
 
 ```js
-Girder.admin.doFoo()
+Girder.settings.doFoo()
 ```

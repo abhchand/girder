@@ -44,13 +44,6 @@ Rails.application.routes.draw do
     resources :profile, only: :index
   end
 
-  resources :admin, only: %i[index]
-
-  namespace :admin do
-    resources :users, only: %i[index]
-    resources :user_roles, only: %i[update]
-  end
-
   namespace :api, defaults: { format: 'json' } do
     scope path: 'v1', module: :v1, as: :v1 do
       resources :users, only: %i[index show update destroy] do
@@ -68,6 +61,12 @@ Rails.application.routes.draw do
   resources :photos, only: :index
 
   resources :product_feedbacks, only: :create
+
+  resources :settings, only: %i[index]
+  namespace :settings do
+    resources :users, only: %i[index]
+    resources :user_roles, only: %i[update]
+  end
 
   resources :users, only: %i[index destroy]
 
