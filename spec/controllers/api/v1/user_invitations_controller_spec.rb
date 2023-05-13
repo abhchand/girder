@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UserInvitationsController, type: :controller do
-  let(:user) { create(:user, :admin) }
+  let(:user) { create(:user, :leader) }
 
   describe 'GET #index' do
     let(:params) { { format: 'json' } }
@@ -208,18 +208,18 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
   describe 'POST #resend' do
     let(:params) { { format: 'json' } }
 
-    let(:admin) { create(:user, :admin) }
-    let(:user_invitation) { create(:user_invitation, inviter: admin) }
+    let(:leader) { create(:user, :leader) }
+    let(:user_invitation) { create(:user_invitation, inviter: leader) }
 
     let(:params) { { format: 'json', user_invitation_id: user_invitation.id } }
 
     before do
-      sign_in(admin)
-      stub_ability(admin).can(:write, UserInvitation)
+      sign_in(leader)
+      stub_ability(leader).can(:write, UserInvitation)
     end
 
-    context 'admin does not have permissions to write the user invitation' do
-      before { stub_ability(admin).cannot(:write, UserInvitation) }
+    context 'leader does not have permissions to write the user invitation' do
+      before { stub_ability(leader).cannot(:write, UserInvitation) }
 
       it 'responds with an error' do
         post :resend, params: params

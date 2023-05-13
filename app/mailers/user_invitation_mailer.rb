@@ -18,8 +18,7 @@ class UserInvitationMailer < ApplicationMailer
     @recipient = @inviter.email
     @subject = t('.subject', invitee_name: @invitee.name)
 
-    @body =
-      t('.body', invitee_name: @invitee.name, admin_index_url: admin_index_url)
+    @body = t('.body', invitee_name: @invitee.name, settings_url: settings_url)
     @todos = t('.todos')
 
     send_mail

@@ -35,30 +35,18 @@ module FeatureHelpers
   end
 
   def click_filter_table_activate_for(user)
-    page.find(
-      ".admin-deactivated-user-list__row[data-id='#{user.synthetic_id}'] " \
-        '.activate-user button'
-    ).click
+    page.find('FILL-ME-IN').click
   end
 
   def click_filter_table_deactivate_for(user)
-    page.find(
-      ".admin-user-list__row[data-id='#{user.synthetic_id}'] " \
-        '.deactivate-user button'
-    ).click
+    page.find('FILL-ME-IN').click
   end
 
   def click_filter_table_delete_for(user_invitation)
-    page.find(
-      ".admin-user-invitation-list__row[data-id='#{user_invitation.id}'] " \
-        '.delete-user-invitation button'
-    ).click
+    page.find('FILL-ME-IN').click
   end
 
   def click_filter_table_edit_user_roles_for(user)
-    page.find(
-      ".admin-user-list__row[data-id='#{user.synthetic_id}'] " \
-        '.update-user-role__update-btn'
-    ).click
+    page.find('FILL-ME-IN').click
   end
 end

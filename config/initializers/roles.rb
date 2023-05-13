@@ -1,2 +1,2 @@
-ALL_ROLES =
-  Rails.env.test? ? %w[admin manager director].freeze : %w[admin].freeze
+USER_ROLES =
+  Rails.env.test? ? %w[leader manager director].freeze : %w[leader].freeze

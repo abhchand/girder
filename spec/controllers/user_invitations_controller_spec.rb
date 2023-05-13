@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe UserInvitationsController, type: :controller do
-  let(:admin) { create(:user, :admin) }
+  let(:leader) { create(:user, :leader) }
   let(:user_invitation) { create(:user_invitation) }
 
-  before { sign_in(admin) }
+  before { sign_in(leader) }
 
   describe 'POST #create' do
     let(:params) do
@@ -20,8 +20,8 @@ RSpec.describe UserInvitationsController, type: :controller do
       end
     end
 
-    context 'admin does not have ability to manage invitations' do
-      before { admin.remove_role(:admin) }
+    context 'user does not have ability to create invitations' do
+      before { leader.remove_role(:leader) }
 
       it 'responds as 403 forbidden' do
         post :create, params: params
@@ -111,8 +111,8 @@ RSpec.describe UserInvitationsController, type: :controller do
       end
     end
 
-    context 'admin does not have ability to edit user invitation' do
-      before { admin.remove_role(:admin) }
+    context 'leader does not have ability to edit user invitation' do
+      before { leader.remove_role(:leader) }
 
       it 'responds as 403 forbidden' do
         delete :destroy, params: params

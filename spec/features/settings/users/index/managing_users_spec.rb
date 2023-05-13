@@ -1,36 +1,36 @@
 require 'rails_helper'
 
 RSpec.feature 'Settings - Managing Users', type: :feature, js: true do
-  let(:admin) { create(:user, :admin) }
+  let(:leader) { create(:user, :leader) }
 
-  before { log_in(admin) }
+  before { log_in(leader) }
 
   context 'User records' do
     let!(:user) { create(:user) }
 
-    it 'toggle another user\'s Admin status' do
+    it 'toggle another user\'s Leader status' do
       visit settings_users_path
 
-      # Click first button: Add Admin
-      admin_actions_for(user)[0].click
+      # Click first button: Add Leader
+      leader_actions_for(user)[0].click
       sleep(5)
 
       expect(page).to have_current_path(settings_users_path)
-      expect(user.reload.has_role?('admin')).to eq(true)
+      expect(user.reload.has_role?(:leader)).to eq(true)
 
-      # Click first button: Remove Admin
-      admin_actions_for(user)[0].click
+      # Click first button: Remove Leader
+      leader_actions_for(user)[0].click
       sleep(5)
 
       expect(page).to have_current_path(settings_users_path)
-      expect(user.reload.has_role?('admin')).to eq(false)
+      expect(user.reload.has_role?(:leader)).to eq(false)
     end
 
-    it 'admin can delete another user' do
+    it 'leader can delete another user' do
       visit settings_users_path
 
       # Click second button: Delete User
-      admin_actions_for(user)[1].click
+      leader_actions_for(user)[1].click
       sleep(5)
 
       expect(page).to have_current_path(settings_users_path)
@@ -43,8 +43,8 @@ RSpec.feature 'Settings - Managing Users', type: :feature, js: true do
       # Secretly delete the User
       user.destroy!
 
-      # Click first button: Add Admin
-      admin_actions_for(user)[0].click
+      # Click first button: Add Leader
+      leader_actions_for(user)[0].click
       sleep(5)
 
       expect(page).to have_current_path(settings_users_path)
@@ -53,13 +53,13 @@ RSpec.feature 'Settings - Managing Users', type: :feature, js: true do
   end
 
   context 'UserInvitation Records' do
-    let!(:user_invitation) { create(:user_invitation, inviter: admin) }
+    let!(:user_invitation) { create(:user_invitation, inviter: leader) }
 
-    it 'admin can resend invitations' do
+    it 'leader can resend invitations' do
       visit settings_users_path
 
       # Click first button: Resend Invitation
-      admin_actions_for(user_invitation)[0].click
+      leader_actions_for(user_invitation)[0].click
       sleep(7)
 
       expect(page).to have_current_path(settings_users_path)
@@ -72,7 +72,7 @@ RSpec.feature 'Settings - Managing Users', type: :feature, js: true do
     end
   end
 
-  def admin_actions_for(target)
+  def leader_actions_for(target)
     id = target.try(:synthetic_id) || target.id
 
     row = page.find(".settings-users-index-table__row[data-id='#{id}']")

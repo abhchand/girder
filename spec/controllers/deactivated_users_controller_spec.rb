@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe DeactivatedUsersController, type: :controller do
-  let(:admin) { create(:user, :admin) }
+  let(:leader) { create(:user, :leader) }
   let(:user) { create(:user, :deactivated) }
 
-  before { sign_in(admin) }
+  before { sign_in(leader) }
 
   describe 'GET index' do
     before do
-      sign_out(admin)
+      sign_out(leader)
       sign_in(user)
     end
 
@@ -52,8 +52,8 @@ RSpec.describe DeactivatedUsersController, type: :controller do
       end
     end
 
-    context 'admin does not have ability to edit user' do
-      before { admin.remove_role(:admin) }
+    context 'leader does not have ability to edit user' do
+      before { leader.remove_role(:leader) }
 
       it 'responds as 403 forbidden' do
         delete :destroy, params: params

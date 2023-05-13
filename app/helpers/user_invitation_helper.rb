@@ -12,8 +12,8 @@ module UserInvitationHelper
     handle_insufficient_permissions
   end
 
-  def ensure_can_manage_invitations
-    return if can?(:write, :admin)
+  def can_invite_others
+    return if can?(:create, :user_invitations)
 
     handle_insufficient_permissions
   end

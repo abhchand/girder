@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UserInvitations::CreateService, type: :interactor do
-  let(:admin) { create(:user, :admin) }
+  let(:leader) { create(:user, :leader) }
   let(:params) { { email: 'test@xyz.com' } }
 
   before do
@@ -16,7 +16,7 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
 
     user_invitation = result.user_invitation
     expect(user_invitation.email).to eq(params[:email])
-    expect(user_invitation.inviter).to eq(admin)
+    expect(user_invitation.inviter).to eq(leader)
 
     expect(result.error).to be_nil
     expect(result.log).to be_nil
@@ -68,7 +68,7 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
   end
 
   context 'registration email domain whitelisting is enabled' do
-    let(:admin) { create(:user, :admin, email: 'admin@example.com') }
+    let(:leader) { create(:user, :leader, email: 'leader@example.com') }
 
     before do
       stub_env('REGISTRATION_EMAIL_DOMAIN_WHITELIST' => 'example.com,x.yz')
@@ -83,7 +83,7 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
 
       user_invitation = result.user_invitation
       expect(user_invitation.email).to eq(params[:email])
-      expect(user_invitation.inviter).to eq(admin)
+      expect(user_invitation.inviter).to eq(leader)
 
       expect(result.error).to be_nil
       expect(result.log).to be_nil
@@ -128,7 +128,7 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
 
   def call(opts = {})
     UserInvitations::CreateService.call(
-      { params: params, current_user: admin }.merge(opts)
+      { params: params, current_user: leader }.merge(opts)
     )
   end
 end

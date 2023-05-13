@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  let(:admin) { create(:user, :admin) }
+  let(:leader) { create(:user, :leader) }
   let(:user) { create(:user) }
 
-  before { sign_in(admin) }
+  before { sign_in(leader) }
 
   describe 'GET #index' do
     it 'redirects to the root_path' do
@@ -36,8 +36,8 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    context 'admin does not have ability to edit user' do
-      before { admin.remove_role(:admin) }
+    context 'leader does not have ability to edit user' do
+      before { leader.remove_role(:leader) }
 
       it 'responds as 403 forbidden' do
         delete :destroy, params: params

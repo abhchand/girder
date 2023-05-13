@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
-  let(:user) { create(:user, :admin) }
+  let(:user) { create(:user, :leader) }
 
   describe 'GET #index' do
     let(:params) { { format: 'json' } }
@@ -363,7 +363,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe 'PATCH #update' do
     let(:user) do
-      create(:user, :admin, first_name: 'Dante', last_name: 'Basco')
+      create(:user, :leader, first_name: 'Dante', last_name: 'Basco')
     end
 
     let(:params) do
@@ -478,18 +478,18 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:admin) { create(:user, :admin) }
+    let(:leader) { create(:user, :leader) }
     let(:user) { create(:user) }
 
     let(:params) { { format: 'json', id: user.synthetic_id } }
 
     before do
-      sign_in(admin)
-      stub_ability(admin).can(:write, User)
+      sign_in(leader)
+      stub_ability(leader).can(:write, User)
     end
 
-    context 'admin does not have permissions to write the user' do
-      before { stub_ability(admin).cannot(:write, User) }
+    context 'leader does not have permissions to write the user' do
+      before { stub_ability(leader).cannot(:write, User) }
 
       it 'responds with an error' do
         delete :destroy, params: params
@@ -530,8 +530,8 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(response.body).to eq('')
       end
 
-      context 'admin is trying to delete themselves' do
-        let(:user) { admin }
+      context 'leader is trying to delete themselves' do
+        let(:user) { leader }
 
         it 'does not allow the action' do
           expect { delete :destroy, params: params }.to_not(
@@ -545,22 +545,22 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 
-  describe 'POST #add_admin' do
-    let(:admin) { create(:user, :admin) }
+  describe 'POST #add_role' do
+    let(:leader) { create(:user, :leader) }
     let(:user) { create(:user) }
 
     let(:params) { { format: 'json', user_id: user.synthetic_id } }
 
     before do
-      sign_in(admin)
-      stub_ability(admin).can(:write, User)
+      sign_in(leader)
+      stub_ability(leader).can(:write, User)
     end
 
-    context 'admin does not have permissions to write the user' do
-      before { stub_ability(admin).cannot(:write, User) }
+    context 'leader does not have permissions to write the user' do
+      before { stub_ability(leader).cannot(:write, User) }
 
       it 'responds with an error' do
-        post :add_admin, params: params
+        post :add_role, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
@@ -573,7 +573,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       before { params[:user_id] = -1 }
 
       it 'responds with an error' do
-        post :add_admin, params: params
+        post :add_role, params: params
 
         expect(response.status).to eq(404)
         expect(JSON.parse(response.body)['errors']).to eq(
@@ -588,10 +588,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
     end
 
-    describe 'adding an admin' do
-      it 'makes the user an admin and responds successfully' do
-        expect { post :add_admin, params: params }.to change {
-          user.reload.has_role?('admin')
+    describe 'adding an leader' do
+      it 'makes the user an leader and responds successfully' do
+        expect { post :add_role, params: params }.to change {
+          user.reload.has_role?(:leader)
         }.from(false).to(true)
 
         expect(response.status).to eq(200)
@@ -600,22 +600,22 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 
-  describe 'POST #remove_admin' do
-    let(:admin) { create(:user, :admin) }
-    let(:user) { create(:user, :admin) }
+  describe 'POST #remove_role' do
+    let(:leader) { create(:user, :leader) }
+    let(:user) { create(:user, :leader) }
 
     let(:params) { { format: 'json', user_id: user.synthetic_id } }
 
     before do
-      sign_in(admin)
-      stub_ability(admin).can(:write, User)
+      sign_in(leader)
+      stub_ability(leader).can(:write, User)
     end
 
-    context 'admin does not have permissions to write the user' do
-      before { stub_ability(admin).cannot(:write, User) }
+    context 'leader does not have permissions to write the user' do
+      before { stub_ability(leader).cannot(:write, User) }
 
       it 'responds with an error' do
-        post :remove_admin, params: params
+        post :remove_role, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
@@ -628,7 +628,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       before { params[:user_id] = -1 }
 
       it 'responds with an error' do
-        post :remove_admin, params: params
+        post :remove_role, params: params
 
         expect(response.status).to eq(404)
         expect(JSON.parse(response.body)['errors']).to eq(
@@ -643,10 +643,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
     end
 
-    describe 'adding an admin' do
-      it 'makes the user an admin and responds successfully' do
-        expect { post :remove_admin, params: params }.to change {
-          user.reload.has_role?('admin')
+    describe 'adding an leader' do
+      it 'makes the user an leader and responds successfully' do
+        expect { post :remove_role, params: params }.to change {
+          user.reload.has_role?(:leader)
         }.from(true).to(false)
 
         expect(response.status).to eq(200)

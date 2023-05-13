@@ -60,18 +60,24 @@ class Api::V1::UsersController < Api::BaseController
     head :ok
   end
 
-  def add_admin
+  def add_role
     authorize! :write, user
 
-    user.add_role('admin')
+    # NOTE: Despite their name, `add_role` and `remove_role` only work with
+    # updating a single role - `leader`.
+    # TODO: Make this work generically with any `params[:role]` value
+    user.add_role(:leader)
 
     head :ok
   end
 
-  def remove_admin
+  def remove_role
     authorize! :write, user
 
-    user.remove_role('admin')
+    # NOTE: Despite their name, `add_role` and `remove_role` only work with
+    # updating a single role - `leader`.
+    # TODO: Make this work generically with any `params[:role]` value
+    user.remove_role(:leader)
 
     head :ok
   end

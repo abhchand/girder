@@ -23,12 +23,20 @@ function httpRequest(url, method = 'post') {
     .catch((_error) => setFlash('error', I18n.t('generic_error')));
 }
 
-function addAdmin(userId) {
-  httpRequest(`/api/v1/users/${userId}/add_admin.json`);
+function addRole(userId, _roleName) {
+  /*
+   * See comment in controller - this endpoint doesn't actually handle adding
+   * or removing roles generically. It's hardcoded to act on the 'leader' role
+   */
+  httpRequest(`/api/v1/users/${userId}/add_role.json`);
 }
 
-function removeAdmin(userId) {
-  httpRequest(`/api/v1/users/${userId}/remove_admin.json`);
+function removeRole(userId, _roleName) {
+  /*
+   * See comment in controller - this endpoint doesn't actually handle adding
+   * or removing roles generically. It's hardcoded to act on the 'leader' role
+   */
+  httpRequest(`/api/v1/users/${userId}/remove_role.json`);
 }
 
 function deleteUser(userId) {
@@ -39,4 +47,4 @@ function resendUserInvitation(userInvitationid) {
   httpRequest(`/api/v1/user_invitations/${userInvitationid}/resend.json`);
 }
 
-export { addAdmin, removeAdmin, deleteUser, resendUserInvitation };
+export { addRole, removeRole, deleteUser, resendUserInvitation };

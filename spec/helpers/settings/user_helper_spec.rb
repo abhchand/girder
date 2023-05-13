@@ -1,22 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Settings::UserHelper, type: :helper do
-  let(:admin) { create(:user, :admin) }
+  let(:leader) { create(:user, :leader) }
   let(:user) { create(:user) }
-  let(:user_invitation) { create(:user_invitation, inviter: admin) }
+  let(:user_invitation) { create(:user_invitation, inviter: leader) }
 
   let(:i18n_prefix) { 'settings.users.index' }
 
-  before { stub_current_user(admin) }
+  before { stub_current_user(leader) }
 
   describe '#actions_for' do
     context 'target is a User' do
-      it 'generates the button to make the target user an admin' do
+      it 'generates the button to make the target user an leader' do
         actions = to_html_node(actions_for(user))
         buttons = actions.all('button')
 
         expect(buttons[0]).to have_text(
-          t("#{i18n_prefix}.table.actions.make_admin")
+          t("#{i18n_prefix}.table.actions.make_leader")
         )
       end
 
@@ -29,21 +29,21 @@ RSpec.describe Settings::UserHelper, type: :helper do
         )
       end
 
-      context 'target user is an admin' do
-        before { user.add_role(:admin) }
+      context 'target user is an leader' do
+        before { user.add_role(:leader) }
 
-        it 'generates the button to remove the target user as an admin' do
+        it 'generates the button to remove the target user as an leader' do
           actions = to_html_node(actions_for(user))
           buttons = actions.all('button')
 
           expect(buttons[0]).to have_text(
-            t("#{i18n_prefix}.table.actions.remove_admin")
+            t("#{i18n_prefix}.table.actions.remove_leader")
           )
         end
       end
 
-      context 'current user is not an admin' do
-        before { admin.remove_role(:admin) }
+      context 'current user is not an leader' do
+        before { leader.remove_role(:leader) }
 
         it 'generates no buttons' do
           expect(actions_for(user)).to be_nil
@@ -51,7 +51,7 @@ RSpec.describe Settings::UserHelper, type: :helper do
       end
 
       context 'target user is the current user' do
-        let(:user) { admin }
+        let(:user) { leader }
 
         it 'generates no buttons' do
           expect(actions_for(user)).to be_nil
@@ -105,9 +105,9 @@ RSpec.describe Settings::UserHelper, type: :helper do
         expect(role_for(user)).to eq('')
       end
 
-      context 'target user is an admin' do
-        it 'returns the admin label' do
-          expect(role_for(admin)).to eq(I18n.t('roles.admin.label'))
+      context 'target user is an leader' do
+        it 'returns the leader label' do
+          expect(role_for(leader)).to eq(I18n.t('roles.leader.label'))
         end
       end
     end

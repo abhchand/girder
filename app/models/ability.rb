@@ -14,20 +14,12 @@ class Ability
   def initialize(user)
     @user = user
 
-    can :read, :admin do
-      admin?
-    end
-
-    can :write, :admin do
-      admin?
-    end
-
     can :read, :mailer_previews do
-      admin?
+      leader?
     end
 
     can :write, :sidekiq do
-      admin?
+      leader?
     end
 
     can :read, :users do
@@ -35,19 +27,23 @@ class Ability
     end
 
     can :read, User do |_u|
-      admin?
+      leader?
     end
 
     can :write, User do |_user|
-      admin?
+      leader?
     end
 
     can :read, :user_invitations do
-      admin?
+      leader?
     end
 
     can :write, UserInvitation do |_user_invitation|
-      admin?
+      leader?
+    end
+
+    can :create, :user_invitations do
+      leader?
     end
   end
 
@@ -59,7 +55,7 @@ class Ability
 
   private
 
-  def admin?
-    @user.has_role?('admin')
+  def leader?
+    @user.has_role?(:leader)
   end
 end

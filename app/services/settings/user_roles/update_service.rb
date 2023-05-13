@@ -24,7 +24,7 @@ class Settings::UserRoles::UpdateService
   end
 
   def roles_valid?
-    @roles.all? { |r| ALL_ROLES.include?(r) }
+    @roles.all? { |r| Role::ALL_ROLES.include?(r) }
   end
 
   def update_roles!

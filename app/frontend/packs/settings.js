@@ -2,9 +2,9 @@
 /* eslint sort-imports:0 */
 
 import {
-  addAdmin,
+  addRole,
   deleteUser,
-  removeAdmin,
+  removeRole,
   resendUserInvitation
 } from 'src/settings/users/index';
 
@@ -17,8 +17,8 @@ import 'src/settings/users/index.scss';
 
 // The export value here will be available under `Girder.settings.*`
 export default {
-  addAdmin,
-  removeAdmin,
+  addRole,
+  removeRole,
   deleteUser,
   resendUserInvitation
 };

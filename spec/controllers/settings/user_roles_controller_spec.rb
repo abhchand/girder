@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Settings::UserRolesController, type: :controller do
-  let(:admin) { create(:user, :admin) }
+  let(:leader) { create(:user, :leader) }
   let(:user) { create(:user) }
 
   before do
-    sign_in(admin)
+    sign_in(leader)
     user.add_role(:manager)
   end
 
@@ -32,8 +32,8 @@ RSpec.describe Settings::UserRolesController, type: :controller do
       end
     end
 
-    context 'admin does not have ability to edit user' do
-      before { admin.remove_role(:admin) }
+    context 'leader does not have ability to edit user' do
+      before { leader.remove_role(:leader) }
 
       it 'responds as 403 forbidden' do
         patch :update, params: params
@@ -46,14 +46,14 @@ RSpec.describe Settings::UserRolesController, type: :controller do
     end
 
     it 'updates the user roles' do
-      params[:roles] = %w[director admin]
+      params[:roles] = %w[director leader]
 
       patch :update, params: params
 
       expect(response.status).to eq(200)
       expect(response.body).to eq('{}')
 
-      expect(user.reload.roles.pluck(:name)).to match_array(%w[director admin])
+      expect(user.reload.roles.pluck(:name)).to match_array(%w[director leader])
     end
   end
 

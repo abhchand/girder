@@ -3,7 +3,7 @@ FactoryBot.define do
     transient do
       with_avatar { false }
       avatar_name { 'avatar.png' }
-      add_admin_role { false }
+      add_leader_role { false }
     end
 
     sequence(:email) { |n| "alonzo-#{n}@lapd.gov" }
@@ -39,7 +39,7 @@ FactoryBot.define do
 
     trait(:deactivated) { deactivated_at { Time.zone.now } }
 
-    trait(:admin) { add_admin_role { true } }
+    trait(:leader) { add_leader_role { true } }
 
     after(:create) do |user, e|
       if e.with_avatar
@@ -47,7 +47,7 @@ FactoryBot.define do
         user.avatar.attach(io: file, filename: e.avatar_name)
       end
 
-      user.add_role(:admin) if e.add_admin_role
+      user.add_role(:leader) if e.add_leader_role
     end
   end
 end

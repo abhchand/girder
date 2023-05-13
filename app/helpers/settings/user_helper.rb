@@ -3,7 +3,7 @@ module Settings
     # Generates the button actions the current user can perform on a given
     # target. The `target` must be a `User` or `UserInvitation`.
     #
-    # If the target is a `User`, generate buttons to promote/demote admins and
+    # If the target is a `User`, generate buttons to promote/demote leaders and
     # delete the `User`.
     #
     # If the target is a `UserInvitation`, generate a button to resend the
@@ -13,7 +13,7 @@ module Settings
     # @return [String] The HTML for the generated `<button>` actions
     def actions_for(target)
       case
-      when target.is_a?(User) && current_user.has_role?('admin') &&
+      when target.is_a?(User) && current_user.has_role?(:leader) &&
              current_user != target
         actions_for_user(target)
       when target.is_a?(UserInvitation)
@@ -41,7 +41,7 @@ module Settings
     def role_for(target)
       return if target.is_a?(UserInvitation)
 
-      target.has_role?('admin') ? t('roles.admin.label') : ''
+      target.has_role?(:leader) ? t('roles.leader.label') : ''
     end
 
     # Generate the status label for a specific target.
@@ -56,14 +56,14 @@ module Settings
     private
 
     def actions_for_user(user)
-      # Button to add or remove another User as an Admin
-      key = user.has_role?('admin') ? :remove_admin : :make_admin
-      js_fn = user.has_role?('admin') ? 'removeAdmin' : 'addAdmin'
-      admin_btn = <<-HTML.strip_heredoc
+      # Button to add or remove another User as a Leader
+      key = user.has_role?(:leader) ? :remove_leader : :make_leader
+      js_fn = user.has_role?(:leader) ? 'removeRole' : 'addRole'
+      role_btn = <<-HTML.strip_heredoc
         <button
           type="button"
           class="link-btn"
-          onClick="Girder.settings.#{js_fn}('#{id_for(user)}')">
+          onClick="Girder.settings.#{js_fn}('#{id_for(user)}', 'leader')">
           #{t("#{i18n_prefix}.table.actions.#{key}")}
         </button>
       HTML
@@ -78,7 +78,7 @@ module Settings
         </button>
       HTML
 
-      [admin_btn, delete_btn].join(' | ')
+      [role_btn, delete_btn].join(' | ')
     end
 
     def actions_for_invitation(user_invitation)

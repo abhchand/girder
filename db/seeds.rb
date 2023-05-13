@@ -15,7 +15,7 @@ SEED_DATA =
 SEED_DATA['users'].each do |user_attrs|
   puts "Creating human user: #{user_attrs}"
   user = FactoryBot.create(:user, user_attrs)
-  user.add_role(:admin)
+  user.add_role(:leader)
 end
 
 #

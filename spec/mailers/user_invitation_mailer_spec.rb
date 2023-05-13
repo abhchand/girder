@@ -62,8 +62,7 @@ RSpec.describe UserInvitationMailer do
     end
 
     it 'displays the settings url' do
-      url =
-      expect(mail.body).to have_link('settings page', href: settings_url)
+      url = expect(mail.body).to have_link('settings page', href: settings_url)
     end
   end
 end

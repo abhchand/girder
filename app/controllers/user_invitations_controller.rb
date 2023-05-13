@@ -3,7 +3,7 @@ class UserInvitationsController < ApplicationController
 
   before_action :ensure_json_request, only: %i[create destroy]
 
-  before_action :ensure_can_manage_invitations, only: %i[create]
+  before_action :can_invite_others, only: %i[create]
 
   before_action :user_invitation, only: %i[destroy]
   before_action :only_editable_user_invitations, only: %i[destroy]

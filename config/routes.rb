@@ -47,8 +47,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     scope path: 'v1', module: :v1, as: :v1 do
       resources :users, only: %i[index show update destroy] do
-        post :add_admin
-        post :remove_admin
+        post :add_role
+        post :remove_role
       end
       resources :user_invitations, only: %i[index] do
         post :resend
