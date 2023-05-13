@@ -80,7 +80,7 @@
   }
 
   &:hover {
-    background-color: $cultured;
+    background-color: $light-blue;
   }
 }
 
@@ -99,19 +99,19 @@
 .desktop-header-account-dropdown__link-element--settings {
   svg {
     rect, path {
-      stroke: $dark-cornflower-blue;
+      stroke: $dark-blue;
     }
   }
 
   #handle {
-    fill: $dark-cornflower-blue;
+    fill: $dark-blue;
   }
 }
 
 .desktop-header-account-dropdown__link-element--product-feedback {
   svg {
     rect, path {
-      stroke: $dark-cornflower-blue;
+      stroke: $dark-blue;
     }
   }
 }

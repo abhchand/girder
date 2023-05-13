@@ -29,7 +29,7 @@ RSpec.feature 'Signing Up', type: :feature do
     }
   end
 
-  let(:signed_in_path) { root_path }
+  let(:signed_in_path) { photos_path }
 
   it 'user can sign up and receive a confirmation email' do
     expect { register(user_attrs) }.to(change { User.count }.by(1))
