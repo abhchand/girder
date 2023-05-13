@@ -1,23 +1,23 @@
-require Rails.root.join('lib', 'sidekiq', 'admin_constraint')
-require Rails.root.join('lib', 'admin', 'mailer_preview_constraint')
+require Rails.root.join('lib', 'sidekiq', 'auth_constraint')
+require Rails.root.join('lib', 'superadmin', 'mailer_preview_constraint')
 
 Rails.application.routes.draw do
   root to: 'root#new'
 
-  scope :admin do
+  scope :superadmin do
     mount Sidekiq::Web => '/sidekiq',
-          :constraints => Sidekiq::AdminConstraint.new
+          :constraints => Sidekiq::AuthConstraint.new
 
     # unless Rails.env.production?
     #   get(
     #     '/rails/mailers' => 'rails/mailers#index',
-    #     constraints: Admin::MailerPreviewConstraint.new,
-    #     as: 'admin_rails_mailers'
+    #     constraints: Superadmin::MailerPreviewConstraint.new,
+    #     as: 'superadmin_rails_mailers'
     #   )
 
     #   get(
     #     '/rails/mailers/*path' => 'rails/mailers#preview',
-    #     constraints: Admin::MailerPreviewConstraint.new
+    #     constraints: Superadmin::MailerPreviewConstraint.new
     #   )
     # end
   end

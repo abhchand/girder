@@ -1,5 +1,5 @@
 module Sidekiq
-  class AdminConstraint
+  class AuthConstraint
     def matches?(request)
       user_id = request.session['warden.user.user.key'].dig(0, 0)
 

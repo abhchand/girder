@@ -1,4 +1,4 @@
-module Admin
+module Superadmin
   class MailerPreviewConstraint
     def matches?(request)
       user_id = request.session['warden.user.user.key'].dig(0, 0)
