@@ -11,12 +11,12 @@ unless defined?(SidekiqRedisConnectionWrapper)
     URL = ENV['REDIS_URL'] || 'redis://localhost:6379/' unless defined?(URL)
     def initialize
       Sidekiq.configure_server do |config|
-        conn_pool_size = ENV['SIDEKIQ_SERVER_POOL_SIZE'] || 3
+        conn_pool_size = (ENV['SIDEKIQ_SERVER_POOL_SIZE'] || 4).to_i
         config.redis = { url: URL, network_timeout: 3, size: conn_pool_size }
       end
 
       Sidekiq.configure_client do |config|
-        conn_pool_size = ENV['SIDEKIQ_CLIENT_POOL_SIZE'] || 3
+        conn_pool_size = (ENV['SIDEKIQ_CLIENT_POOL_SIZE'] || 4).to_i
         config.redis = { url: URL, network_timeout: 3, size: conn_pool_size }
       end
     end

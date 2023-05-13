@@ -27,7 +27,7 @@ Sidekiq client doesn't run by default, so any enqueued jobs just wait in the que
 You can start Sidekiq with:
 
 ```bash
-bin/app bundle exec sidekiq
+bin/app run bundle exec sidekiq
 ```
 
 # Test
