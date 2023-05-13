@@ -166,7 +166,7 @@ en:
       shared: &shared_navigation
         links:
           my_photos: My photos
-          account: Profile
+          account: My Account
           settings: Settings
           product_feedback: Give feedback
           log_out: Log out
