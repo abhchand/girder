@@ -1,0 +1,67 @@
+@import 'src/shared/_breakpoints.scss';
+@import 'src/shared/_colors.scss';
+
+.settings-template {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  min-width: 200px; // in case the screen collapses too much
+  margin: auto;
+
+  @include breakpoint($screen-lg) {
+    flex-direction: row;
+    width: $screen-lg;
+  }
+}
+.settings-template__menu {
+  width: 160px;
+  margin-bottom: 30px;
+  padding: 0 14px;
+  font-size: 14px;
+
+  li {
+    // Child `<a>` element has height 24px + (8px x 2) = 40px;
+    height: 40px;
+    margin-bottom: 5px;
+    text-align: left;
+    border-radius: 5px;
+
+    a {
+      display: block;
+      padding: 8px 14px;
+      color: $granite-gray;
+      line-height: 24px;
+
+      &:hover {
+        color: $jungle-green;
+      }
+    }
+
+    &.selected {
+      font-weight: 700;
+      background-color: $jungle-green;
+
+      a {
+        color: $off-white;
+      }
+    }
+  }
+
+  @include breakpoint($screen-lg) {
+    margin-bottom: 0;
+  }
+}
+.settings-template__content {
+  width: 100%;
+  padding: 0 15px;
+  overflow-x: scroll;
+}
+.settings-template__heading {
+  margin: 0;
+  font-weight: 700;
+  font-size: 26px;
+  text-align: left;
+}

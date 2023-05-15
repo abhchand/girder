@@ -1,9 +1,8 @@
-<h1 class="page-heading">
-  <%= t(".heading").downcase %>
-</h1>
-
-<ul class="settings-index__links">
-  <li class="settings-index__link-element">
-    <%= link_to(t(".pages.users"), settings_users_path) %>
-  </li>
-</ul>
+<%=
+  render(
+    layout: 'settings_template',
+    locals: { nav_links: nav_links, heading: t("settings.index.heading") }
+  ) do
+%>
+  <p>ayyy lmao</p>
+<% end %>

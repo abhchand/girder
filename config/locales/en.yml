@@ -224,12 +224,14 @@ en:
 
   settings:
     index:
-      heading: Settings
-      pages:
-        users: Users
+      heading: General
+    shared:
+      nav:
+        index: General
+        users: Members
     users:
       index:
-        heading: Users
+        heading: Members
         table:
           header:
             name: Name

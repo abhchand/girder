@@ -1,15 +1,9 @@
 <%=
   render(
-    "shared/breadcrumb_heading",
-    breadcrumbs: [
-      { label: t("settings.index.heading"), href: settings_path },
-      { label: t(".heading"), href: nil }
-    ]
-  )
+    layout: 'settings_template',
+    locals: { nav_links: nav_links, heading: t("settings.users.index.heading") }
+  ) do
 %>
-
-<%= render 'layouts/flash', flash: flash %>
-
 <table class='settings-users-index-table'>
   <thead>
     <tr>
@@ -32,3 +26,4 @@
     <% end %>
   </tbody>
 </table>
+<% end %>

@@ -1,5 +1,8 @@
+@import 'src/shared/_breakpoints.scss';
+
 .settings-users-index-table {
-  width: 980px;
+  width: 100%;
+  min-width: $screen-sm;
 }
 
 .settings-users-index-table__row {

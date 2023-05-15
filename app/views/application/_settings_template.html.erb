@@ -1,0 +1,18 @@
+<div class='settings-template'>
+  <ul class='settings-template__menu'>
+    <% nav_links.each do |nl| %>
+    <li class='<%= 'selected' if nl[:selected] %>'>
+      <a href=<%= nl[:path] %>>
+        <%= nl[:label] %>
+      </a>
+    </li>
+    <% end %>
+  </ul>
+
+  <div class='settings-template__content'>
+    <%= render 'layouts/flash', flash: flash %>
+    <p class='settings-template__heading'><%= heading %></p>
+
+    <%= yield %>
+  </div>
+</div>

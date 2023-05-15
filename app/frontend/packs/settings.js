@@ -12,6 +12,7 @@ import {
  * CSS
  * This will be extracted into a separate file by the webpack build
  */
+import 'src/application/_settings_template.scss';
 import 'src/settings/index.scss';
 import 'src/settings/users/index.scss';
 
