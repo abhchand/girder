@@ -4,11 +4,6 @@ class UserSerializer < ApplicationSerializer
 
   attribute(:avatar) { |user| UserPresenter.new(user, view: nil).avatar }
 
-  attribute :current_user_abilities do |user, _params|
-    ability = Ability.new(user)
-    ability.user_abilities_for(user)
-  end
-
   # Below attributes are only available when the `user` is wrapped in
   # a `UserPresenter`
   attributes :roles, if: proc { |user, _params| user.respond_to?(:roles) }

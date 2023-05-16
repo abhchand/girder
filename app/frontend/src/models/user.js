@@ -8,22 +8,12 @@ class User extends BaseModel {
     super('user', id);
 
     // Function Bindings
-    this.hasAbility = this.hasAbility.bind(this);
     this.name = this.name.bind(this);
   }
 
   /**
    * Helpers
    */
-
-  hasAbility(ability) {
-    const allAbilities = this.currentUserAbilities;
-    if (!allAbilities) {
-      return null;
-    }
-
-    return allAbilities[ability];
-  }
 
   name() {
     return `${this.firstName} ${this.lastName}`;
