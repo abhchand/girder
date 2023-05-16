@@ -7,6 +7,7 @@ RSpec.describe Settings::UserRolesController, type: :controller do
   before do
     sign_in(leader)
     user.add_role(:manager)
+    stub_ability(leader).can(:update_role, User)
   end
 
   describe 'PATCH update' do
@@ -28,19 +29,21 @@ RSpec.describe Settings::UserRolesController, type: :controller do
         patch :update, params: params
 
         expect(response.status).to eq(404)
-        expect(JSON.parse(response.body)).to eq('error' => 'User not found')
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Not Found'
+        )
       end
     end
 
     context 'leader does not have ability to edit user' do
-      before { leader.remove_role(:leader) }
+      before { stub_ability(leader).cannot(:update_role, User) }
 
       it 'responds as 403 forbidden' do
         patch :update, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)).to eq(
-          'error' => 'Insufficent permission'
+          'errors' => [{ 'status' => '403', 'title' => 'Forbidden' }]
         )
       end
     end

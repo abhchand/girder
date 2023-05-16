@@ -1,14 +1,9 @@
 class UserInvitationsController < ApplicationController
-  include UserInvitationHelper
-
   before_action :ensure_json_request, only: %i[create destroy]
 
-  before_action :can_invite_others, only: %i[create]
-
-  before_action :user_invitation, only: %i[destroy]
-  before_action :only_editable_user_invitations, only: %i[destroy]
-
   def create
+    authorize! :create, :user_invitation
+
     @user_invitation = create_service.user_invitation
 
     status, json =
@@ -25,6 +20,8 @@ class UserInvitationsController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, user_invitation
+
     user_invitation.destroy!
 
     respond_to { |format| format.json { render json: {}, status: 200 } }

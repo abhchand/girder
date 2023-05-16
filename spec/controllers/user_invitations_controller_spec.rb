@@ -11,6 +11,8 @@ RSpec.describe UserInvitationsController, type: :controller do
       { format: 'json', user_invitation: { email: 'xyz@foo.com' } }
     end
 
+    before { stub_ability(leader).can(:create, :user_invitation) }
+
     context 'request is not json format' do
       before { params[:format] = 'html' }
 
@@ -21,14 +23,14 @@ RSpec.describe UserInvitationsController, type: :controller do
     end
 
     context 'user does not have ability to create invitations' do
-      before { leader.remove_role(:leader) }
+      before { stub_ability(leader).cannot(:create, :user_invitation) }
 
       it 'responds as 403 forbidden' do
         post :create, params: params
 
         expect(response.status).to eq(403)
-        expect(JSON.parse(response.body)).to eq(
-          'error' => 'Insufficent permissions'
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Forbidden'
         )
       end
     end
@@ -89,6 +91,8 @@ RSpec.describe UserInvitationsController, type: :controller do
   describe 'DELETE #destroy' do
     let(:params) { { format: 'json', id: user_invitation.id } }
 
+    before { stub_ability(leader).can(:destroy, UserInvitation) }
+
     context 'request is not json format' do
       before { params[:format] = 'html' }
 
@@ -105,21 +109,21 @@ RSpec.describe UserInvitationsController, type: :controller do
         delete :destroy, params: params
 
         expect(response.status).to eq(404)
-        expect(JSON.parse(response.body)).to eq(
-          'error' => 'User Invitation not found'
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Not Found'
         )
       end
     end
 
     context 'leader does not have ability to edit user invitation' do
-      before { leader.remove_role(:leader) }
+      before { stub_ability(leader).cannot(:destroy, UserInvitation) }
 
       it 'responds as 403 forbidden' do
         delete :destroy, params: params
 
         expect(response.status).to eq(403)
-        expect(JSON.parse(response.body)).to eq(
-          'error' => 'Insufficent permissions'
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Forbidden'
         )
       end
     end

@@ -10,7 +10,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     before do
       sign_in(user)
-      stub_ability(user).can(:read, :users)
+      stub_ability(user).can(:index, :users)
     end
 
     context 'user is not signed in' do
@@ -37,14 +37,14 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     context 'user does not have permissions to read  users' do
-      before { stub_ability(user).cannot(:read, :users) }
+      before { stub_ability(user).cannot(:index, :users) }
 
       it 'responds with an error' do
         get :index, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
-          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+          [{ 'title' => 'Forbidden', 'status' => '403' }]
         )
       end
     end
@@ -278,7 +278,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     before do
       sign_in(user)
-      stub_ability(user).can(:read, User)
+      stub_ability(user).can(:show, User)
     end
 
     context 'user is not signed in' do
@@ -305,14 +305,14 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     context 'user does not have permissions to read User' do
-      before { stub_ability(user).cannot(:read, User) }
+      before { stub_ability(user).cannot(:show, User) }
 
       it 'responds with an error' do
         get :show, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
-          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+          [{ 'title' => 'Forbidden', 'status' => '403' }]
         )
       end
     end
@@ -327,7 +327,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(JSON.parse(response.body)['errors']).to eq(
           [
             {
-              'title' => 'Record Not Found',
+              'title' => 'Not Found',
               'description' => "Couldn't find User with 'id'=-1",
               'status' => '404'
             }
@@ -379,7 +379,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     before do
       sign_in(user)
-      stub_ability(user).can(:write, User)
+      stub_ability(user).can(:update, User)
     end
 
     context 'user is not signed in' do
@@ -406,14 +406,14 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     context 'user does not have permissions to write the user' do
-      before { stub_ability(user).cannot(:write, User) }
+      before { stub_ability(user).cannot(:update, User) }
 
       it 'responds with an error' do
         patch :update, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
-          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+          [{ 'title' => 'Forbidden', 'status' => '403' }]
         )
       end
     end
@@ -428,7 +428,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(JSON.parse(response.body)['errors']).to eq(
           [
             {
-              'title' => 'Record Not Found',
+              'title' => 'Not Found',
               'description' => "Couldn't find User with 'id'=-1",
               'status' => '404'
             }
@@ -485,18 +485,18 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     before do
       sign_in(leader)
-      stub_ability(leader).can(:write, User)
+      stub_ability(leader).can(:destroy, User)
     end
 
     context 'leader does not have permissions to write the user' do
-      before { stub_ability(leader).cannot(:write, User) }
+      before { stub_ability(leader).cannot(:destroy, User) }
 
       it 'responds with an error' do
         delete :destroy, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
-          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+          [{ 'title' => 'Forbidden', 'status' => '403' }]
         )
       end
     end
@@ -511,7 +511,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(JSON.parse(response.body)['errors']).to eq(
           [
             {
-              'title' => 'Record Not Found',
+              'title' => 'Not Found',
               'description' => "Couldn't find User with 'id'=-1",
               'status' => '404'
             }
@@ -553,18 +553,18 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     before do
       sign_in(leader)
-      stub_ability(leader).can(:write, User)
+      stub_ability(leader).can(:update_role, User)
     end
 
     context 'leader does not have permissions to write the user' do
-      before { stub_ability(leader).cannot(:write, User) }
+      before { stub_ability(leader).cannot(:update_role, User) }
 
       it 'responds with an error' do
         post :add_role, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
-          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+          [{ 'title' => 'Forbidden', 'status' => '403' }]
         )
       end
     end
@@ -579,7 +579,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(JSON.parse(response.body)['errors']).to eq(
           [
             {
-              'title' => 'Record Not Found',
+              'title' => 'Not Found',
               'description' => "Couldn't find User with 'id'=-1",
               'status' => '404'
             }
@@ -608,18 +608,18 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     before do
       sign_in(leader)
-      stub_ability(leader).can(:write, User)
+      stub_ability(leader).can(:update_role, User)
     end
 
     context 'leader does not have permissions to write the user' do
-      before { stub_ability(leader).cannot(:write, User) }
+      before { stub_ability(leader).cannot(:update_role, User) }
 
       it 'responds with an error' do
         post :remove_role, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
-          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+          [{ 'title' => 'Forbidden', 'status' => '403' }]
         )
       end
     end
@@ -634,7 +634,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(JSON.parse(response.body)['errors']).to eq(
           [
             {
-              'title' => 'Record Not Found',
+              'title' => 'Not Found',
               'description' => "Couldn't find User with 'id'=-1",
               'status' => '404'
             }

@@ -1,11 +1,9 @@
 class Settings::UserRolesController < SettingsController
-  include UserHelper
-
   before_action :ensure_json_request, only: %i[update]
-  before_action :user, only: %i[update]
-  before_action :only_editable_users, only: %i[update]
 
   def update
+    authorize! :update_role, user
+
     update_service =
       Settings::UserRoles::UpdateService.call(
         current_user: current_user,

@@ -51,6 +51,16 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def user
+    @user ||=
+      User.find_by_synthetic_id!(params[:user_invitation_id] || params[:id])
+  end
+
+  def user_invitation
+    @user_invitation ||=
+      UserInvitation.find(params[:user_invitation_id] || params[:id])
+  end
+
   def ensure_json_request
     return if defined?(request) && request.format.to_sym == :json
     redirect_to(root_path)

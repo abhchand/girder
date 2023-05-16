@@ -4,8 +4,7 @@ class Ability
   # Define abilities for any given user
   # Philosphy: keep this as simple as possible
   #
-  #   1. Stick with `:read` and `:write` where possible, even if the phrasing
-  #      is awkward (e.g. "edit user" sometimes reads better than "write user")
+  #   1. Stick with rails verbs - `:index`, `:show`, `:create`, etc...
   #
   #   2. Avoid using `:manage` and `:all` where possible. It's a catch-all, and
   #      not a best-practice
@@ -14,35 +13,55 @@ class Ability
   def initialize(user)
     @user = user
 
+    #
+    # Users
+    #
+
+    can :index, :users do
+      true
+    end
+
+    can :show, User do |_u|
+      leader?
+    end
+
+    can :update, User do |user|
+      leader? || @user == user
+    end
+
+    can :destroy, User do |user|
+      leader? || @user == user
+    end
+
+    can :update_role, User do |user|
+      leader?
+    end
+
+    #
+    # UserInvitation
+    #
+
+    can :index, :user_invitations do
+      leader?
+    end
+
+    can :create, :user_invitation do
+      leader?
+    end
+
+    can :destroy, UserInvitation do |_user_invitation|
+      leader?
+    end
+
+    #
+    # Misc
+    #
+
     can :read, :mailer_previews do
       leader?
     end
 
     can :write, :sidekiq do
-      leader?
-    end
-
-    can :read, :users do
-      true
-    end
-
-    can :read, User do |_u|
-      leader?
-    end
-
-    can :write, User do |_user|
-      leader?
-    end
-
-    can :read, :user_invitations do
-      leader?
-    end
-
-    can :write, UserInvitation do |_user_invitation|
-      leader?
-    end
-
-    can :create, :user_invitations do
       leader?
     end
   end
@@ -54,6 +73,14 @@ class Ability
   end
 
   private
+
+  def admin?(family, user)
+    family_role_for(family, user) == :admin
+  end
+
+  def family_role_for(family, user)
+    FamilyService.new(family).role_for(user)
+  end
 
   def leader?
     @user.has_role?(:leader)

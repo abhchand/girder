@@ -16,6 +16,8 @@ RSpec.describe UsersController, type: :controller do
   describe 'DELETE #destroy' do
     let(:params) { { format: 'json', id: user.synthetic_id } }
 
+    before { stub_ability(leader).can(:destroy, User) }
+
     context 'request is not json format' do
       before { params[:format] = 'html' }
 
@@ -32,19 +34,21 @@ RSpec.describe UsersController, type: :controller do
         delete :destroy, params: params
 
         expect(response.status).to eq(404)
-        expect(JSON.parse(response.body)).to eq('error' => 'User not found')
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Not Found'
+        )
       end
     end
 
     context 'leader does not have ability to edit user' do
-      before { leader.remove_role(:leader) }
+      before { stub_ability(leader).cannot(:destroy, User) }
 
       it 'responds as 403 forbidden' do
         delete :destroy, params: params
 
         expect(response.status).to eq(403)
-        expect(JSON.parse(response.body)).to eq(
-          'error' => 'Insufficent permission'
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Forbidden'
         )
       end
     end

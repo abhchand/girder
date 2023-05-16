@@ -2,7 +2,7 @@ class Api::V1::UsersController < Api::BaseController
   before_action :user, only: %i[show update destroy]
 
   def index
-    authorize! :read, :users
+    authorize! :index, :users
 
     users = fetch_users
     users = search(users)
@@ -27,7 +27,7 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def show
-    authorize! :read, user
+    authorize! :show, user
 
     json = serialize(user)
 
@@ -35,7 +35,7 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def update
-    authorize! :write, user
+    authorize! :update, user
 
     user.attributes = update_params
 
@@ -51,7 +51,7 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def destroy
-    authorize! :write, user
+    authorize! :destroy, user
 
     (head :bad_request and return) if user == current_user
 
@@ -61,7 +61,7 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def add_role
-    authorize! :write, user
+    authorize! :update_role, user
 
     # NOTE: Despite their name, `add_role` and `remove_role` only work with
     # updating a single role - `leader`.
@@ -72,7 +72,7 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def remove_role
-    authorize! :write, user
+    authorize! :update_role, user
 
     # NOTE: Despite their name, `add_role` and `remove_role` only work with
     # updating a single role - `leader`.

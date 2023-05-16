@@ -1,6 +1,6 @@
 class Api::V1::UserInvitationsController < Api::BaseController
   def index
-    authorize! :read, :user_invitations
+    authorize! :index, :user_invitations
 
     user_invitations = UserInvitation.order('lower(email)')
     user_invitations = search(user_invitations)
@@ -19,9 +19,7 @@ class Api::V1::UserInvitationsController < Api::BaseController
   end
 
   def resend
-    user_invitation = UserInvitation.find(params[:user_invitation_id])
-
-    authorize! :write, user_invitation
+    authorize! :create, :user_invitation
 
     UserInvitationMailer.delay.invite(user_invitation.id)
 

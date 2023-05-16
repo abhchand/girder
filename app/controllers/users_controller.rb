@@ -1,9 +1,5 @@
 class UsersController < ApplicationController
-  include UserHelper
-
   before_action :ensure_json_request, only: %i[destroy]
-  before_action :user, only: %i[destroy]
-  before_action :only_editable_users, only: %i[destroy]
   before_action(only: 'show') { @use_packs << 'users-show' }
 
   # Dummy controller action because Devise tries to redirect to <resource>_url
@@ -24,6 +20,8 @@ class UsersController < ApplicationController
   # end
 
   def destroy
+    authorize! :destroy, user
+
     # Remove all roles
     user.roles.pluck(:name).each { |role| user.remove_role(role) }
 

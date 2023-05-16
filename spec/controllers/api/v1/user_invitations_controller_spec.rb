@@ -10,7 +10,7 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
 
     before do
       sign_in(user)
-      stub_ability(user).can(:read, :user_invitations)
+      stub_ability(user).can(:index, :user_invitations)
 
       stub_const('Api::Response::PaginationLinksService::PAGE_SIZE', 100)
     end
@@ -39,14 +39,14 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
     end
 
     context 'user does not have permissions to read user invitations' do
-      before { stub_ability(user).cannot(:read, :user_invitations) }
+      before { stub_ability(user).cannot(:index, :user_invitations) }
 
       it 'responds with an error' do
         get :index, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
-          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+          [{ 'title' => 'Forbidden', 'status' => '403' }]
         )
       end
     end
@@ -215,18 +215,18 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
 
     before do
       sign_in(leader)
-      stub_ability(leader).can(:write, UserInvitation)
+      stub_ability(leader).can(:create, :user_invitation)
     end
 
-    context 'leader does not have permissions to write the user invitation' do
-      before { stub_ability(leader).cannot(:write, UserInvitation) }
+    context 'leader does not have permissions to create the user invitation' do
+      before { stub_ability(leader).cannot(:create, :user_invitation) }
 
       it 'responds with an error' do
         post :resend, params: params
 
         expect(response.status).to eq(403)
         expect(JSON.parse(response.body)['errors']).to eq(
-          [{ 'title' => 'Insufficient Permissions', 'status' => '403' }]
+          [{ 'title' => 'Forbidden', 'status' => '403' }]
         )
       end
     end
@@ -238,14 +238,8 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
         post :resend, params: params
 
         expect(response.status).to eq(404)
-        expect(JSON.parse(response.body)['errors']).to eq(
-          [
-            {
-              'title' => 'Record Not Found',
-              'description' => "Couldn't find UserInvitation with 'id'=-1",
-              'status' => '404'
-            }
-          ]
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Not Found'
         )
       end
     end
