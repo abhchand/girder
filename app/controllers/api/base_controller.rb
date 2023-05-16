@@ -4,31 +4,6 @@ class Api::BaseController < ApplicationController
 
   before_action :ensure_json_request
 
-  rescue_from Exception do |_exception|
-    # NOTE: Errors not visible to end users are not translated
-    error = { title: 'An unknown error occurred', status: '500' }
-
-    render json: { errors: [error] }, status: 500
-  end
-
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-    # NOTE: Errors not visible to end users are not translated
-    error = {
-      title: 'Record Not Found',
-      description: exception.message,
-      status: '404'
-    }
-
-    render json: { errors: [error] }, status: 404
-  end
-
-  rescue_from CanCan::AccessDenied do |_exception|
-    # NOTE: Errors not visible to end users are not translated
-    error = { title: 'Insufficient Permissions', status: '403' }
-
-    render json: { errors: [error] }, status: 403
-  end
-
   private
 
   def ensure_can_read_rubric

@@ -12,12 +12,41 @@ class ApplicationController < ActionController::Base
 
   helper_method :view_context
 
-  rescue_from Exception do |_exception|
-    render plain: '500 Internal Server Error', status: 500
+  rescue_from Exception do |exception|
+    respond_to do |format|
+      format.html { render plain: '500 Internal Server Error', status: 500 }
+
+      format.json do
+        error = { title: 'An unknown error occurred', status: '500' }
+        render json: { errors: [error] }, status: 500
+      end
+    end
   end
 
-  rescue_from ActiveRecord::RecordNotFound do |_exception|
-    render plain: '404 Not Found', status: 404
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    respond_to do |format|
+      format.html { render plain: '404 Not Found', status: 404 }
+
+      format.json do
+        error = {
+          title: 'Not Found',
+          description: exception.message,
+          status: '404'
+        }
+        render json: { errors: [error] }, status: 404
+      end
+    end
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { render plain: '403 Forbidden', status: 403 }
+
+      format.json do
+        error = { title: 'Forbidden', status: '403' }
+        render json: { errors: [error] }, status: 403
+      end
+    end
   end
 
   private
