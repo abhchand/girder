@@ -50,7 +50,7 @@ Rails.application.routes.draw do
         post :add_role
         post :remove_role
       end
-      resources :user_invitations, only: %i[index] do
+      resources :user_invitations, only: %i[index create destroy] do
         post :resend
       end
     end
@@ -69,6 +69,4 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: %i[index destroy]
-
-  resources :user_invitations, only: %i[create destroy]
 end

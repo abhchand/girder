@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::UserInvitationsController, type: :controller do
   let(:user) { create(:user) }
+  let(:user_invitation) { create(:user_invitation) }
 
   describe 'GET #index' do
     let(:params) { { format: 'json' } }
@@ -205,21 +206,161 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
     end
   end
 
+  describe 'POST #create' do
+    let(:params) do
+      { format: 'json', user_invitation: { email: 'xyz@foo.com' } }
+    end
+
+    before do
+      sign_in(user)
+      stub_ability(user).can(:create, :user_invitation)
+    end
+
+    context 'request is not json format' do
+      before { params[:format] = 'html' }
+
+      it 'redirects to root_path' do
+        post :create, params: params
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context 'user does not have ability to create invitations' do
+      before { stub_ability(user).cannot(:create, :user_invitation) }
+
+      it 'responds as 403 forbidden' do
+        post :create, params: params
+
+        expect(response.status).to eq(403)
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Forbidden'
+        )
+      end
+    end
+
+    context 'error in creating the user invitation' do
+      before do
+        # Try creating a user invitation with a duplicate email
+        params[:user_invitation][:email] = user_invitation.email
+      end
+
+      it 'does not create the user invitation and responds as failure' do
+        expect { post :create, params: params }.to_not(
+          change { UserInvitation.count }
+        )
+
+        msg =
+          I18n.t(
+            'activerecord.errors.models.user_invitation.attributes.email.' \
+              'already_invited'
+          )
+
+        expect(response.status).to eq(403)
+        expect(JSON.parse(response.body)).to eq('error' => msg)
+      end
+
+      it 'does not deliver any email' do
+        expect { post :create, params: params }.to_not(
+          change { mailer_queue.count }
+        )
+      end
+    end
+
+    it 'creates the user invitation and responds as success' do
+      expect { post :create, params: params }.to change {
+        UserInvitation.count
+      }.by(1)
+
+      user_invitation = UserInvitation.last
+      expect(user_invitation.email).to eq(params[:user_invitation][:email])
+
+      expect(response.status).to eq(200)
+      expect(JSON.parse(response.body)).to eq(user_invitation.as_json)
+    end
+
+    it 'emails an invitation to the invited user' do
+      expect { post :create, params: params }.to change {
+        mailer_queue.count
+      }.by(1)
+
+      email = mailer_queue.last
+      expect(mailer_queue.count).to eq(1)
+      expect(email[:klass]).to eq(UserInvitationMailer)
+      expect(email[:method]).to eq(:invite)
+      expect(email[:args][:user_invitation_id]).to eq(UserInvitation.last.id)
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let(:params) { { format: 'json', id: user_invitation.id } }
+
+    before do
+      sign_in(user)
+      stub_ability(user).can(:destroy, UserInvitation)
+    end
+
+    context 'request is not json format' do
+      before { params[:format] = 'html' }
+
+      it 'redirects to root_path' do
+        delete :destroy, params: params
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context 'user invitation is not found' do
+      before { params[:id] = 'abcde' }
+
+      it 'responds as 404 not found' do
+        delete :destroy, params: params
+
+        expect(response.status).to eq(404)
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Not Found'
+        )
+      end
+    end
+
+    context 'user does not have ability to edit user invitation' do
+      before { stub_ability(user).cannot(:destroy, UserInvitation) }
+
+      it 'responds as 403 forbidden' do
+        delete :destroy, params: params
+
+        expect(response.status).to eq(403)
+        expect(JSON.parse(response.body)['errors'][0]['title']).to eq(
+          'Forbidden'
+        )
+      end
+    end
+
+    it 'deletes the user invitation and responds as success' do
+      user_invitation
+
+      expect { delete :destroy, params: params }.to change {
+        UserInvitation.count
+      }.by(-1)
+
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('{}')
+    end
+  end
+
   describe 'POST #resend' do
     let(:params) { { format: 'json' } }
 
-    let(:leader) { create(:user) }
-    let(:user_invitation) { create(:user_invitation, inviter: leader) }
+    let(:user) { create(:user) }
+    let(:user_invitation) { create(:user_invitation, inviter: user) }
 
     let(:params) { { format: 'json', user_invitation_id: user_invitation.id } }
 
     before do
-      sign_in(leader)
-      stub_ability(leader).can(:create, :user_invitation)
+      sign_in(user)
+      stub_ability(user).can(:create, :user_invitation)
     end
 
-    context 'leader does not have permissions to create the user invitation' do
-      before { stub_ability(leader).cannot(:create, :user_invitation) }
+    context 'user does not have permissions to create the user invitation' do
+      before { stub_ability(user).cannot(:create, :user_invitation) }
 
       it 'responds with an error' do
         post :resend, params: params
