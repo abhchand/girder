@@ -65,7 +65,8 @@ class Api::V1::UsersController < Api::BaseController
 
     # NOTE: Despite their name, `add_role` and `remove_role` only work with
     # updating a single role - `leader`.
-    # TODO: Make this work generically with any `params[:role]` value
+    # TODO: Make this work generically with any `params[:role]` value, and
+    # be sure to disallow updating to `:superuser`
     user.add_role(:leader)
 
     head :ok
@@ -76,7 +77,8 @@ class Api::V1::UsersController < Api::BaseController
 
     # NOTE: Despite their name, `add_role` and `remove_role` only work with
     # updating a single role - `leader`.
-    # TODO: Make this work generically with any `params[:role]` value
+    # TODO: Make this work generically with any `params[:role]` value, and
+    # be sure to disallow updating to `:superuser`
     user.remove_role(:leader)
 
     head :ok

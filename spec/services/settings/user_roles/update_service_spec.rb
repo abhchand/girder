@@ -85,7 +85,7 @@ RSpec.describe Settings::UserRoles::UpdateService, type: :interactor do
 
       expect(result.error).to eq(I18n.t("#{@i18n_prefix}.invalid_roles"))
       expect(result.log).to_not be_nil
-      expect(result.status).to eq(403)
+      expect(result.status).to eq(400)
     end
   end
 

@@ -1,2 +1,6 @@
 USER_ROLES =
-  Rails.env.test? ? %w[leader manager director].freeze : %w[leader].freeze
+  if Rails.env.test?
+    %w[superuser leader manager director].freeze
+  else
+    %w[superuser leader].freeze
+  end

@@ -28,6 +28,8 @@ class Settings::UserRoles::UpdateService
   end
 
   def update_roles!
+    # Authorization on whether this user *can* update another user's roles is
+    # expected to have been done before this service is called.
     (new_roles - current_roles).each { |role| user.add_role(role) }
     (current_roles - new_roles).each { |role| user.remove_role(role) }
   end
@@ -36,7 +38,7 @@ class Settings::UserRoles::UpdateService
     context.fail!(
       log: "#{log_tags} Invalid list of roles: #{@roles.join(', ')}}",
       error: I18n.t("#{@i18n_prefix}.invalid_roles"),
-      status: 403
+      status: 400
     )
   end
 

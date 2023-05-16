@@ -13,6 +13,11 @@ class Ability
   def initialize(user)
     @user = user
 
+    if superuser?
+      can :manage, :all
+      return
+    end
+
     #
     # Users
     #
@@ -54,16 +59,15 @@ class Ability
     end
 
     #
-    # Misc
+    # Superuser
+    #
+    # `superuser` abilities are already defined above - disable for everyone
+    # else
     #
 
-    can :read, :mailer_previews do
-      leader?
-    end
-
-    can :write, :sidekiq do
-      leader?
-    end
+    cannot :promote, :superuser
+    cannot :read, :mailer_previews
+    cannot :write, :sidekiq
   end
 
   private
@@ -78,5 +82,9 @@ class Ability
 
   def leader?
     @user.has_role?(:leader)
+  end
+
+  def superuser?
+    @user.has_role?(:superuser)
   end
 end

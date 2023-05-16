@@ -3,12 +3,13 @@ class Settings::UserRolesController < SettingsController
 
   def update
     authorize! :update_role, user
+    authorize! :promote, :superuser if roles.include?('superuser')
 
     update_service =
       Settings::UserRoles::UpdateService.call(
         current_user: current_user,
         user: user,
-        roles: update_params[:roles]
+        roles: roles
       )
 
     status, json =
@@ -24,6 +25,10 @@ class Settings::UserRolesController < SettingsController
   end
 
   private
+
+  def roles
+    update_params[:roles]
+  end
 
   def update_params
     params.permit(roles: [])
