@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UserInvitationsController, type: :controller do
-  let(:user) { create(:user, :leader) }
+  let(:user) { create(:user) }
 
   describe 'GET #index' do
     let(:params) { { format: 'json' } }
@@ -208,7 +208,7 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
   describe 'POST #resend' do
     let(:params) { { format: 'json' } }
 
-    let(:leader) { create(:user, :leader) }
+    let(:leader) { create(:user) }
     let(:user_invitation) { create(:user_invitation, inviter: leader) }
 
     let(:params) { { format: 'json', user_invitation_id: user_invitation.id } }

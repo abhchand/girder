@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UserInvitations::CreateService, type: :interactor do
-  let(:leader) { create(:user, :leader) }
+  let(:leader) { create(:user) }
   let(:params) { { email: 'test@xyz.com' } }
 
   before do
@@ -68,7 +68,7 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
   end
 
   context 'registration email domain whitelisting is enabled' do
-    let(:leader) { create(:user, :leader, email: 'leader@example.com') }
+    let(:leader) { create(:user, email: 'leader@example.com') }
 
     before do
       stub_env('REGISTRATION_EMAIL_DOMAIN_WHITELIST' => 'example.com,x.yz')

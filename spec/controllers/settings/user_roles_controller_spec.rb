@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Settings::UserRolesController, type: :controller do
-  let(:leader) { create(:user, :leader) }
+  let(:leader) { create(:user) }
   let(:user) { create(:user) }
   let(:ability) { stub_ability(leader) }
 

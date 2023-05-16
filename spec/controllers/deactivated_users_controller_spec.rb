@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DeactivatedUsersController, type: :controller do
-  let(:leader) { create(:user, :leader) }
+  let(:leader) { create(:user) }
   let(:user) { create(:user, :deactivated) }
 
   before { sign_in(leader) }

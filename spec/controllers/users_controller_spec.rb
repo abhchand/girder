@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  let(:leader) { create(:user, :leader) }
+  let(:leader) { create(:user) }
   let(:user) { create(:user) }
 
   before { sign_in(leader) }

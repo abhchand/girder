@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
-  let(:user) { create(:user, :leader) }
+  let(:user) { create(:user) }
 
   describe 'GET #index' do
     let(:params) { { format: 'json' } }
@@ -363,7 +363,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe 'PATCH #update' do
     let(:user) do
-      create(:user, :leader, first_name: 'Dante', last_name: 'Basco')
+      create(:user, first_name: 'Dante', last_name: 'Basco')
     end
 
     let(:params) do
@@ -478,7 +478,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:leader) { create(:user, :leader) }
+    let(:leader) { create(:user) }
     let(:user) { create(:user) }
 
     let(:params) { { format: 'json', id: user.synthetic_id } }
@@ -546,7 +546,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'POST #add_role' do
-    let(:leader) { create(:user, :leader) }
+    let(:leader) { create(:user) }
     let(:user) { create(:user) }
 
     let(:params) { { format: 'json', user_id: user.synthetic_id } }
@@ -601,7 +601,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'POST #remove_role' do
-    let(:leader) { create(:user, :leader) }
+    let(:leader) { create(:user) }
     let(:user) { create(:user, :leader) }
 
     let(:params) { { format: 'json', user_id: user.synthetic_id } }
