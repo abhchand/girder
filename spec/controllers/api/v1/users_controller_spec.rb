@@ -362,9 +362,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:user) do
-      create(:user, first_name: 'Dante', last_name: 'Basco')
-    end
+    let(:user) { create(:user, first_name: 'Dante', last_name: 'Basco') }
 
     let(:params) do
       {
