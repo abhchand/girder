@@ -6,18 +6,6 @@ class Api::BaseController < ApplicationController
 
   private
 
-  def ensure_can_read_rubric
-    authorize! :read, :rubric
-  end
-
-  def ensure_can_write_rubric
-    authorize! :write, :rubric
-  end
-
-  def load_resource
-    raise NotImplementedError
-  end
-
   def user
     @user ||=
       begin
