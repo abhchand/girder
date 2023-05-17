@@ -36,6 +36,9 @@ en:
     manager:
       label: Manager
       description: Is a manager
+    superuser:
+      label: SuperUser
+      description: Has site wide permissions
 
   generic_error: Oops, something went wrong. Please try again
 
