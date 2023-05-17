@@ -1,0 +1,42 @@
+<%=
+  form_for(
+    UserInvitation.new,
+    as: :user_invitation,
+    url: api_v1_user_invitations_path,
+    html: {
+      autocomplete: 'off',
+      class: 'settings-users-index__user-invitation-form',
+      method: :post,
+      onsubmit: "Familyties.settings.onFormSubmit(event)"
+    }
+  ) do |f|
+%>
+  <%=
+    f.email_field(
+      :email,
+      # Pick an arbitrarily high number
+      maxlength: 256,
+      onkeyup: "Familyties.settings.onFormEmailChange(event)",
+      placeholder: t('settings.users.user_invitation_form.email.placeholder')
+    )
+  %>
+
+  <%=
+    f.select(
+      :role,
+      [
+        [t('settings.users.user_invitation_form.role.superuser'), 'superuser'],
+        [t('settings.users.user_invitation_form.role.leader'), 'leader']
+      ],
+      selected: 'superuser'
+    )
+  %>
+
+  <%=
+    f.submit(
+      class: 'cta cta--primary',
+      disabled: true,
+      value: t('settings.users.user_invitation_form.submit')
+    )
+  %>
+<% end %>

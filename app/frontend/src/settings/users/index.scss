@@ -1,5 +1,32 @@
 @import 'src/shared/_breakpoints.scss';
 
+.settings-users-index__user-invitation-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  & > * {
+    margin: 0;
+    // At low resolutions, the form wraps and so we want to provide some
+    // spacing between elements
+    margin-bottom: 5px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  #user_invitation_email {
+    margin-right: 10px;
+    width: 250px;
+  }
+
+  #user_invitation_role {
+    margin-right: 10px;
+    width: 150px;
+  }
+}
+
 .settings-users-index-table {
   width: 100%;
   min-width: $screen-sm;

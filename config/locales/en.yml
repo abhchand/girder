@@ -247,6 +247,13 @@ en:
           status:
             active: Active
             invited: Invited
+      user_invitation_form:
+        email:
+          placeholder: Email
+        role:
+          superuser: As a superuser
+          leader: As a leader
+        submit: Invite
     user_roles:
       update_service:
         invalid_roles: One or more role names are invalid
