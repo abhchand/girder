@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Settings - Inviting Users', type: :feature, js: true do
+RSpec.feature 'Settings - Managing User Invitations', type: :feature, js: true do
   let(:leader) { create(:user, :leader) }
   let(:user_invitation) { create(:user_invitation, inviter: leader) }
 
