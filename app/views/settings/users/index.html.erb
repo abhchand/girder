@@ -16,7 +16,9 @@
       <td class='email'><%= t('settings.users.index.table.header.email') %></td>
       <td class='roles'><%= t('settings.users.index.table.header.role') %></td>
       <td class='roles'><%= t('settings.users.index.table.header.status') %></td>
+      <% if current_user.has_role?(:leader) %>
       <td class='actions'><%= t('settings.users.index.table.header.actions') %></td>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -26,7 +28,9 @@
       <td class='email'><%= user.email %></td>
       <td class='roles'><%= role_for(user) %></td>
       <td class='status'><%= status_for(user) %></td>
+      <% if current_user.has_role?(:leader) %>
       <td class='actions'><%= (actions_for(user) || '-').html_safe %></td>
+      <% end %>
     </tr>
     <% end %>
   </tbody>
