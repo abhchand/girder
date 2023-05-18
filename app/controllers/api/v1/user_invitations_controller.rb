@@ -55,7 +55,7 @@ class Api::V1::UserInvitationsController < Api::BaseController
   private
 
   def create_params
-    params.require(:user_invitation).permit(:email)
+    params.require(:user_invitation).permit(:email, :role)
   end
 
   def create_service

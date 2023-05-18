@@ -20,6 +20,7 @@ RSpec.feature 'Settings - Inviting Users', type: :feature, js: true do
     user_invitation = UserInvitation.last
     expect(user_invitation.email).to eq('foo@example.com')
     expect(user_invitation.inviter).to eq(leader)
+    expect(user_invitation.role).to eq('superuser')
 
     # Email is sent
     email = mailer_queue.last

@@ -116,6 +116,14 @@ RSpec.describe Settings::UserHelper, type: :helper do
       it 'returns nil' do
         expect(role_for(user_invitation)).to be_nil
       end
+
+      context '`UserInvitation#role` is present' do
+        before { user_invitation.update!(role: 'manager') }
+
+        it 'returns the role label' do
+          expect(role_for(user_invitation)).to eq(I18n.t('roles.manager.label'))
+        end
+      end
     end
   end
 

@@ -18,6 +18,11 @@ RSpec.describe User do
       it { should validate_presence_of(:inviter_id) }
       it { should_not validate_uniqueness_of(:inviter_id) }
     end
+
+    describe '#role' do
+      it { should_not validate_presence_of(:role) }
+      it { should validate_inclusion_of(:role).in_array(USER_ROLES).allow_nil }
+    end
   end
 
   describe 'Callbacks' do

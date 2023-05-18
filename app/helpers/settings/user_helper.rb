@@ -39,7 +39,9 @@ module Settings
     #
     # @param [User|UserInvitation] target The target to generate actions for
     def role_for(target)
-      return if target.is_a?(UserInvitation)
+      if target.is_a?(UserInvitation)
+        return(t("roles.#{target.role}.label") if target.role.present?)
+      end
 
       target.has_role?(:leader) ? t('roles.leader.label') : ''
     end

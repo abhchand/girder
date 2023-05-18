@@ -17,10 +17,38 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
     user_invitation = result.user_invitation
     expect(user_invitation.email).to eq(params[:email])
     expect(user_invitation.inviter).to eq(leader)
+    expect(user_invitation.role).to be_nil
 
     expect(result.error).to be_nil
     expect(result.log).to be_nil
     expect(result.status).to be_nil
+  end
+
+  context 'a role is provided' do
+    before { params[:role] = 'leader' }
+
+    it 'creates the invitation with the specified role' do
+      result = nil
+
+      expect { result = call }.to(change { UserInvitation.count }.by(1))
+
+      user_invitation = result.user_invitation
+      expect(user_invitation.role).to eq('leader')
+    end
+  end
+
+  context 'invalid params' do
+    before { params.delete(:email) }
+
+    it 'does not create a new UserInvitation and sets an error message' do
+      result = nil
+
+      expect { result = call }.to_not(change { UserInvitation.count })
+
+      expect(result.success?).to eq(false)
+      # If empty Hash provided, it will raise a generic error
+      expect(result.error).to match(/Undefined violates constraints/)
+    end
   end
 
   context 'email has already been invited' do
@@ -108,6 +136,21 @@ RSpec.describe UserInvitations::CreateService, type: :interactor do
         expect(result.log).to_not be_nil
         expect(result.status).to eq(403)
       end
+    end
+  end
+
+  context 'role is invalid' do
+    before { params[:role] = 'foo' }
+
+    it 'does not create a new UserInvitation and sets an error message' do
+      result = nil
+      expect { result = call }.to_not(change { UserInvitation.count })
+
+      expect(result.success?).to eq(false)
+
+      expect(result.error).to eq(I18n.t("#{@i18n_prefix}.invalid_role"))
+      expect(result.log).to_not be_nil
+      expect(result.status).to eq(403)
     end
   end
 

@@ -27,6 +27,7 @@ class Devise::Custom::OmniauthCallbacksController < Devise::OmniauthCallbacksCon
   end
 
   def after_registration(new_user)
+    UserInvitations::RegistrationService.call(new_user)
     UserInvitation::MarkAsCompleteJob.perform_async(new_user.id)
   end
 end

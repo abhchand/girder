@@ -103,6 +103,12 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
         create(:user_invitation, email: params[:user][:email])
       end
 
+      it 'calls the `UserInvitations::RegistrationService` service' do
+        expect(UserInvitations::RegistrationService).to receive(:call)
+
+        post :create, params: params
+      end
+
       it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
         expect do
           expect do post :create, params: params end.to change {
@@ -120,6 +126,12 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
         # Should cause failure when calling `resource.save` in
         # `registrations#create` in Devise
         before { expect_any_instance_of(User).to receive(:save) { false } }
+
+        it 'does not call the `UserInvitations::RegistrationService` service' do
+          expect(UserInvitations::RegistrationService).to_not receive(:call)
+
+          post :create, params: params
+        end
 
         it 'does not enqueue the `UserInvitation::MarkAsCompleteJob` job' do
           expect do post :create, params: params end.to_not change {

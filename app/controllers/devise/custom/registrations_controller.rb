@@ -8,6 +8,7 @@ class Devise::Custom::RegistrationsController < Devise::RegistrationsController
     super do |new_user|
       next unless new_user.persisted?
 
+      UserInvitations::RegistrationService.call(new_user)
       UserInvitation::MarkAsCompleteJob.perform_async(new_user.id)
     end
   end

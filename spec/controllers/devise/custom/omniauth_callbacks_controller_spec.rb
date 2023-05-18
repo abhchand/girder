@@ -57,6 +57,12 @@ RSpec.describe Devise::Custom::OmniauthCallbacksController, type: :controller do
     context 'a UserInvitation record exists with this email' do
       let!(:invitation) { create(:user_invitation, email: auth[:info][:email]) }
 
+      it 'calls the `UserInvitations::RegistrationService` service' do
+        expect(UserInvitations::RegistrationService).to receive(:call)
+
+        get :google_oauth2
+      end
+
       it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
         expect do
           expect do get :google_oauth2 end.to change {
@@ -72,6 +78,12 @@ RSpec.describe Devise::Custom::OmniauthCallbacksController, type: :controller do
 
       context 'user record failed to create' do
         before { auth[:uid] = nil }
+
+        it 'does not call the `UserInvitations::RegistrationService` service' do
+          expect(UserInvitations::RegistrationService).to_not receive(:call)
+
+          get :google_oauth2
+        end
 
         it 'does not enqueue the `UserInvitation::MarkAsCompleteJob` job' do
           expect do get :google_oauth2 end.to_not change {

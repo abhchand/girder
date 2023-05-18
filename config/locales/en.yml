@@ -103,6 +103,7 @@ en:
               already_invited: Email has already been invited
               already_registered: A user with that email aready exists
               invalid_domain: "Email must be from one of the following domains: %{domains}"
+              invalid_role: Invalid Role
 
 
   #
