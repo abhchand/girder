@@ -51,6 +51,10 @@ function resendUserInvitation(userInvitationid) {
   httpRequest(`/api/v1/user_invitations/${userInvitationid}/resend.json`);
 }
 
+function deleteUserInvitation(userInvitationid) {
+  httpRequest(`/api/v1/user_invitations/${userInvitationid}.json`, 'delete');
+}
+
 function onFormEmailChange(e) {
   const submit = document.querySelector(
     ".settings-users-index__user-invitation-form input[type='submit']"
@@ -93,6 +97,7 @@ export {
   removeRole,
   deleteUser,
   resendUserInvitation,
+  deleteUserInvitation,
   onFormEmailChange,
   onFormSubmit
 };

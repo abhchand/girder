@@ -6,6 +6,7 @@ import {
   deleteUser,
   removeRole,
   resendUserInvitation,
+  deleteUserInvitation,
   onFormEmailChange,
   onFormSubmit
 } from 'src/settings/users/index';
@@ -24,6 +25,7 @@ export default {
   removeRole,
   deleteUser,
   resendUserInvitation,
+  deleteUserInvitation,
   onFormEmailChange,
   onFormSubmit
 };

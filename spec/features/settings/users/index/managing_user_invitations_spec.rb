@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-RSpec.feature 'Settings - Managing User Invitations', type: :feature, js: true do
+RSpec.feature 'Settings - Managing User Invitations',
+              type: :feature,
+              js: true do
   let(:leader) { create(:user, :leader) }
   let(:user_invitation) { create(:user_invitation, inviter: leader) }
 
@@ -52,6 +54,19 @@ RSpec.feature 'Settings - Managing User Invitations', type: :feature, js: true d
     expect(email[:klass]).to eq(UserInvitationMailer)
     expect(email[:method]).to eq(:invite)
     expect(email[:args][:user_invitation_id]).to eq(user_invitation.id)
+  end
+
+  it 'user with permissions can delete a user invitation' do
+    user_invitation
+
+    visit settings_users_path
+
+    # Click second button: Delete User Invitation
+    leader_actions_for(user_invitation)[1].click
+    sleep(5)
+
+    expect(page).to have_current_path(settings_users_path)
+    expect(UserInvitation.find_by_id(user_invitation.id)).to be_nil
   end
 
   def user_invitation_submit_btn

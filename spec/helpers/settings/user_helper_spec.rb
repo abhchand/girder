@@ -68,6 +68,23 @@ RSpec.describe Settings::UserHelper, type: :helper do
           t("#{i18n_prefix}.table.actions.resend_invitation")
         )
       end
+
+      it 'generates the button to delete the target user_invitation' do
+        actions = to_html_node(actions_for(user_invitation))
+        buttons = actions.all('button')
+
+        expect(buttons[1]).to have_text(
+          t("#{i18n_prefix}.table.actions.delete_user_invitation")
+        )
+      end
+
+      context 'current user is not an leader' do
+        before { leader.remove_role(:leader) }
+
+        it 'generates no buttons' do
+          expect(actions_for(user_invitation)).to be_nil
+        end
+      end
     end
   end
 

@@ -245,6 +245,7 @@ en:
             actions: Actions
           actions:
             delete_user: Remove
+            delete_user_invitation: Remove
             make_leader: Make Leader
             remove_leader: Remove Leader
             resend_invitation: Resend Invitation

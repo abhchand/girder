@@ -16,7 +16,7 @@ module Settings
       when target.is_a?(User) && current_user.has_role?(:leader) &&
              current_user != target
         actions_for_user(target)
-      when target.is_a?(UserInvitation)
+      when target.is_a?(UserInvitation) && current_user.has_role?(:leader)
         actions_for_invitation(target)
       end
     end
@@ -84,7 +84,8 @@ module Settings
     end
 
     def actions_for_invitation(user_invitation)
-      <<-HTML.strip_heredoc
+      # Button to resend an invitation
+      resend_btn = <<-HTML.strip_heredoc
         <button
           type='button'
           class='link-btn'
@@ -92,6 +93,18 @@ module Settings
           #{t("#{i18n_prefix}.table.actions.resend_invitation")}
         </button>
       HTML
+
+      # Button to delete an invitation User
+      delete_btn = <<-HTML.strip_heredoc
+        <button
+          type='button'
+          class='link-btn'
+          onClick="Familyties.settings.deleteUserInvitation('#{id_for(user_invitation)}')">
+          #{t("#{i18n_prefix}.table.actions.delete_user_invitation")}
+        </button>
+      HTML
+
+      [resend_btn, delete_btn].join(' | ')
     end
 
     def i18n_prefix
