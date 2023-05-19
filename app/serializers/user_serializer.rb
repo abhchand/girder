@@ -4,9 +4,10 @@ class UserSerializer < ApplicationSerializer
 
   attribute(:avatar) { |user| UserPresenter.new(user, view: nil).avatar }
 
-  # Below attributes are only available when the `user` is wrapped in
-  # a `UserPresenter`
-  attributes :roles, if: proc { |user, _params| user.respond_to?(:roles) }
+  attributes :user_roles do |user, _params|
+    u = user.is_a?(UserPresenter) ? user : UserPresenter.new(user, view: nil)
+    u.roles
+  end
 
   link :self do |user, _params|
     Rails.application.routes.url_helpers.api_v1_user_url(user)
