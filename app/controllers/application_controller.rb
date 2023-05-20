@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
+  include SerializationHelper
   include WebpackHelper
 
   protect_from_forgery with: :exception

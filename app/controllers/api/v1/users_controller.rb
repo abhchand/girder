@@ -104,6 +104,6 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def serialize(user, opts = {})
-    UserSerializer.new(user, opts).serializable_hash
+    serialize_user(user, opts)
   end
 end
