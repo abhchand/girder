@@ -1,5 +1,7 @@
 <%= render "layouts/flash", flash: flash %>
 
+<%= react_component('avatar-editor', { user: @user_json }) %>
+
 <h1>
   <%= t(".heading", name: @user.name) %>
 </h1>

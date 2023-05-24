@@ -87,7 +87,7 @@ class Api::V1::UsersController < Api::BaseController
   private
 
   def update_params
-    params.require(:user).permit(:first_name, :last_name)
+    params.require(:user).permit(:first_name, :last_name, :avatar)
   end
 
   def fetch_users

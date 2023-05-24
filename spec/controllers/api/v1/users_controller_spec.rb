@@ -454,6 +454,20 @@ RSpec.describe Api::V1::UsersController, type: :controller do
           )
         end
       end
+
+      context 'updating avatar' do
+        before do
+          params[:user][:avatar] = fixture_file_upload('images/chennai.jpg')
+        end
+
+        it 'updates the user' do
+          expect { patch :update, params: params }.to(
+            change { user.reload.avatar.attached? }.from(false).to(true)
+          )
+
+          expect(user.avatar_blob.filename).to eq('chennai.jpg')
+        end
+      end
     end
 
     describe 'data' do

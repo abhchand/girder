@@ -11,6 +11,8 @@ import {
   onFormSubmit
 } from 'src/settings/users/index';
 
+import 'src/profile/index/avatar-editor';
+
 /*
  * CSS
  * This will be extracted into a separate file by the webpack build

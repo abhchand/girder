@@ -157,6 +157,11 @@ en:
   account:
     profile:
       index:
+        avatar_editor:
+          edit_modal:
+            heading: Edit Photo
+          upload_photo:
+            label: Upload Photo
         heading: Settings for %{name}
         form:
           pending_confirmation: "Currently waiting confirmation for: %{email}"

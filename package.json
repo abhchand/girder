@@ -63,6 +63,7 @@
     "prop-types": "^15.6.1",
     "rails-erb-loader": "^5.5.2",
     "react": "^16.4.0",
+    "react-cropper": "^2.3.3",
     "react-datepicker": "^4.8.0",
     "react-dom": "^16.4.0",
     "react-on-rails": "^11.3.0",
