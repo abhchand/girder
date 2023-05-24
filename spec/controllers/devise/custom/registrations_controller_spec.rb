@@ -38,10 +38,10 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
 
       before { sign_in(user) }
 
-      it 'redirects to the account_profile_index_path' do
+      it 'redirects to the account_index_path' do
         get :edit
 
-        expect(response).to redirect_to(account_profile_index_path)
+        expect(response).to redirect_to(account_index_path)
       end
     end
 

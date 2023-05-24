@@ -11,7 +11,7 @@ import {
   onFormSubmit
 } from 'src/settings/users/index';
 
-import 'src/profile/index/avatar-editor';
+import 'src/account/index/avatar-editor';
 
 /*
  * CSS

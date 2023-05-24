@@ -40,9 +40,7 @@ Rails.application.routes.draw do
     sign_out_via: :get
   )
 
-  namespace :account do
-    resources :profile, only: :index
-  end
+  resources :account, only: %i[index]
 
   namespace :api, defaults: { format: 'json' } do
     scope path: 'v1', module: :v1, as: :v1 do

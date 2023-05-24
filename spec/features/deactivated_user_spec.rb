@@ -11,7 +11,7 @@ RSpec.feature 'Deactivated User', type: :feature do
 
       expect(page).to have_current_path(deactivated_users_path)
 
-      visit account_profile_index_path
+      visit account_index_path
       expect(page).to have_current_path(deactivated_users_path)
     end
 
@@ -31,7 +31,7 @@ RSpec.feature 'Deactivated User', type: :feature do
 
       # First visit another random path so we can confirm that the path
       # changes TO the `User#signed_in_path` (target of root_path redirect)
-      visit account_profile_index_path
+      visit account_index_path
 
       visit deactivated_users_path
       expect(page).to have_current_path(user.signed_in_path)

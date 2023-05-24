@@ -1,9 +1,9 @@
 import './index.scss';
 
-import React, { useState } from 'react';
 import dataStore from 'src/models';
 import mountReactComponent from 'mount-react-component.jsx';
 import PropTypes from 'prop-types';
+import React from 'react';
 import UploadPhoto from './upload-photo';
 
 const AvatarEditor = (props) => {

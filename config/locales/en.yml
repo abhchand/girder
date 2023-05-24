@@ -155,20 +155,19 @@ en:
   #
 
   account:
-    profile:
-      index:
-        avatar_editor:
-          edit_modal:
-            heading: Edit Photo
-          upload_photo:
-            label: Upload Photo
-        heading: Settings for %{name}
-        form:
-          pending_confirmation: "Currently waiting confirmation for: %{email}"
-          password_explanation: leave blank if you don't want to change it
-          submit: Update
-        cancel: Cancel my account
-        confirm_cancel: Are you sure?
+    index:
+      avatar_editor:
+        edit_modal:
+          heading: Edit Photo
+        upload_photo:
+          label: Upload Photo
+      heading: Settings for %{name}
+      form:
+        pending_confirmation: "Currently waiting confirmation for: %{email}"
+        password_explanation: leave blank if you don't want to change it
+        submit: Update
+      cancel: Cancel my account
+      confirm_cancel: Are you sure?
 
   application:
     navigation:

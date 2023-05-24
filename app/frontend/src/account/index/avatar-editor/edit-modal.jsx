@@ -13,7 +13,7 @@ const EditModal = ({ closeModal, imageName, imageUrl, user }) => {
   const [cropper, setCropper] = useState(null);
   const [errorText, setErrorText] = useState(null);
 
-  const i18nPrefix = 'account.profile.index.avatar_editor.edit_modal';
+  const i18nPrefix = 'account.index.avatar_editor.edit_modal';
 
   function onSubmit() {
     // Clear any existing error

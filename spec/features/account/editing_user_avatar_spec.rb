@@ -8,7 +8,7 @@ RSpec.feature 'Editing User Avatar', type: :feature, js: true do
   it 'user can create and update the avatar' do
     log_in(user)
 
-    visit account_profile_index_path
+    visit account_index_path
 
     expect_blank_avatar
 
@@ -30,7 +30,7 @@ RSpec.feature 'Editing User Avatar', type: :feature, js: true do
     it 'user can exit the process' do
       log_in(user)
 
-      visit account_profile_index_path
+      visit account_index_path
 
       select_file('chennai.jpg')
       click_modal_submit

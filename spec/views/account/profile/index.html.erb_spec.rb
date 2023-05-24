@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'account/profile/index.html.erb', type: :view do
+RSpec.describe 'account/index.html.erb', type: :view do
   let(:user) { create(:user) }
 
   before do
@@ -9,7 +9,7 @@ RSpec.describe 'account/profile/index.html.erb', type: :view do
 
     assign(:user, user)
 
-    @t_prefix = 'account.profile.index'
+    @t_prefix = 'account.index'
   end
 
   it 'renders the flash' do

@@ -1,4 +1,4 @@
-class Account::ProfileController < ApplicationController
+class AccountController < ApplicationController
   layout 'with_responsive_navigation'
 
   before_action { @use_packs << 'settings' }

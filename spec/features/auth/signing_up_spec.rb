@@ -13,7 +13,7 @@ RSpec.feature 'Signing Up', type: :feature do
   #       new_user_registration GET    /users/registrations/new       -> devise/registrations#new
   #
   #      edit_user_registration GET    /users/registrations/edit      -> devise/registrations#edit
-  #     users_registration_edit GET    /users/registration/edit       -> redirect(301, /account/profile)
+  #     users_registration_edit GET    /users/registration/edit       -> redirect(301, /account)
   #    cancel_user_registration GET    /users/registrations/cancel    -> devise/registrations#cancel
   #
   #           user_registration PATCH  /users/registrations           -> devise/registrations#update
@@ -216,7 +216,7 @@ RSpec.feature 'Signing Up', type: :feature do
     end
 
     it "preserves the user's original destination" do
-      visit account_profile_index_path
+      visit account_index_path
 
       expect(page).to have_current_path(new_user_session_path)
 
@@ -234,7 +234,7 @@ RSpec.feature 'Signing Up', type: :feature do
       expect { log_in_with_omniauth('google_oauth2') }.to(
         change { User.count }.by(1)
       )
-      expect(page).to have_current_path(account_profile_index_path)
+      expect(page).to have_current_path(account_index_path)
     end
 
     context 'a user invitation exists' do

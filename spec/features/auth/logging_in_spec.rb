@@ -12,7 +12,7 @@ RSpec.feature 'Logging In', type: :feature do
   end
 
   it "preserves the user's original destination" do
-    visit account_profile_index_path
+    visit account_index_path
 
     expect(page).to have_current_path(new_user_session_path)
 
@@ -24,7 +24,7 @@ RSpec.feature 'Logging In', type: :feature do
     # Successful Login Attempt
 
     log_in(user)
-    expect(page).to have_current_path(account_profile_index_path)
+    expect(page).to have_current_path(account_index_path)
   end
 
   context 'first login' do
@@ -297,7 +297,7 @@ RSpec.feature 'Logging In', type: :feature do
     end
 
     it "preserves the user's original destination" do
-      visit account_profile_index_path
+      visit account_index_path
 
       expect(page).to have_current_path(new_user_session_path)
 
@@ -315,7 +315,7 @@ RSpec.feature 'Logging In', type: :feature do
       expect { log_in_with_omniauth('google_oauth2') }.to_not(
         change { User.count }
       )
-      expect(page).to have_current_path(account_profile_index_path)
+      expect(page).to have_current_path(account_index_path)
     end
 
     describe 'tracking log ins' do

@@ -11,7 +11,7 @@ const UploadPhoto = ({ user }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imageName, setImageName] = useState(null);
 
-  const i18nPrefix = 'account.profile.index.avatar_editor.upload_photo';
+  const i18nPrefix = 'account.index.avatar_editor.upload_photo';
 
   const onFileSelect = (files) => {
     const fileReader = new FileReader();
