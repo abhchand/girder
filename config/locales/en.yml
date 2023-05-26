@@ -165,8 +165,7 @@ en:
           label: Upload Photo
       heading: Settings for %{name}
       form:
-        pending_confirmation: "Currently waiting confirmation for: %{email}"
-        password_explanation: leave blank if you don't want to change it
+        confirmation: Changes saved ✓
         submit: Update
       cancel: Cancel my account
       confirm_cancel: Are you sure?
