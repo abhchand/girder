@@ -11,6 +11,7 @@ import {
   onFormSubmit
 } from 'src/settings/users/index';
 
+import { apiPost } from 'src/services/api/post';
 import 'src/account/index/avatar-editor';
 
 /*
@@ -29,5 +30,6 @@ export default {
   resendUserInvitation,
   deleteUserInvitation,
   onFormEmailChange,
-  onFormSubmit
+  onFormSubmit,
+  apiPost
 };
