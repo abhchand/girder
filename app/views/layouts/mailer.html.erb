@@ -12,6 +12,42 @@
   </head>
 
   <body>
-    <%= yield %>
+    <table width="600" cellspacing="0" cellpadding="0" border="0" align="center" style="min-width: 310px; line-height:22px; font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif; text-align: center;" class="tableFull">
+      <tbody>
+        <tr>
+          <td>
+            <table align="center" bgcolor="#FFFFFF" style="padding: 16px; line-height: 22px; max-width: 600px" width="100%">
+              <tr>
+                <td>
+                  <table style="margin: 0 auto; max-width: 400px; font-size: 14px;">
+                    <%= yield %>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <tr>
+            <td class="mailer__footer" style="color: #3A3F50; font-size: 12px; padding-top: 12px; border-top: 1px solid black;">
+              <table class="tableFull" align="center" style="line-height:22px; font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif; text-align: center;">
+                <tr>
+                  <td class="mailer__signature" style="padding:10px; font-style: italic">
+                    <a style="color: blue; text-decoration: none;" href="https://www.familyties.app/">FamilyTies</a> is a private space for your photos and videos.
+                  </td>
+                </tr>
+
+                <tr style="line-height: 18px; display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: center; align-items: center;">
+                  <td>
+                    <span style="margin-right: 20px;"><a style="color: #3A3F50;" href='www.familyties.app'>Unsubscribe</a></span>
+                    <span><a style="color: #3A3F50;" href='www.familyties.app'>Contact Us</a></span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>
