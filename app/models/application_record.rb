@@ -4,7 +4,14 @@ class ApplicationRecord < ActiveRecord::Base
   def serialize_errors
     errors_json = []
 
-    errors.full_messages.each do |message|
+    # `ActiveModel::Errors` makes 2 methods available:
+    #   * `#full_messages` returns the field name + message
+    #     -> ['Last Name Please provide a last name']
+    #   * `#messages` returns a key-value hash
+    #     -> { last_name: ['Please provide a last name'] }
+    #
+    # Given the way we phrase I18n messages, the latter makes sense.
+    errors.messages.values.flatten.each do |message|
       # NOTE: Errors not visible to end users are not translated
       # so we don't translate `:title`
       # Also, ActiveRecord generates `full_messages` by concatenating

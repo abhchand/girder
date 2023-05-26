@@ -70,10 +70,12 @@ en:
           attributes:
             base:
               omniauth_not_recoverable: This account exists, but was created through %{provider} authentication. Please try signing in using %{provider}
+            current_password:
+              blank: Current Password can not be blank
             first_name:
-              blank: Please provide a first name
+              blank: First name can not be blank
             last_name:
-              blank: Please provide a last name
+              blank: Last name can not be blank
             email:
               blank: Please provide an email
               invalid: Email is not a valid email
