@@ -87,6 +87,8 @@ class Api::V1::UsersController < Api::BaseController
   private
 
   def update_params
+    # We don't handle password updates here. See
+    # `devise/custom/registrations#update` for that logic
     params.require(:user).permit(:first_name, :last_name, :avatar)
   end
 

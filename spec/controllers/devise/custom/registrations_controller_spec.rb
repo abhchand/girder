@@ -58,6 +58,21 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    let(:user) { create(:user, password: params[:user][:current_password]) }
+
+    let(:params) do
+      {
+        user: {
+          current_password: 'b3sts0ngz#',
+          password: 'testPword#01',
+          password_confirmation: 'testPword#01'
+        },
+        format: 'json'
+      }
+    end
+
+    before { sign_in(user) }
+
     context 'native auth is disabled' do
       before { stub_env('NATIVE_AUTH_ENABLED' => 'false') }
 
@@ -66,6 +81,67 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
 
         expect(response).to redirect_to(root_path)
         expect(flash[:error]).to eq(t('helpers.devise.auth_helper.error'))
+      end
+    end
+
+    context 'updating passwords' do
+      context 'format is not json' do
+        before { params.delete(:format) }
+
+        it 'updates the password and redirects' do
+          expect(user.valid_password?(params[:user][:current_password])).to eq(
+            true
+          )
+
+          patch :update, params: params
+
+          user.reload
+          expect(user.valid_password?(params[:user][:current_password])).to eq(
+            false
+          )
+          expect(user.valid_password?(params[:user][:password])).to eq(true)
+
+          expect(response).to redirect_to(root_path)
+        end
+      end
+
+      context 'format is json' do
+        it 'updates the password and responds in JSON' do
+          expect(user.valid_password?(params[:user][:current_password])).to eq(
+            true
+          )
+
+          patch :update, params: params
+
+          user.reload
+          expect(user.valid_password?(params[:user][:current_password])).to eq(
+            false
+          )
+          expect(user.valid_password?(params[:user][:password])).to eq(true)
+
+          expect(response.status).to eq(200)
+          expect(JSON.parse(response.body)).to eq({})
+        end
+
+        context 'error while updating password' do
+          before { params[:user][:password_confirmation] = 'foo' }
+
+          it 'serializes and responds with the errors' do
+            patch :update, params: params
+
+            expect(response.status).to eq(400)
+            expect(JSON.parse(response.body)['errors']).to eq(
+              [
+                {
+                  'title' => 'Invalid Password',
+                  'description' =>
+                    'Password confirmation does not match password',
+                  'status' => '403'
+                }
+              ]
+            )
+          end
+        end
       end
     end
   end
