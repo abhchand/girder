@@ -24,8 +24,10 @@ function apiPost(e, successMsg = null, resetOnSuccess = false) {
     }
   };
 
-  // Not all endpoints parse format as JSON by default, so specify it
-  // explicitly
+  /*
+   * Not all endpoints parse format as JSON by default, so specify it
+   * explicitly
+   */
   data.append('format', 'json');
 
   registerAsyncProcess('api-post-request');
