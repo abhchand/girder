@@ -10,6 +10,7 @@
   width: 100%;
   min-width: 200px; // in case the screen collapses too much
   margin: auto;
+  text-align: left;
 
   @include breakpoint($screen-lg) {
     flex-direction: row;
@@ -26,7 +27,6 @@
     // Child `<a>` element has height 24px + (8px x 2) = 40px;
     height: 40px;
     margin-bottom: 5px;
-    text-align: left;
     border-radius: 5px;
 
     a {
@@ -63,5 +63,4 @@
   margin: 0;
   font-weight: 700;
   font-size: 26px;
-  text-align: left;
 }
