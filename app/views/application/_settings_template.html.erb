@@ -11,7 +11,9 @@
 
   <div class='settings-template__content'>
     <%= render 'layouts/flash', flash: flash %>
+    <% if heading.present? %>
     <p class='settings-template__heading'><%= heading %></p>
+    <% end %>
 
     <%= yield %>
   </div>
