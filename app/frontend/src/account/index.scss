@@ -1,0 +1,20 @@
+.account__user-attributes-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.account__update-user-form {
+  margin-top: 0;
+}
+.account__update-password-form {
+  margin-top: 0;
+}
+.account__field {
+}
+
+#react-mount-avatar-editor {
+  margin-left: 100px;
+}

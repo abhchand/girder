@@ -1,0 +1,29 @@
+<%=
+  form_for(
+    user,
+    as: :user,
+    url: api_v1_user_path(user),
+    html: {
+      class: 'account__update-user-form',
+      method: :put,
+      onsubmit: "Familyties.settings.apiPost(event, '#{t('account.index.form.confirmation')}')"
+    }
+  ) do |f|
+%>
+  <div class="account__field">
+    <%= f.label :first_name, User.human_attribute_name(:first_name) %><br />
+    <%= f.text_field :first_name, autocomplete: 'off' %>
+  </div>
+
+  <div class="account__field">
+    <%= f.label :last_name, User.human_attribute_name(:last_name) %><br />
+    <%= f.text_field :last_name, autocomplete: 'off' %>
+  </div>
+
+  <div class="account__field">
+    <%= f.label :email, User.human_attribute_name(:email) %><br />
+    <%= f.text_field :email, disabled: true %>
+  </div>
+
+  <%= f.submit(t('account.index.form.submit'), class: 'cta cta--primary') %>
+<% end %>

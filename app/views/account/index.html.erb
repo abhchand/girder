@@ -1,81 +1,34 @@
-<%= render "layouts/flash", flash: flash %>
-
-<%= react_component('avatar-editor', { user: @user_json }) %>
-
-<h1>
-  <%= t(".heading", name: @user.name) %>
-</h1>
 
 <%=
-  form_for(
-    @user,
-    as: :user,
-    url: api_v1_user_path(@user),
-    html: {
-      class: 'account__update-user-form',
-      method: :put,
-      onsubmit: "Familyties.settings.apiPost(event, '#{t('.form.confirmation')}')"
-    }
-  ) do |f|
+  render(
+    layout: 'settings_template',
+    locals: { nav_links: nav_links, heading: nil }
+  ) do
 %>
-  <div class="field">
-    <%= f.label :first_name, User.human_attribute_name(:first_name) %><br />
-    <%= f.text_field :first_name, autocomplete: 'off' %>
+  <div class='settings-template__section-heading'>
+    <%= t('account.index.section_headings.profile') %>
+  </div>
+  <div class='account__user-attributes-container'>
+    <%= render(partial: 'update_user_form', locals: { user: @user }) %>
+    <%= react_component('avatar-editor', { user: @user_json }) %>
   </div>
 
-  <div class="field">
-    <%= f.label :last_name, User.human_attribute_name(:last_name) %><br />
-    <%= f.text_field :last_name, autocomplete: 'off' %>
+  <div class='settings-template__section-heading'>
+    <%= t('account.index.section_headings.reset_password') %>
   </div>
+  <%= render(partial: 'update_password_form', locals: { user: @user }) %>
 
-  <div class="actions">
-    <%= f.submit t(".form.submit") %>
-  </div>
+  <h3><%= t(".cancel") %></h3>
+
+  <p>
+    <%=
+      button_to(
+        t(".cancel"),
+        user_registration_path(@user),
+        data: { confirm: t(".confirm_cancel") },
+        method: :delete
+      )
+    %>
+  </p>
+
 <% end %>
-
-<%=
-  form_for(
-    @user,
-    as: :user,
-    url: user_registration_path,
-    html: {
-      class: 'account__update-password-form',
-      method: :put,
-      onsubmit: "Familyties.settings.apiPost(event, '#{t('.form.confirmation')}', true)"
-    }
-  ) do |f|
-%>
-  <div class="field">
-    <%= f.label :current_password, User.human_attribute_name(:current_password) %><br />
-    <%= f.password_field :current_password, autocomplete: 'off' %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password, User.human_attribute_name(:password) %><br />
-    <%= f.password_field :password, autocomplete: 'off' %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, User.human_attribute_name(:password_confirmation) %><br />
-    <%= f.password_field :password_confirmation, autocomplete: 'off' %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t(".form.submit") %>
-  </div>
-<% end %>
-
-
-
-<h3><%= t(".cancel") %></h3>
-
-<p>
-  <%=
-    button_to(
-      t(".cancel"),
-      user_registration_path(@user),
-      data: { confirm: t(".confirm_cancel") },
-      method: :delete
-    )
-  %>
-</p>

@@ -64,3 +64,8 @@
   font-weight: 700;
   font-size: 26px;
 }
+.settings-template__section-heading {
+  @extend .settings-template__heading;
+  margin-bottom: 30px;
+  border-bottom: 1px solid black;
+}

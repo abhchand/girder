@@ -157,18 +157,24 @@ en:
   #
 
   account:
+    shared:
+      nav:
+        index: My Profile
+        notifications: Notifications
     index:
       avatar_editor:
         edit_modal:
           heading: Edit Photo
         upload_photo:
           label: Upload Photo
-      heading: Settings for %{name}
+      cancel: Cancel my account
+      confirm_cancel: Are you sure?
       form:
         confirmation: Changes saved ✓
         submit: Update
-      cancel: Cancel my account
-      confirm_cancel: Are you sure?
+      section_headings:
+        profile: Profile
+        reset_password: Update Password
 
   application:
     navigation:
