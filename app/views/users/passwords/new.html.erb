@@ -18,6 +18,7 @@
     </div>
   <% end %>
 
+  <% if native_auth_enabled? %>
   <%= render "users/shared/native_links" %>
-
+  <% end %>
 </div>

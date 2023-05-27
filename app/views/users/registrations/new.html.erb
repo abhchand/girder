@@ -38,9 +38,15 @@
       </div>
   <% end %>
 
+  <%if native_auth_enabled? && any_omniauth_enabled? %>
   <div class="auth__action-conditional"><%= t(".or") %></div>
+  <% end %>
 
+  <%if any_omniauth_enabled? %>
   <%= render "users/shared/omniauth_links" %>
-  <%= render "users/shared/native_links" %>
+  <% end %>
 
+  <% if native_auth_enabled? %>
+  <%= render "users/shared/native_links" %>
+  <% end %>
 </div>

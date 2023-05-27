@@ -1,5 +1,13 @@
 <div class="auth__logo">
   <%= link_to(root_path) do %>
-    <%= inline_svg_tag("logo.svg", height: "65px") %>
+    <%=
+      inline_svg_tag(
+        'logo.svg',
+        style: 'max-height: 65px;',
+        aria: true,
+        preserve_aspect_ratio: true,
+        title: 'FamilyTies Logo'
+      )
+    %>
   <% end %>
 </div>
