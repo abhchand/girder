@@ -6,10 +6,13 @@ class Devise::Custom::RegistrationsController < Devise::RegistrationsController
 
   def create
     super do |new_user|
-      next unless new_user.persisted?
-
-      UserInvitations::RegistrationService.call(new_user)
-      UserInvitation::MarkAsCompleteJob.perform_async(new_user.id)
+      if new_user.persisted?
+        UserInvitations::RegistrationService.call(new_user)
+        UserInvitation::MarkAsCompleteJob.perform_async(new_user.id)
+      else
+        # Errors related to `encrypted_password` don't matter to the end user
+        new_user.errors.delete(:encrypted_password)
+      end
     end
   end
 
