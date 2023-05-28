@@ -6,9 +6,10 @@
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  height: 50px;
   margin: 10px 0;
   font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 10px;
 
   &.active {
     visibility: visible;
@@ -27,6 +28,7 @@
 
   &.notice, &.alert {
     background: $light-green;
+    opacity: 0.8;
   }
 
   .message {
