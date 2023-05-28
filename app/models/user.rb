@@ -74,9 +74,10 @@ class User < ApplicationRecord
 
   # Override Devise's implementation of this method which relies on
   # enqueuing mailers through ActiveJob. Below uses Sidekiq's ActionMailer
-  # extensions (e.g. `delay`) instead.
+  # extensions (e.g. `deliver_later`) instead.
   def send_devise_notification(notification, *args)
-    devise_mailer.delay.send(notification, self, *args)
+    message = devise_mailer.send(notification, self, *args)
+    message.deliver_later
   end
 
   # Override Devise's implementation of this method which blindly sends

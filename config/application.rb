@@ -29,6 +29,10 @@ module Girder
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
+    # ActiveJob should use Sidekiq to process jobs
+    # See: https://github.com/sidekiq/sidekiq/wiki/Active-Job#active-job-setup
+    config.active_job.queue_adapter = :sidekiq
+
     # Settings in config/environments/* take precedence over those specified
     # here. Application configuration should go into files in
     # config/initializers
