@@ -1,25 +1,6 @@
 require 'rails_helper'
 
 RSpec.feature 'Resetting Password', type: :feature do
-  #
-  # Explanation of password paths routes behavior
-  #
-  # Notes:
-  #   - The `new` action represents the request form for a new password, which
-  #     calls `create` and sends a reset password email
-  #   - The `edit` action represents the new password submission form linked
-  #     from the email, which calls `update` and updates the password.
-  #
-  #   - When the `create` or `update` actions error, they renders the `:new`
-  #     template but through the same URL, so it renders as
-  #     `/users/registrations`, without the `/new` suffix
-  #
-  #           new_user_password GET    /users/password/new            -> devise/passwords#new
-  #          edit_user_password GET    /users/password/edit           -> devise/passwords#edit
-  #               user_password PATCH  /users/password                -> devise/passwords#update
-  #                             PUT    /users/password                -> devise/passwords#update
-  #                             POST   /users/password                -> devise/passwords#create
-  #
   let(:user) { create(:user) }
 
   describe 'requesting password reset' do

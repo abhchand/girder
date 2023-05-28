@@ -1,21 +1,6 @@
 require 'rails_helper'
 
 RSpec.feature 'Confirming Email', type: :feature do
-  #
-  # Explanation of confirmation routes behavior
-  #
-  # The `new` path is used to send (re-send) confirmation instructions
-  # The `create` path is used to create a token and send email, as called  by the `new` page
-  # The `show` path is meant to be used with a `?confirmation_token=...` param.
-  #
-  #   - If token is valid it redirects to root_path
-  #   - If token is invalid it renders the same view as `:new` to resend confirmation
-  #     It still keeps the same route though.
-  #
-  #    new_user_confirmation GET    /users/confirmation/new  ->  devise/confirmations#new
-  #        user_confirmation GET    /users/confirmation      ->  devise/confirmations#show
-  #                          POST   /users/confirmation      ->  devise/confirmations#create
-  #
   let(:user_attrs) do
     {
       first_name: 'Asha',

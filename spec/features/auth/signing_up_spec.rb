@@ -1,25 +1,6 @@
 require 'rails_helper'
 
 RSpec.feature 'Signing Up', type: :feature do
-  #
-  # Explanation of registration (sign ups) routes behavior
-  #
-  # Notes:
-  #   - The `edit` path is overridden and redirects to the signed in account
-  #   - When the `create` action errors it renders the `:new` template but
-  #     through the same URL, so it renders as `/users/registrations`, without
-  #     the `/new` suffix
-  #
-  #       new_user_registration GET    /users/registrations/new       -> devise/registrations#new
-  #
-  #      edit_user_registration GET    /users/registrations/edit      -> devise/registrations#edit
-  #     users_registration_edit GET    /users/registration/edit       -> redirect(301, /account)
-  #    cancel_user_registration GET    /users/registrations/cancel    -> devise/registrations#cancel
-  #
-  #           user_registration PATCH  /users/registrations           -> devise/registrations#update
-  #                             PUT    /users/registrations           -> devise/registrations#update
-  #                             DELETE /users/registrations           -> devise/registrations#destroy
-  #                             POST   /users/registrations           -> devise/registrations#create
   let(:user_attrs) do
     {
       first_name: 'Asha',
