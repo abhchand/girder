@@ -29,3 +29,18 @@ unless defined?(SidekiqRedisConnectionWrapper)
     end
   end
 end
+
+# Register some basic authentication for Sidekiq
+Sidekiq::Web.use(Rack::Auth::Basic) do |username, password|
+  username_correct = ActiveSupport::SecurityUtils.secure_compare(
+    Digest::SHA256.hexdigest(username),
+    Digest::SHA256.hexdigest(ENV.fetch('SIDEKIQ_USERNAME', 'admin'))
+  )
+
+  password_correct = ActiveSupport::SecurityUtils.secure_compare(
+    Digest::SHA256.hexdigest(password),
+    Digest::SHA256.hexdigest(ENV.fetch('SIDEKIQ_PASSWORD'))
+  )
+
+  username_correct && password_correct
+end

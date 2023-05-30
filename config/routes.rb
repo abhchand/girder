@@ -1,12 +1,10 @@
-require Rails.root.join('lib', 'sidekiq', 'auth_constraint')
 require Rails.root.join('lib', 'superadmin', 'mailer_preview_constraint')
 
 Rails.application.routes.draw do
   root to: 'root#new'
 
   scope :superadmin do
-    mount Sidekiq::Web => '/sidekiq',
-          :constraints => Sidekiq::AuthConstraint.new
+    mount Sidekiq::Web => '/sidekiq'
 
     # unless Rails.env.production?
     #   get(
