@@ -94,6 +94,15 @@ class User < ApplicationRecord
     end
   end
 
+  # Override Devise's implementation of this method in the `Confirmable`
+  # module. Devise's `Confirmable` enforces that after authentication, a user
+  # still needs to be confirmed before proceeding. We override it so that
+  # they can always proceed with login. We enforce confirmation by redirecting
+  # to a page *after* sign in - see `root#new` logic.
+  def active_for_authentication?
+    true
+  end
+
   def native?
     provider.blank?
   end
@@ -122,7 +131,16 @@ class User < ApplicationRecord
   end
 
   def signed_in_path
-    Rails.application.routes.url_helpers.photos_path
+    r = Rails.application.routes.url_helpers
+
+    return(
+      case
+      when !confirmed?
+        r.new_user_confirmation_path
+      else
+        r.photos_path
+      end
+    )
   end
 
   private
@@ -152,7 +170,10 @@ class User < ApplicationRecord
     # Devise when using the `password=` setter.
     return if password.blank?
 
-    # Also check length validation in `Devise.password_length`
+    # When updating this:
+    #   * Also check length validation in `Devise.password_length`.
+    #   * Also be sure to update Frontend validations in UI
+    #   * Also update the translation key for the `:password, :invalid` message
     valid = [/.{6,}/, /[0-9]/, /[a-zA-Z]/, /[!#$%&]/].all? { |p| password =~ p }
     return if valid
 

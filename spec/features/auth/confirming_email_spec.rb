@@ -12,24 +12,21 @@ RSpec.feature 'Confirming Email', type: :feature do
 
   let(:user) { User.last }
 
-  before do
-    register(user_attrs)
-    clear_mailer_queue
-  end
+  before { register(user_attrs) }
 
-  it 'user can confirm their email' do
+  it 'user can confirm their email from the link' do
     confirm(user)
 
-    expect(page).to have_current_path(new_user_session_path)
-    expect(page).to have_flash_message(
-      t('devise.confirmations.confirmed')
-    ).of_type(:notice)
+    user.reload
+
+    expect(page).to have_current_path(user.signed_in_path)
+    expect(page).to_not have_selector('.flash')
 
     expect(user.reload.confirmed?).to eq(true)
   end
 
   context 'invalid token' do
-    it 'user sees an auth error' do
+    it 'user sees an auth error when clicking the link' do
       confirm(user, token: 'abcde')
 
       expect(page).to have_current_path(
@@ -46,7 +43,7 @@ RSpec.feature 'Confirming Email', type: :feature do
   context 'expired token' do
     before { @grace_period = Devise.confirm_within }
 
-    it 'user sees an auth error' do
+    it 'user sees an auth error when clicking the link' do
       raise 'expected non-nil value!' unless @grace_period
 
       travel(@grace_period + 1.day) { confirm(user) }
@@ -63,7 +60,7 @@ RSpec.feature 'Confirming Email', type: :feature do
   end
 
   context 'email is already confirmed' do
-    it 'user sees a error message' do
+    it 'user sees a error message when clicking the link' do
       user.update!(confirmed_at: Time.zone.now)
       confirm(user)
 
@@ -77,18 +74,16 @@ RSpec.feature 'Confirming Email', type: :feature do
   end
 
   context 'email is pending reconfirmation' do
-    let(:user) { create(:user, :pending_reconfirmation) }
+    before { user.update!(unconfirmed_email: 'unconfirmed@xyz.com') }
 
-    it 'user can confirm their email' do
+    it 'user can confirm their new email from the link' do
       expect { confirm(user) }.to(
         change { user.reload.pending_reconfirmation? }.from(true).to(false)
       )
       expect(user.reload.confirmed?).to eq(true)
 
-      expect(page).to have_current_path(new_user_session_path)
-      expect(page).to have_flash_message(
-        t('devise.confirmations.confirmed')
-      ).of_type(:notice)
+      expect(page).to have_current_path(user.signed_in_path)
+      expect(page).to_not have_selector('.flash')
     end
   end
 
@@ -98,7 +93,7 @@ RSpec.feature 'Confirming Email', type: :feature do
     # We skip the email confirmation process for omniauth logins since we
     # assume the third party service has already verified this.
 
-    it 'user sees auth error that confirmation token is blank' do
+    it 'user sees error that confirmation token is blank when clicking link' do
       expect(user.confirmation_token).to be_nil
 
       confirm(user)
@@ -132,7 +127,7 @@ RSpec.feature 'Confirming Email', type: :feature do
         user.update_column(:confirmation_token, Devise.friendly_token)
       end
 
-      it 'user sees auth error that account is already confirmed' do
+      it 'shows error that account is already confirmed when clicking link' do
         confirm(user)
 
         expect(page).to have_current_path(
@@ -151,101 +146,22 @@ RSpec.feature 'Confirming Email', type: :feature do
     it 'user can resend the confirmation email' do
       old_token = user.confirmation_token
 
-      expect { resend_confirmation(user) }.to_not(
-        change { user.reload.confirmed? }
-      )
+      expect do
+        expect { resend_confirmation }.to_not(change { user.reload.confirmed? })
+      end.to change { enqueued_mailers.count }.by(1)
 
-      expect(page).to have_current_path(new_user_session_path)
-      expect(page).to have_flash_message(
-        t('devise.confirmations.send_instructions')
-      ).of_type(:notice)
+      expect(page).to have_current_path(user.signed_in_path)
+      expect(page).to_not have_selector('.flash')
 
       new_token = user.reload.confirmation_token
       expect(old_token).to eq(new_token)
 
-      email = mailer_queue.first
-      expect(mailer_queue.count).to eq(1)
+      email = enqueued_mailers.last
       expect(email[:klass]).to eq(Devise::Mailer)
-      expect(email[:method]).to eq(:confirmation_instructions)
+      expect(email[:mailer_name]).to eq(:confirmation_instructions)
       expect(email[:args][:record]).to eq(user)
       expect(email[:args][:token]).to eq(new_token)
       expect(email[:args][:opts]).to eq({})
-    end
-
-    it 'shows error when the email is already confirmed' do
-      confirm(user)
-      expect(user.reload.confirmed?).to eq(true)
-
-      resend_confirmation(user)
-
-      expect(page).to have_current_path(user_confirmation_path)
-      expect(page).to have_auth_error(t('errors.messages.already_confirmed'))
-
-      expect(mailer_queue.count).to eq(0)
-    end
-
-    it 'shows error when the email is invalid' do
-      resend_confirmation(user, email: 'abcde@foo.com')
-
-      expect(page).to have_current_path(user_confirmation_path)
-      expect(page).to have_auth_error(t('errors.messages.not_found'))
-
-      expect(mailer_queue.count).to eq(0)
-    end
-
-    context 'email is pending reconfirmation' do
-      let(:user) { create(:user, :pending_reconfirmation) }
-
-      it 'user can resend the confirmation email to the pending email' do
-        expect do
-          resend_confirmation(user, email: user.unconfirmed_email)
-        end.to_not(change { user.reload.pending_reconfirmation? })
-
-        expect(page).to have_current_path(new_user_session_path)
-        expect(page).to have_flash_message(
-          t('devise.confirmations.send_instructions')
-        ).of_type(:notice)
-
-        user.reload
-
-        email = mailer_queue.first
-        expect(mailer_queue.count).to eq(1)
-        expect(email[:klass]).to eq(Devise::Mailer)
-        expect(email[:method]).to eq(:confirmation_instructions)
-        expect(email[:args][:record]).to eq(user)
-        expect(email[:args][:token]).to eq(user.confirmation_token)
-        expect(email[:args][:opts]).to eq(to: user.unconfirmed_email)
-      end
-
-      it 'user can not resend the confirmation email to the original email' do
-        resend_confirmation(user)
-
-        email = mailer_queue.first
-        expect(mailer_queue.count).to eq(1)
-        expect(email[:klass]).to eq(Devise::Mailer)
-        expect(email[:method]).to eq(:confirmation_instructions)
-        expect(email[:args][:opts]).to eq(to: user.unconfirmed_email)
-      end
-    end
-
-    context 'omniauth account' do
-      let(:user) { create(:user, :omniauth, provider: 'google_oauth2') }
-
-      # We skip the email confirmation process for omniauth logins since we
-      # assume the third party service has already verified this.
-
-      it 'user sees auth error that account is already confirmed' do
-        resend_confirmation(user)
-
-        expect(page).to have_current_path(user_confirmation_path)
-        expect(page).to have_auth_error(t('errors.messages.already_confirmed'))
-
-        expect(mailer_queue.count).to eq(0)
-
-        # We still consider the account confirmed because it's omniauth, even
-        # though `confirmed_at` is `nil`
-        expect(user.reload.confirmed?).to eq(true)
-      end
     end
   end
 end

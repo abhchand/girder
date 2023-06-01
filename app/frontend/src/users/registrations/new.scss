@@ -1,1 +1,14 @@
-// Blank
+@import 'src/users/shared/_omniauth_links.scss';
+@import 'src/shared/_colors.scss';
+
+.registrations-new__email-registration-btn {
+  @extend .omniauth-btn;
+  color: white;
+  font-weight: 600;
+  background-color: $dark-cornflower-blue;
+}
+#devise-custom-registrations-new {
+  .auth__form-input--submit input {
+    background-color: $jungle-green;
+  }
+}

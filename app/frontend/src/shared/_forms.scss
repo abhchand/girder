@@ -14,7 +14,7 @@ input {
   height: 48px;
   margin: 10px 0;
   padding: 10px 15px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 48px;
   border: 1px solid $dark-gray;
 }
@@ -61,7 +61,7 @@ select {
   height: 48px;
   margin: 10px 0;
   padding: 10px 15px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 48px;
   border: 1px solid $dark-gray;
 }
@@ -70,7 +70,7 @@ textarea {
   box-sizing: border-box;
   width: 300px;
   padding: 10px 15px;
-  font-size: 18px;
+  font-size: 16px;
   border: 1px solid $dark-gray;
 
   &:focus {
@@ -96,6 +96,10 @@ textarea {
 
   &:disabled {
     opacity: 0.2;
+  }
+
+  &:hover {
+    opacity: 0.9;
   }
 }
 .cta--primary {

@@ -11,7 +11,7 @@ RSpec.feature 'Resetting Password', type: :feature do
 
         travel_to(now) do
           expect { request_password_reset(user) }.to(
-            change { mailer_queue.size }.by(1)
+            change { enqueued_mailers.size }.by(1)
           )
         end
 
@@ -20,9 +20,9 @@ RSpec.feature 'Resetting Password', type: :feature do
         expect(user.reset_password_token).to_not be_nil
         expect(user.reset_password_sent_at).to eq(now)
 
-        email = mailer_queue.last
+        email = enqueued_mailers.last
         expect(email[:klass]).to eq(Devise::Mailer)
-        expect(email[:method]).to eq(:reset_password_instructions)
+        expect(email[:mailer_name]).to eq(:reset_password_instructions)
         expect(email[:args][:record]).to eq(user)
         expect(decode_db_token_from_url_token(email[:args][:token])).to eq(
           user.reset_password_token
@@ -37,7 +37,7 @@ RSpec.feature 'Resetting Password', type: :feature do
       it 'displays an auth form error' do
         expect do
           request_password_reset(user, email: 'some-fake-email@example.com')
-        end.to_not(change { mailer_queue.size })
+        end.to_not(change { enqueued_mailers.size })
 
         expect(page).to have_current_path(user_password_path)
         expect(page).to have_auth_error(
@@ -63,7 +63,7 @@ RSpec.feature 'Resetting Password', type: :feature do
 
       it 'displays an auth form error notifying user of invalid action' do
         expect { request_password_reset(user) }.to_not(
-          change { mailer_queue.size }
+          change { enqueued_mailers.size }
         )
 
         provider = User.human_attribute_name('omniauth_provider.google_oauth2')
@@ -83,7 +83,7 @@ RSpec.feature 'Resetting Password', type: :feature do
   describe 'reset password link' do
     before do
       request_password_reset(user)
-      @token = (mailer_queue.last || {}).dig(:args, :token)
+      @token = (enqueued_mailers.last || {}).dig(:args, :token)
     end
 
     shared_examples 'user can reset password with the link' do

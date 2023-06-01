@@ -25,10 +25,10 @@ RSpec.feature 'Settings - Managing User Invitations',
     expect(user_invitation.role).to eq('superuser')
 
     # Email is sent
-    email = mailer_queue.last
-    expect(mailer_queue.count).to eq(1)
+    email = enqueued_mailers.last
+    expect(enqueued_mailers.count).to eq(1)
     expect(email[:klass]).to eq(UserInvitationMailer)
-    expect(email[:method]).to eq(:invite)
+    expect(email[:mailer_name]).to eq(:invite)
     expect(email[:args][:user_invitation_id]).to eq(user_invitation.id)
 
     # Page is updated

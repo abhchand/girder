@@ -276,42 +276,65 @@ en:
 
   users:
     shared:
-      native_links:
-        log_in: Log In
-        register: Sign Up
-        reset_password: Forgot your password?
-        resend_confirmation: Didn't receive confirmation instructions?
       omniauth_links:
         log_in_with:
-          google_oauth2: Log In With Google
+          google_oauth2: Sign in with Google
         register_with:
           google_oauth2: Sign Up With Google
     confirmations:
       new:
-        heading: Resend confirmation instructions
+        heading: Verify your Account
+        subheading: Confirm your email address by clicking the link in the email we sent to <b>%{email}</b>
         form:
-          submit: Resend
+          submit: Resend confirmation email
+        log_out: Log out
     passwords:
       edit:
+        criteria:
+          length: Must be at least 6 characters long
+          letter: Must have at least one letter
+          number: Must have at least one number
+          special: Must have at least one special character (!#$%&)
         heading: Change your password
         form:
+          password:
+            placeholder: Enter your new password
+          password_confirmation:
+            placeholder: Confirm your new password
           submit: Change my password
+        log_in: Log In
       new:
-        heading: Forgot your password?
+        heading: Forgot password?
+        subheading: Enter the email address associated with your account, and we'll send you a link to reset your password.
         form:
-          submit: Reset
+          email:
+            placeholder: Enter your email address
+          submit: Request password reset
+        log_in: Log In
     registrations:
       new:
-        heading: Sign Up
-        or: Or
+        headings:
+          - Create your account
+          - Sign Up with Email
         form:
           submit: Sign Up
+        go_back:
+          - Sign up with
+          - OAuth
+          - instead.
+        register_with_email: Sign Up with Email
+        log_in: Log In
     sessions:
       new:
-        heading: Log In
-        or: Or
+        heading: Log in to your account
         form:
+          email:
+            placeholder: Enter your email address
+          password:
+            placeholder: Enter your password
           submit: Log In
+        reset_password: Forgot password?
+        register: Sign Up
 
   utils:
     keys:

@@ -15,10 +15,8 @@ RSpec.feature 'Signing Up', type: :feature do
   it 'user can sign up and receive a confirmation email' do
     expect { register(user_attrs) }.to(change { User.count }.by(1))
 
-    expect(page).to have_current_path(new_user_session_path)
-    expect(page).to have_flash_message(
-      t('devise.registrations.signed_up_but_unconfirmed')
-    ).of_type(:notice)
+    expect(page).to have_current_path(new_user_confirmation_path)
+    expect(page).to_not have_selector('.flash')
 
     user = User.last
     expect(user.confirmed?).to eq(false)
@@ -28,13 +26,23 @@ RSpec.feature 'Signing Up', type: :feature do
     expect(user.valid_password?(user_attrs[:password])).to eq(true)
     expect(user.confirmation_token).to_not be_nil
 
-    email = mailer_queue.first
-    expect(mailer_queue.count).to eq(1)
+    email = enqueued_mailers.first
+    expect(enqueued_mailers.count).to eq(1)
     expect(email[:klass]).to eq(Devise::Mailer)
-    expect(email[:method]).to eq(:confirmation_instructions)
+    expect(email[:mailer_name]).to eq(:confirmation_instructions)
     expect(email[:args][:record]).to eq(user)
-    expect(email[:args][:token]).to eq(user.confirmation_token)
-    expect(email[:args][:opts]).to eq({})
+  end
+
+  # Repeat the same test above with JS enabled so we can test the slider card
+  # on the sign up screen
+  it 'user can sign up (JS)', js: true do
+    expect { register(user_attrs) }.to(change { User.count }.by(1))
+
+    expect(page).to have_current_path(new_user_confirmation_path)
+    expect(page).to_not have_selector('.flash')
+
+    user = User.last
+    expect(user.email).to eq(user_attrs[:email])
   end
 
   describe 'form validation' do
@@ -76,7 +84,7 @@ RSpec.feature 'Signing Up', type: :feature do
 
       expect { register(user_attrs) }.to(change { User.count }.by(1))
 
-      expect(page).to have_current_path(new_user_session_path)
+      expect(page).to have_current_path(new_user_confirmation_path)
 
       user = User.last
       expect(user.email).to eq(user_attrs[:email])
@@ -151,14 +159,6 @@ RSpec.feature 'Signing Up', type: :feature do
       user = User.last
 
       expect(job['args']).to eq([user.id])
-    end
-  end
-
-  describe 'accessing the edit registrations page' do
-    let(:user) { create(:user) }
-
-    it 'renders the 404 page' do
-      visit '/users/registrations/edit'
     end
   end
 

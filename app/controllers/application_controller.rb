@@ -92,6 +92,13 @@ class ApplicationController < ActionController::Base
       )
   end
 
+  # Devise calls `authenticate_user!` but skips actually authenticating users
+  # in some instances where we might want to enforce authentication.
+  # Use this `before_action` to foce authentication.
+  def force_authenticate_user!
+    authenticate_user!(force: true)
+  end
+
   protected
 
   def check_if_deactivated

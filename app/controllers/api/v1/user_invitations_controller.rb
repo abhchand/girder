@@ -25,7 +25,7 @@ class Api::V1::UserInvitationsController < Api::BaseController
 
     status, json =
       if create_service.success?
-        UserInvitationMailer.delay.invite(@user_invitation.id)
+        UserInvitationMailer.invite(@user_invitation.id).deliver_later
         [200, @user_invitation]
       else
         [create_service.status, { error: create_service.error }]

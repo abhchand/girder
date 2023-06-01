@@ -6,53 +6,65 @@
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
+  width: 100%;
   margin: 25px;
+
+  li {
+    width: 100%;
+  }
 }
 
 .omniauth-btn {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  width: 230px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  padding: 0 18px;
+  background-color: $white;
+  border: solid 1px $grayC;
+  border-radius: 10px;
+  cursor: pointer;
 
   .logo {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    border-radius: 3px;
   }
 
   .label {
-    display: inline-block;
+    font-size: 16px;
   }
 }
 
 .omniauth-btn--google_oauth2 {
   // Google Branding guidelines: https://developers.google.com/identity/branding-guidelines;
-  height: 40px;
-  border: solid 1px #4285F4;
-  border-radius: 1px;
-
-  .logo {
-    width: 34px;
-    height: 100%;
-    background: $white;
-
-    svg {
-      margin: 11px 8px;
-    }
-  }
 
   .label {
-    width: 196px;
-    height: 40px;
-    padding-right: 16px;
-    padding-left: 16px;
-    color: $white;
-    font-weight: bold;
-    font-family: 'Roboto', sans-serif;
-    background: #4285F4;
-    size: 14px;
+    margin-left: 10px;
+    color: black;
+    color: #4285F4;
+    font-weight: 600;
+    font-family: 'Arial', sans-serif;
+    line-height: 18px;
+  }
 
-    span {
-      line-height: 40px;
+  &:hover {
+    background-color: #4285F4;
+
+    .logo {
+      background-color: white;
+    }
+
+    .label {
+      color: white;
     }
   }
+
 }

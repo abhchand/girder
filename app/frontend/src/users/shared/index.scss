@@ -1,0 +1,119 @@
+@import 'src/shared/_breakpoints.scss';
+@import 'src/shared/_colors.scss';
+
+/* Override default flash styling to match dimensions of `.auth__container`*/
+.flash {
+  width: 80%;
+  max-width: 450px;
+  min-height: 40px;
+  margin: 20px auto;
+  padding-right: 24px;
+  padding-left: 24px;
+}
+
+.auth__header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 75px;
+  min-height: 75px;
+  padding: 0 32px;
+  background-color: $white;
+  border-bottom: solid 1px $medium-gray;
+}
+.auth-header__logo--desktop {
+  display: none;
+
+  @include breakpoint($screen-sm) {
+    display: initial;
+  }
+}
+.auth-header__logo--mobile {
+  @include breakpoint($screen-sm) {
+    display: none;
+  }
+}
+.auth-header__action-link {
+  margin-left: auto;
+}
+.auth__container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%;
+  max-width: 450px;
+  margin: auto;
+  margin-top: 20px;
+  padding: 24px;
+  text-align: left;
+  background-color: white;
+  border: 1px solid $grayC;
+  border-radius: 10px;
+}
+.auth-container__sliding-frame {
+  display: none;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+
+  &.selected {
+    display: flex;
+  }
+}
+.auth__heading {
+  width: 100%;
+  margin: auto;
+  font-weight: 500;
+}
+.auth__subheading {
+  width: 100%;
+  margin-top: 16px;
+  color: $granite-gray;
+  text-align: left;;
+}
+.auth__form {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 100%;
+}
+.auth__form-input {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 14px;
+
+  input {
+    // Override width set directly on `input`
+    width: 100% !important;
+    height: 48px;
+  }
+
+  input[type='password'], input[type='email'], input[type='input'], input[type='text'] {
+    // Label should be a bit closer to the input
+    margin-top: 2px;
+  }
+
+  label {
+    font-weight: 700;
+    text-transform: lowercase;
+  }
+}
+.auth__divider {
+  width: 100%;
+  height: 0px;
+  border-top: 2px solid $grayD;
+}
+.auth__form-errors {
+  margin: 20px 0 10px 0;
+  color: $amaranth;
+}

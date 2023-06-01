@@ -174,46 +174,56 @@ RSpec.describe Devise::Custom::RegistrationsController, type: :controller do
 
     before { request.env['devise.mapping'] = Devise.mappings[:user] }
 
-    context 'a UserInvitation record exists with this email' do
-      let!(:invitation) do
-        create(:user_invitation, email: params[:user][:email])
-      end
+    it 'sends a confirmation email' do
+      # This happens inside Devise, in an `after_commit` callback
+      expect do post :create, params: params end.to change {
+        enqueued_mailers.count
+      }.by(1)
 
-      it 'calls the `UserInvitations::RegistrationService` service' do
-        expect(UserInvitations::RegistrationService).to receive(:call)
+      user = User.last
+
+      email = enqueued_mailers.last
+      expect(email[:klass]).to eq(Devise::Mailer)
+      expect(email[:mailer_name]).to eq(:confirmation_instructions)
+      expect(email[:args][:record]).to eq(user)
+      expect(email[:args][:token]).to eq(user.confirmation_token)
+      expect(email[:args][:opts]).to eq({})
+    end
+
+    it 'calls the `UserInvitations::RegistrationService` service' do
+      expect(UserInvitations::RegistrationService).to receive(:call)
+
+      post :create, params: params
+    end
+
+    it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
+      expect do
+        expect do post :create, params: params end.to change {
+          UserInvitation::MarkAsCompleteJob.jobs.count
+        }.by(1)
+      end.to change { User.count }.by(1)
+
+      job = UserInvitation::MarkAsCompleteJob.jobs.last
+      user = User.last
+
+      expect(job['args']).to eq([user.id])
+    end
+
+    context 'user record failed to create' do
+      # Should cause failure when calling `resource.save` in
+      # `registrations#create` in Devise
+      before { expect_any_instance_of(User).to receive(:save) { false } }
+
+      it 'does not call the `UserInvitations::RegistrationService` service' do
+        expect(UserInvitations::RegistrationService).to_not receive(:call)
 
         post :create, params: params
       end
 
-      it 'enqueues the `UserInvitation::MarkAsCompleteJob` job' do
-        expect do
-          expect do post :create, params: params end.to change {
-            UserInvitation::MarkAsCompleteJob.jobs.count
-          }.by(1)
-        end.to change { User.count }.by(1)
-
-        job = UserInvitation::MarkAsCompleteJob.jobs.last
-        user = User.last
-
-        expect(job['args']).to eq([user.id])
-      end
-
-      context 'user record failed to create' do
-        # Should cause failure when calling `resource.save` in
-        # `registrations#create` in Devise
-        before { expect_any_instance_of(User).to receive(:save) { false } }
-
-        it 'does not call the `UserInvitations::RegistrationService` service' do
-          expect(UserInvitations::RegistrationService).to_not receive(:call)
-
-          post :create, params: params
-        end
-
-        it 'does not enqueue the `UserInvitation::MarkAsCompleteJob` job' do
-          expect do post :create, params: params end.to_not change {
-            UserInvitation::MarkAsCompleteJob.jobs.count
-          }
-        end
+      it 'does not enqueue the `UserInvitation::MarkAsCompleteJob` job' do
+        expect do post :create, params: params end.to_not change {
+          UserInvitation::MarkAsCompleteJob.jobs.count
+        }
       end
     end
 

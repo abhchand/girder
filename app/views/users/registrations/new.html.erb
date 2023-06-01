@@ -1,51 +1,85 @@
-<div class="auth__container container">
-  <%= render 'users/shared/logo' %>
+<div class='auth__header soft-shadow'>
+  <%= render "users/shared/logo" %>
+  <%= render "users/shared/logo_mini" %>
 
-  <h1 class="auth__heading"><%= t(".heading") %></h1>
+  <div class='auth-header__action-link'>
+    <%= link_to(t('.log_in'), new_user_session_path, { class: 'standard-link' }) %>
+  </div>
+</div>
 
-  <%= render "layouts/flash" %>
-  <%= render "users/shared/error_messages", user: @user %>
+<%= render "layouts/flash" %>
 
-  <%= form_for(@user, as: :user, url: user_registration_path, html: { class: "auth__form" }) do |f| %>
-      <div class="auth__form-input">
-        <%= f.text_field(:first_name, autofocus: true, autocomplete: "given-name", placeholder: User.human_attribute_name(:first_name)) %>
-        <%= f.label(:first_name, User.human_attribute_name(:first_name)) %>
+<div class="auth__container">
+  <%
+    # 1. If any omniauth option exists, we want to show the main page. If only
+    #    omniauth exists with no native sign in, we still render the page and
+    #    don't display the email registration button
+    # 2. When the form POSTs, it re-renders this template with `@user` errors.
+    #    If there are any errors, don't show the main page and skip straight to
+    #    the next email page.
+    show_main_frame = any_omniauth_enabled? && @user.errors.empty?
+  %>
+
+  <div data-id='0' class="auth-container__sliding-frame <%= 'selected' if show_main_frame %>">
+    <h1 class="auth__heading"><%= t(".headings")[0] %></h1>
+
+    <%= render "users/shared/omniauth_links" %>
+
+    <%if native_auth_enabled? %>
+    <button
+      type='button'
+      class='registrations-new__email-registration-btn cta'
+      onclick="Familyties.auth.showSlidingFrame('1')">
+      <%= t('.register_with_email') %>
+    </button>
+    <% end %>
+  </div>
+
+  <div data-id='1' class="auth-container__sliding-frame <%= 'selected' if !show_main_frame %>">
+    <h1 class="auth__heading"><%= t(".headings")[1] %></h1>
+
+    <% if any_omniauth_enabled? %>
+      <% segments = t('.go_back') %>
+      <div class='auth__subheading'>
+        <%= segments[0] %>
+        <a href="javascript:Familyties.auth.showSlidingFrame('0')">
+          <%= segments[1] %>
+        </a>
+        <%= segments[2] %>
       </div>
+    <% end %>
 
-      <div class="auth__form-input">
-        <%= f.text_field(:last_name, autocomplete: "family-name", placeholder: User.human_attribute_name(:last_name)) %>
-        <%= f.label(:last_name, User.human_attribute_name(:last_name)) %>
-      </div>
+    <%= render "users/shared/error_messages", user: @user %>
 
-      <div class="auth__form-input">
-        <%= f.email_field(:email, autocomplete: "email", placeholder: User.human_attribute_name(:email)) %>
-        <%= f.label(:email, User.human_attribute_name(:email)) %>
-      </div>
+    <%= form_for(@user, as: :user, url: user_registration_path, html: { class: "auth__form" }) do |f| %>
+        <div class="auth__form-input">
+          <%= f.label(:first_name, User.human_attribute_name(:first_name)) %>
+          <%= f.text_field(:first_name, autofocus: true, autocomplete: "given-name", placeholder: User.human_attribute_name(:first_name)) %>
+        </div>
 
-      <div class="auth__form-input">
-        <%= f.password_field(:password, autocomplete: "new-password",placeholder: User.human_attribute_name(:password)) %>
-        <%= f.label(:password, User.human_attribute_name(:password)) %>
-      </div>
+        <div class="auth__form-input">
+          <%= f.label(:last_name, User.human_attribute_name(:last_name)) %>
+          <%= f.text_field(:last_name, autocomplete: "family-name", placeholder: User.human_attribute_name(:last_name)) %>
+        </div>
 
-      <div class="auth__form-input">
-        <%= f.password_field(:password_confirmation, autocomplete: "off", placeholder: User.human_attribute_name(:password_confirmation)) %>
-        <%= f.label(:password_confirmation, User.human_attribute_name(:password_confirmation)) %>
-      </div>
+        <div class="auth__form-input">
+          <%= f.label(:email, User.human_attribute_name(:email)) %>
+          <%= f.email_field(:email, autocomplete: "email", placeholder: User.human_attribute_name(:email)) %>
+        </div>
 
-      <div class="auth__form-input auth__form-input--submit">
-        <%= f.submit(t(".form.submit"), name: "sign-up", data: { disable_with: t("form.disable_with") }, class: "cta cta--primary") %>
-      </div>
-  <% end %>
+        <div class="auth__form-input">
+          <%= f.label(:password, User.human_attribute_name(:password)) %>
+          <%= f.password_field(:password, autocomplete: "new-password",placeholder: User.human_attribute_name(:password)) %>
+        </div>
 
-  <%if native_auth_enabled? && any_omniauth_enabled? %>
-  <div class="auth__action-conditional"><%= t(".or") %></div>
-  <% end %>
+        <div class="auth__form-input">
+          <%= f.label(:password_confirmation, User.human_attribute_name(:password_confirmation)) %>
+          <%= f.password_field(:password_confirmation, autocomplete: "off", placeholder: User.human_attribute_name(:password_confirmation)) %>
+        </div>
 
-  <%if any_omniauth_enabled? %>
-  <%= render "users/shared/omniauth_links" %>
-  <% end %>
-
-  <% if native_auth_enabled? %>
-  <%= render "users/shared/native_links" %>
-  <% end %>
+        <div class="auth__form-input auth__form-input--submit">
+          <%= f.submit(t(".form.submit"), name: "sign-up", data: { disable_with: t("form.disable_with") }, class: "cta cta--primary") %>
+        </div>
+    <% end %>
+  </div>
 </div>

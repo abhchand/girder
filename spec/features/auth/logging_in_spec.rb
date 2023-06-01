@@ -48,12 +48,9 @@ RSpec.feature 'Logging In', type: :feature do
         }.by(1)
 
         user = User.last
-
-        confirm(user)
-        log_in(user, password: user_attrs[:password])
-
         job = UserInvitation::MarkAsCompleteJob.jobs.last
 
+        expect(page).to have_current_path(user.signed_in_path)
         expect(job['args']).to eq([user.id])
       end
     end
@@ -90,13 +87,11 @@ RSpec.feature 'Logging In', type: :feature do
   context 'email is not confirmed' do
     let(:user) { create(:user, :unconfirmed) }
 
-    it 'displays a flash error' do
+    it 'still allows the user to log back in' do
       log_in(user)
 
-      expect(page).to have_current_path(new_user_session_path)
-      expect(page).to have_flash_message(
-        t('devise.failure.unconfirmed')
-      ).of_type(:alert)
+      expect(page).to have_current_path(new_user_confirmation_path)
+      expect(page).to_not have_selector('.flash')
     end
   end
 

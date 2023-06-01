@@ -28,6 +28,11 @@ module FeatureHelpers
   def register(opts = {})
     visit new_user_registration_path
 
+    # If JS is enabled, we need to click the "Sign Up With Email" button first
+    if @javascript_enabled
+      page.find('.registrations-new__email-registration-btn').click
+    end
+
     within('.auth__form') do
       fill_in('user[first_name]', with: opts[:first_name])
       fill_in('user[last_name]', with: opts[:last_name])
@@ -41,12 +46,10 @@ module FeatureHelpers
     wait_for_ajax
   end
 
-  def resend_confirmation(user, opts = {})
+  def resend_confirmation
     visit new_user_confirmation_path
 
     within('.auth__form') do
-      fill_in('user[email]', with: opts[:email] || user.email)
-
       click_button(t('users.confirmations.new.form.submit'))
       wait_for_ajax
     end
