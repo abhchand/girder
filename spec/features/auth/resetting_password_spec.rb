@@ -102,6 +102,36 @@ RSpec.feature 'Resetting Password', type: :feature do
 
     it_behaves_like 'user can reset password with the link'
 
+    it 'user can have their password validated in real-time', js: true do
+      visit edit_user_password_path(reset_password_token: @token)
+
+      input = page.find("[name='user[password]']")
+
+      # Dialog doesn't appear until focused
+      expect(page).to_not have_selector('.password-criteria')
+
+      # Initial
+      input.send_keys('t')
+      expect_password_criteria_dialog_to_be(
+        length: false,
+        letter: true,
+        number: false,
+        special: false
+      )
+
+      input.send_keys('estAccount#01')
+      expect_password_criteria_dialog_to_be(
+        length: true,
+        letter: true,
+        number: true,
+        special: true
+      )
+
+      # Focus on some other element - dialog should disappear
+      page.find("[name='user[password_confirmation]']").send_keys('foo')
+      expect(page).to_not have_selector('.password-criteria')
+    end
+
     it 'user can continue to sign in with the existing password' do
       log_in(user)
 

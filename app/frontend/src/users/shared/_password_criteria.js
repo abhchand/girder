@@ -1,9 +1,11 @@
+import './_password_criteria.scss';
+
 const MIN_PASSWORD_LEN = 6;
 
 // If making changes here, also remember to update backend model
 function checkPasswordCriteria(e) {
   const value = e.currentTarget.value || '';
-  const prefix = '.passwords-edit__criteria';
+  const prefix = '.password-criteria';
 
   const elLength = document.querySelector(`${prefix} .status--length`),
     elLetter = document.querySelector(`${prefix} .status--letter`),
@@ -35,4 +37,18 @@ function checkPasswordCriteria(e) {
   }
 }
 
-export { checkPasswordCriteria };
+function enablePasswordCriteria(_e) {
+  const popup = document.querySelector('.password-criteria');
+  popup.classList.add('enabled');
+}
+
+function disablePasswordCriteria(_e) {
+  const popup = document.querySelector('.password-criteria');
+  popup.classList.remove('enabled');
+}
+
+export {
+  checkPasswordCriteria,
+  disablePasswordCriteria,
+  enablePasswordCriteria
+};

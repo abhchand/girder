@@ -14,27 +14,18 @@
 
   <%= render "users/shared/error_messages", user: @user %>
 
-  <ul class='passwords-edit__criteria'>
-    <li><div class='status status--length'></div>Must be at least 6 characters long</li>
-    <li><div class='status status--letter'></div>Must have one letter</li>
-    <li><div class='status status--number'></div>Must have one number</li>
-    <li><div class='status status--special'></div>Must have one special character (!#$%&)</li>
-  </ul>
-
   <%= form_for(@user, as: :user, url: user_password_path, html: { method: :put, class: "auth__form" }) do |f| %>
     <%= f.hidden_field :reset_password_token %>
 
     <div class="auth__form-input">
       <%= f.label(:password, User.human_attribute_name(:password)) %>
       <%=
-        f.password_field(
-          :password,
-          autofocus: true,
-          autocomplete: "off",
-          placeholder: t('.form.password.placeholder'),
-          onkeypress: 'Familyties.auth.checkPasswordCriteria(event)',
-          onpaste: 'Familyties.auth.checkPasswordCriteria(event)',
-          oninput: 'Familyties.auth.checkPasswordCriteria(event)'
+        render(
+          "users/shared/password_criteria",
+          form: f,
+          input_opts: {
+            placeholder: t('.form.password.placeholder')
+          }
         )
       %>
     </div>

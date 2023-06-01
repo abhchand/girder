@@ -281,6 +281,11 @@ en:
           google_oauth2: Sign in with Google
         register_with:
           google_oauth2: Sign Up With Google
+      password_criteria:
+        length: Must be at least 6 characters
+        letter: Must have at least one letter
+        number: Must have at least one number
+        special: Must have at least one special character (!#$%&)
     confirmations:
       new:
         heading: Verify your Account
@@ -290,11 +295,6 @@ en:
         log_out: Log out
     passwords:
       edit:
-        criteria:
-          length: Must be at least 6 characters long
-          letter: Must have at least one letter
-          number: Must have at least one number
-          special: Must have at least one special character (!#$%&)
         heading: Change your password
         form:
           password:

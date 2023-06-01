@@ -46,31 +46,67 @@ RSpec.feature 'Signing Up', type: :feature do
   end
 
   describe 'form validation' do
-    it 'displays an auth error when a field is blank' do
-      user_attrs[:email] = ''
+    describe 'client-side' do
+      it 'displays the password criteria in real time', js: true do
+        visit new_user_registration_path
+        # Click the "Sign Up With Email" button first
+        page.find('.registrations-new__email-registration-btn').click
 
-      expect { register(user_attrs) }.to_not(change { User.count })
+        input = page.find("[name='user[password]']")
 
-      expect_auth_error_for(:email, :blank)
-      expect(mailer_queue.count).to eq(0)
+        # Dialog doesn't appear until focused
+        expect(page).to_not have_selector('.password-criteria')
+
+        # Initial
+        input.send_keys('t')
+        expect_password_criteria_dialog_to_be(
+          length: false,
+          letter: true,
+          number: false,
+          special: false
+        )
+
+        input.send_keys('estAccount#01')
+        expect_password_criteria_dialog_to_be(
+          length: true,
+          letter: true,
+          number: true,
+          special: true
+        )
+
+        # Focus on some other element - dialog should disappear
+        page.find("[name='user[first_name]']").send_keys('foo')
+        expect(page).to_not have_selector('.password-criteria')
+      end
     end
 
-    it "displays an auth error when passwords don't match" do
-      user_attrs[:password_confirmation] = 'foo'
+    describe 'server-side' do
+      it 'displays an auth error when a field is blank' do
+        user_attrs[:email] = ''
 
-      expect { register(user_attrs) }.to_not(change { User.count })
+        expect { register(user_attrs) }.to_not(change { User.count })
 
-      expect_auth_error_for(:password_confirmation, :confirmation)
-      expect(mailer_queue.count).to eq(0)
-    end
+        expect_auth_error_for(:email, :blank)
+        expect(mailer_queue.count).to eq(0)
+      end
 
-    it 'validates the password complexity' do
-      user_attrs[:password] = 'sup'
+      it "displays an auth error when passwords don't match" do
+        user_attrs[:password_confirmation] = 'foo'
 
-      expect { register(user_attrs) }.to_not(change { User.count })
+        expect { register(user_attrs) }.to_not(change { User.count })
 
-      expect_auth_error_for(:password, :invalid)
-      expect(mailer_queue.count).to eq(0)
+        expect_auth_error_for(:password_confirmation, :confirmation)
+        expect(mailer_queue.count).to eq(0)
+      end
+
+      it 'validates the password complexity' do
+        user_attrs[:password] = 'sup'
+
+        expect { register(user_attrs) }.to_not(change { User.count })
+
+        expect_auth_error_for(:password, :invalid)
+        expect(mailer_queue.count).to eq(0)
+      end
     end
   end
 

@@ -69,7 +69,7 @@
 
         <div class="auth__form-input">
           <%= f.label(:password, User.human_attribute_name(:password)) %>
-          <%= f.password_field(:password, autocomplete: "new-password",placeholder: User.human_attribute_name(:password)) %>
+          <%= render "users/shared/password_criteria", form: f %>
         </div>
 
         <div class="auth__form-input">
