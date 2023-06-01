@@ -85,5 +85,13 @@ module Girder
     Rails.application.routes.default_url_options.merge!(
       config.x.default_url_options
     )
+
+    # Should be defaulted, but not applying on `:test` for some reason.
+    # Set it explicitly
+    #
+    # Also see here on how to configure active job and action mailer with
+    # devise and sidekiq
+    # See: https://gist.github.com/maxivak/690e6c353f65a86a4af9
+    config.action_mailer.deliver_later_queue_name = :mailers
   end
 end

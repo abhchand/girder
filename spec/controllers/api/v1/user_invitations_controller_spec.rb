@@ -280,13 +280,13 @@ RSpec.describe Api::V1::UserInvitationsController, type: :controller do
 
     it 'emails an invitation to the invited user' do
       expect { post :create, params: params }.to change {
-        mailer_queue.count
+        enqueued_mailers.count
       }.by(1)
 
-      email = mailer_queue.last
-      expect(mailer_queue.count).to eq(1)
+      email = enqueued_mailers.last
+      expect(enqueued_mailers.count).to eq(1)
       expect(email[:klass]).to eq(UserInvitationMailer)
-      expect(email[:method]).to eq(:invite)
+      expect(email[:mailer_name]).to eq(:invite)
       expect(email[:args][:user_invitation_id]).to eq(UserInvitation.last.id)
     end
   end

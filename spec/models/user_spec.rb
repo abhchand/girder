@@ -397,30 +397,27 @@ RSpec.describe User do
           expect(user.persisted?).to eq(false)
 
           travel_to(now) do
-            expect { user.save! }.to(change { mailer_queue.size }.by(1))
+            expect { user.save! }.to(change { enqueued_mailers.size }.by(1))
           end
 
           user.reload
 
           expect(user.confirmation_sent_at).to eq(now)
 
-          email = mailer_queue.last
+          email = enqueued_mailers.last
           expect(email[:klass]).to eq(Devise::Mailer)
-          expect(email[:method]).to eq(:confirmation_instructions)
+          expect(email[:mailer_name]).to eq(:confirmation_instructions)
           expect(email[:args][:record]).to eq(user)
           expect(email[:args][:token]).to eq(user.confirmation_token)
           expect(email[:args][:opts]).to eq({})
         end
 
         context 'not creating' do
-          before do
-            user.save!
-            clear_mailer_queue
-          end
+          before { user.save! }
 
           it 'does not send confirmation instructions' do
             expect { user.update!(first_name: 'Foo') }.to_not(
-              change { mailer_queue.size }
+              change { enqueued_mailers.size }
             )
           end
         end
@@ -429,7 +426,7 @@ RSpec.describe User do
           let(:user) { build(:user, :omniauth) }
 
           it 'does not send confirmation instructions' do
-            expect { user.save! }.to_not(change { mailer_queue.size })
+            expect { user.save! }.to_not(change { enqueued_mailers.size })
           end
         end
 
@@ -437,7 +434,7 @@ RSpec.describe User do
           before { user.confirmation_token = nil }
 
           it 'generates one before sending the confirmation instructions' do
-            expect { user.save! }.to(change { mailer_queue.size }.by(1))
+            expect { user.save! }.to(change { enqueued_mailers.size }.by(1))
             expect(user.confirmation_token).to_not be_nil
           end
         end
@@ -448,7 +445,7 @@ RSpec.describe User do
           before { expect(user.confirmed?).to eq(true) }
 
           it 'does not send confirmation instructions' do
-            expect { user.save! }.to_not(change { mailer_queue.size })
+            expect { user.save! }.to_not(change { enqueued_mailers.size })
           end
         end
 
@@ -457,11 +454,11 @@ RSpec.describe User do
 
           it 'sends confirmation instructions to the unconfirmed_email' do
             expect(user.unconfirmed_email).to_not be_nil
-            expect { user.save! }.to(change { mailer_queue.size }.by(1))
+            expect { user.save! }.to(change { enqueued_mailers.size }.by(1))
 
-            email = mailer_queue.last
+            email = enqueued_mailers.last
             expect(email[:klass]).to eq(Devise::Mailer)
-            expect(email[:method]).to eq(:confirmation_instructions)
+            expect(email[:mailer_name]).to eq(:confirmation_instructions)
             expect(email[:args][:record]).to eq(user)
             expect(email[:args][:token]).to eq(user.confirmation_token)
             expect(email[:args][:opts]).to eq(to: user.unconfirmed_email)
@@ -472,7 +469,7 @@ RSpec.describe User do
           before { user.skip_confirmation_notification! }
 
           it 'does not send confirmation instructions' do
-            expect { user.save! }.to_not(change { mailer_queue.size })
+            expect { user.save! }.to_not(change { enqueued_mailers.size })
           end
         end
       end
@@ -502,15 +499,15 @@ RSpec.describe User do
 
           travel_to(now) do
             expect { user.update!(email: 'something-else@foo.com') }.to(
-              change { mailer_queue.size }.by(1)
+              change { enqueued_mailers.size }.by(1)
             )
           end
 
           expect(user.confirmation_sent_at).to eq(now)
 
-          email = mailer_queue.last
+          email = enqueued_mailers.last
           expect(email[:klass]).to eq(Devise::Mailer)
-          expect(email[:method]).to eq(:confirmation_instructions)
+          expect(email[:mailer_name]).to eq(:confirmation_instructions)
           expect(email[:args][:record]).to eq(user)
           expect(email[:args][:token]).to eq(user.confirmation_token)
           expect(email[:args][:opts]).to eq(to: 'something-else@foo.com')
@@ -519,7 +516,7 @@ RSpec.describe User do
         context 'not updating email field' do
           it 'does not send reconfirmation instructions' do
             expect { user.update!(first_name: 'Foo') }.to_not(
-              change { mailer_queue.size }
+              change { enqueued_mailers.size }
             )
           end
         end
@@ -532,7 +529,7 @@ RSpec.describe User do
             # that a second email for reconfirmation is not sent, since
             # the `after_create` hook has logic to skip reconfirmation if
             # the initial confirmation is also being sent
-            expect { user.save! }.to(change { mailer_queue.size }.by(1))
+            expect { user.save! }.to(change { enqueued_mailers.size }.by(1))
           end
         end
 
@@ -541,7 +538,7 @@ RSpec.describe User do
 
           it 'generates one before sending the reconfirmation instructions' do
             expect { user.update!(email: 'something-else@foo.com') }.to(
-              change { mailer_queue.size }.by(1)
+              change { enqueued_mailers.size }.by(1)
             )
 
             expect(user.confirmation_token).to_not be_nil
@@ -556,12 +553,12 @@ RSpec.describe User do
             user
 
             expect { user.update!(email: 'something-else@foo.com') }.to(
-              change { mailer_queue.size }.by(1)
+              change { enqueued_mailers.size }.by(1)
             )
 
-            email = mailer_queue.last
+            email = enqueued_mailers.last
             expect(email[:klass]).to eq(Devise::Mailer)
-            expect(email[:method]).to eq(:confirmation_instructions)
+            expect(email[:mailer_name]).to eq(:confirmation_instructions)
             expect(email[:args][:record]).to eq(user)
             expect(email[:args][:token]).to eq(user.confirmation_token)
             expect(email[:args][:opts]).to eq(to: 'something-else@foo.com')
@@ -573,7 +570,7 @@ RSpec.describe User do
 
           it 'does not send reconfirmation instructions' do
             expect { user.update!(email: 'something-else@foo.com') }.to_not(
-              change { mailer_queue.size }
+              change { enqueued_mailers.size }
             )
           end
         end
@@ -589,7 +586,7 @@ RSpec.describe User do
 
     it 'sends password reset instructions' do
       expect { user.send_reset_password_instructions }.to(
-        change { mailer_queue.count }.by(1)
+        change { enqueued_mailers.count }.by(1)
       )
     end
 
@@ -598,7 +595,7 @@ RSpec.describe User do
 
       it 'does not send password reset instructions' do
         expect { user.send_reset_password_instructions }.to_not(
-          change { mailer_queue.count }
+          change { enqueued_mailers.count }
         )
       end
 
