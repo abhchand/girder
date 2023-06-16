@@ -64,7 +64,10 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = SMTP_SETTINGS
-  config.action_mailer.default_options = { from: ENV.fetch('EMAIL_FROM') }
+  config.action_mailer.default_options = {
+    from: ENV.fetch('EMAIL_FROM'),
+    reply_to: ENV.fetch('EMAIL_REPLY_TO')
+  }
   config.action_mailer.default_url_options = config.x.default_url_options
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
