@@ -37,7 +37,7 @@ RSpec.describe Devise::Mailer do
       expect(mail.subject).to eq(t("#{@t_prefix}.subject"))
 
       expect(mail.body).to have_content(
-        t("#{@t_prefix}.greeting", name: @user.email)
+        t("#{@t_prefix}.greeting", name: @user.first_name)
       )
       expect(mail.body).to have_content(t("#{@t_prefix}.line1"))
       expect(mail.body).to have_link(
