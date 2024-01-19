@@ -1,22 +1,18 @@
 # Girder
 
-The application and all of its services run inside docker containers, as defined in `docker-compose.yml`.
-
-The `bin/app` script provides command line helpers to interact with and run commands inside the docker container ecosystem. Most commands will require that the application backend be running for the command to work.
-
 # Development
 
 ```bash
-# Run the BackEnd
-docker-compose up
+# BackEnd
+docker compose up
 
-# Run the FrontEnd
+# FrontEnd
 nvm use
 yarn install
 yarn run dev
 ```
 
-Visit [http://localhost:3000/](http://localhost:7000/)
+Visit [http://localhost:7000/](http://localhost:7000/)
 
 For more detail on how the frontend works, see [the frontend `README`](app/frontend/README.md).
 
