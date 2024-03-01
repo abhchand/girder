@@ -26,6 +26,7 @@ blocks:
         commands:
           # Frontend Setup
           - cache restore node-$(checksum yarn.lock)
+          - nvm install
           - nvm use
           - yarn install --production=false
 
@@ -107,6 +108,7 @@ blocks:
         commands:
           # Frontend Setup
           - cache restore node-$(checksum yarn.lock)
+          - nvm install
           - nvm use
           - yarn install --production=false
 
