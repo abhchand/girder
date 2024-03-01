@@ -13,6 +13,7 @@
 *.xml
 *.yml
 .babelrc
+.bundle/*
 .dockerignore
 .env.*
 .env.*
