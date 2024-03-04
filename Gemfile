@@ -49,7 +49,7 @@ end
 
 group :development, :test do
   gem 'factory_bot_rails', '~> 4.5'
-  gem 'faker', '~> 2.10', '>= 2.10.1'
+  gem 'faker', '~> 2.10', '>= 2.16.0'
   # Prettier docs suggest to _not_ install `prettier` any more, and directly
   # install the dependencies it depends on. But... it works so far
   # https://github.com/prettier/plugin-ruby#getting-started
