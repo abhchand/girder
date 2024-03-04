@@ -67,10 +67,16 @@ case "$1" in
     IMAGES=$(docker image ls | grep girder | awk '{print $3}')
     VOLUMES=$(docker volume ls | grep girder | awk '{print $2}')
 
-    docker rm $CONTAINERS                   # Remove containers
-    docker image rm $IMAGES                 # Remove images
-    docker volume rm $VOLUMES               # Remove volumes
-    docker image prune -f                   # Remove dangling images
+    echo 'Remove containers...'
+    [ -n "$CONTAINERS" ] && docker rm $CONTAINERS
+    echo 'Remove images...'
+    [ -n "$IMAGES" ] && docker image rm $IMAGES
+    echo 'Remove volumes...'
+    [ -n "$VOLUMES" ] && docker volume rm $VOLUMES
+    echo 'Remove dangling images...'
+    docker image prune -f
+
+    echo -e "\ndone."
     ;;
 
   *)
