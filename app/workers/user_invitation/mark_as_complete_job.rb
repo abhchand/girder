@@ -16,9 +16,9 @@ class UserInvitation::MarkAsCompleteJob < ApplicationWorker
   end
 
   def notify
-    UserInvitationMailer.delay.notify_inviter_of_completion(
+    UserInvitationMailer.notify_inviter_of_completion(
       @invitation.inviter.id,
       @invitee.id
-    )
+    ).deliver_later
   end
 end

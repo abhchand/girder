@@ -47,7 +47,7 @@ class Api::V1::UserInvitationsController < Api::BaseController
   def resend
     authorize! :create, :user_invitation
 
-    UserInvitationMailer.delay.invite(user_invitation.id)
+    UserInvitationMailer.invite(user_invitation.id).deliver_later
 
     head :ok
   end
