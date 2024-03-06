@@ -3,6 +3,9 @@ import { idFromName } from './helpers';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+// eslint-disable-next-line
+import 'react-datepicker/dist/react-datepicker.css';
+
 class FormDatePicker extends React.Component {
   static propTypes = {
     // Initial value *must* be a Date object in local browser time.
