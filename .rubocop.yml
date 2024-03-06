@@ -17,6 +17,8 @@ Style/EmptyMethod:
   Enabled: false
 Style/EmptyCaseCondition:
   Enabled: false
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
 Layout/DotPosition:
   EnforcedStyle: trailing
 Style/FrozenStringLiteralComment:
